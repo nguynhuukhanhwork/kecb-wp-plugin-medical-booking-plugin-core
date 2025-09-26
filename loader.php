@@ -18,3 +18,4 @@ new \MedicalBooking\Infrastructure\Repository\PatientRepository();
 new shortcodes\FormConsult();
 new AdminPage();
 DbBooking::getInstance();
+new \MedicalBooking\Application\Service\GenericSearchHandler();
