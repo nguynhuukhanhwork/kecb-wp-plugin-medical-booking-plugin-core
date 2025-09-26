@@ -1,0 +1,34 @@
+{
+  "post_type": "service",
+  "args": {
+    "labels": {
+      "name": "Services",
+      "singular_name": "Service",
+      "menu_name": "Services",
+      "name_admin_bar": "Service",
+      "add_new": "Thêm Dịch vụ",
+      "add_new_item": "Thêm Dịch vụ mới",
+      "edit_item": "Chỉnh sửa Dịch vụ",
+      "featured_image": "Ảnh dịch vụ",
+      "new_item": "Dịch vụ mới",
+      "view_item": "Xem Dịch vụ",
+      "search_items": "Tìm kiếm Dịch vụ",
+      "not_found": "Không tìm thấy Dịch vụ nào",
+      "not_found_in_trash": "Không tìm thấy Dịch vụ nào trong thùng rác",
+      "all_items": "Tất cả Dịch vụ",
+      "archives": "Lưu trữ Dịch vụ"
+    },
+    "public": true,
+    "publicly_queryable": true,
+    "show_ui": true,
+    "show_in_menu": false,
+    "query_var": true,
+    "rewrite": {"slug": "service"},
+    "capability_type": "post",
+    "has_archive": true,
+    "hierarchical": false,
+    "menu_position": 5,
+    "menu_icon": "dashicons-admin-tools",
+    "supports": ["title", "thumbnail", "comments"]
+  }
+}

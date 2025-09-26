@@ -1,0 +1,15 @@
+{
+  "name": "khanh/medical-booking-core",
+  "description": "Medical Booking System Plugin",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "autoload": {
+    "psr-4": {
+      "MedicalBooking\\": "inc/"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "guzzlehttp/guzzle": "^7.0"
+  }
+}

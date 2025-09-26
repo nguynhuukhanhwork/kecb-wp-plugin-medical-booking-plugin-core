@@ -1,0 +1,24 @@
+{
+  "taxonomy": "position",
+  "type": ["doctor"],
+  "args": {
+    "label": "Vị trí",
+    "hierarchical": true,
+    "public": true,
+    "show_ui": true,
+    "show_in_menu": true,
+    "show_in_rest": true,
+    "rewrite": {
+      "slug": "position"
+    }
+  },
+  "terms": [
+    "Bác sĩ",
+    "Bác sĩ chuyên khoa 1",
+    "Bác sĩ chuyên khoa 2",
+    "Thạc Sĩ",
+    "Tiến Sĩ",
+    "PSG",
+    "GS"
+  ]
+}
