@@ -14,8 +14,8 @@ class ServiceRepository
     protected ?string $acfConfigFilePath;
     public function __construct()
     {
-        $this->cptConfigFilePath = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/cpt-json/service-cpt.json';
-        $this->acfConfigFilePath = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/acf-json/service-fields.json';
+        $this->cptConfigFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/service-cpt.json';
+        $this->acfConfigFilePath = MB_INFRASTRUCTURE_PATH . 'Config/acf-json/service-fields.json';
         add_action('init', [$this, 'registerCpt']);
         add_action('init', [$this, 'registerAcfFields']);
     }

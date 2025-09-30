@@ -42,8 +42,8 @@ class DoctorRepository implements DoctorRepositoryInterface
 
     public function __construct()
     {
-        $this->acfJsonFilePath = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/acf-json/doctor-fields.json';
-        $this->cptJsonFilePath = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/cpt-json/doctor-cpt.json';
+        $this->acfJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/acf-json/doctor-fields.json';
+        $this->cptJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/doctor-cpt.json';
         add_action('init', [$this, 'registerCpt']);
         add_action('init', [$this, 'registerAcfFields']);
     }
@@ -229,64 +229,6 @@ class DoctorRepository implements DoctorRepositoryInterface
         return $doctors;
     }
 
-
-
-    /**
-     * Tạo Doctor object từ post ID - helper method
-     *
-     * @param int $post_id
-     * @return Doctor|null
-     */
-    private static function createDoctorFromPost(int $post_id): ?Doctor
-    {
-        $meta = get_post_meta($post_id);
-        return self::createDoctorFromPostData(get_post($post_id), $meta);
-    }
-
-    /**
-     * Tạo Doctor object từ post data và meta - DRY principle
-     *
-     * @param \WP_Post $post
-     * @param array $meta
-     * @return Doctor|null
-     */
-    private static function createDoctorFromPostData(\WP_Post $post, array $meta): ?Doctor
-    {
-        if (!$post || $post->post_status !== 'publish') {
-            return null;
-        }
-
-        return new Doctor(
-            id: $post->ID,
-            name: $post->post_title,
-            phone: $meta[self::DOCTOR_PHONE][0] ?? '',
-            email: $meta[self::DOCTOR_EMAIL][0] ?? '',
-            qualification: $meta[self::DOCTOR_QUALIFICATION][0] ?? '',
-            yearsOfExperience: (int) ($meta[self::DOCTOR_YEARS_OF_EXPERIENCE][0] ?? 0),
-            currentPosition: $meta[self::DOCTOR_CURRENT_POSITION][0] ?? '',
-            department: $meta[self::DOCTOR_DEPARTMENT][0] ?? '',
-            schedule: $meta[self::DOCTOR_SCHEDULE][0] ?? '',
-            bio: $meta[self::DOCTOR_BIO][0] ?? '',
-            featuredImageUrl: get_the_post_thumbnail_url($post->ID, 'thumbnail'),
-        );
-    }
-
-
-    /**
-     * Clear all department-related caches
-     */
-    private function clearDepartmentCaches(): void
-    {
-        global $wpdb;
-
-        // Get all transients có pattern 'doctors_dept_*'
-        $wpdb->query("
-            DELETE FROM {$wpdb->options} 
-            WHERE option_name LIKE '_transient_doctors_dept_%' 
-            OR option_name LIKE '_transient_timeout_doctors_dept_%'
-        ");
-    }
-
     /**
      * Lấy doctors với pagination
      *
@@ -417,7 +359,7 @@ class DoctorRepository implements DoctorRepositoryInterface
      * @param string $doctor_name
      * @return Doctor[]
      */
-    public function search(string $doctor_name): array {
+    public function searchByName(string $doctor_name): array {
         $args = [
             'post_type'      => self::post_type,
             'post_status'    => 'publish',

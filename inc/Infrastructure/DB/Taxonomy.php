@@ -13,7 +13,7 @@ class Taxonomy
 
     public function __construct()
     {
-        $this->taxonomyConfigDir = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/tax-json/';
+        $this->taxonomyConfigDir = MB_INFRASTRUCTURE_PATH . 'Config/tax-json/';
         add_action('init', [$this, 'registerTaxonomies']);
     }
 

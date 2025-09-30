@@ -12,8 +12,8 @@ class PatientRepository
 
     public function __construct() {
         // Register CPT and Acf Field for Patient
-        $this->cptJsonFilePath = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/cpt-json/patient-cpt.json';
-        $this->acfJsonFilePath = MBS_CORE_INFRASTRUCTURE_PATH . 'Config/acf-json/patient-fields.json';
+        $this->cptJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/patient-cpt.json';
+        $this->acfJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/acf-json/patient-fields.json';
         add_action('init', [$this, 'registerPostType']);
         add_action('acf/init', [$this, 'registerAcfFields']);
     }

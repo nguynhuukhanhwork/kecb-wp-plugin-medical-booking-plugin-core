@@ -67,9 +67,9 @@ class DbInstaller
         }
 
         $schema_files = [
-            MBS_CORE_INFRASTRUCTURE_PATH . 'DB/schema/appointments.sql',
-            MBS_CORE_INFRASTRUCTURE_PATH . 'DB/schema/customer.sql',
-            MBS_CORE_INFRASTRUCTURE_PATH . 'DB/schema/queue.sql',
+            MB_INFRASTRUCTURE_PATH . 'DB/schema/appointments.sql',
+            MB_INFRASTRUCTURE_PATH . 'DB/schema/customer.sql',
+            MB_INFRASTRUCTURE_PATH . 'DB/schema/queue.sql',
         ];
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';

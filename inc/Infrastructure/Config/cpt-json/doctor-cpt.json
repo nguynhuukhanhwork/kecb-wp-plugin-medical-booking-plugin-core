@@ -24,7 +24,7 @@
     "show_in_menu": false,
     "query_var": true,
     "rewrite": {"slug" : "doctor"},
-    "show_in_rest": true,
+    "show_in_rest": false,
     "show_in_nav_menus": true,
     "capability_type": "post",
     "has_archive": true,
