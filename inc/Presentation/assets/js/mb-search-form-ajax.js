@@ -1,88 +1,64 @@
+/* global MB_Search */
+
+/**
+ * @typedef {Object} MBSearchConfig
+ * @property {string} restUrl - REST API endpoint cho tìm kiếm
+ */
 jQuery(document).ready(function($) {
-    let currentPage = 1;
-    let currentKeyword = '';
-    let endpoint = MB_Search.restUrl;
+    let timer;
+    /** @type {MBSearchConfig} */
+    const endpoint = MB_Search.restUrl;
 
-    // Xử lý submit form
-    $(document).on('submit', '.mb-search-form', function(e) {
-        e.preventDefault();
-        currentKeyword = $(this).find('input[name=\"keyword\"]').val();
-        currentPage = 1;
-        performSearch();
-    });
+    // Auto complete khi gõ chữ
+    $(document).on('input', '.mb-search-form input[name="keyword"]', function() {
+        const keyword = $(this).val().trim();
+        const suggestionsBox = $(this).closest('.mb-search-container').find('.mb-autocomplete-results');
 
-    // Xử lý phân trang
-    $(document).on('click', '.mb-pagination button', function() {
-        const action = $(this).data('action');
-        if (action === 'prev') {
-            currentPage--;
-        } else if (action === 'next') {
-            currentPage++;
+        clearTimeout(timer);
+
+        if (keyword.length < 2) {
+            suggestionsBox.empty().hide();
+            return;
         }
-        performSearch();
+
+        // Debounce: chờ 300ms sau khi ngừng gõ
+        timer = setTimeout(function() {
+            $.ajax({
+                url: endpoint,
+                method: 'GET',
+                data: {
+                    keyword: keyword,
+                    post_type: 'doctor',
+                    limit: 5,
+                    page: 1
+                },
+                success: function(response) {
+                    if (response.success && response.results.length > 0) {
+                        let html = '<ul>';
+                        response.results.forEach(item => {
+                            html += `
+                                <li>
+                                    <a href="${item.link}">
+                                        ${item.thumbnail ? `<img src="${item.thumbnail}" alt="${item.title}">` : ''}
+                                        ${item.title}
+                                    </a>
+                                </li>`;
+                        });
+                        html += '</ul>';
+                        suggestionsBox.html(html).show();
+                    }
+                },
+                error: function() {
+                    suggestionsBox.hide();
+                }
+            });
+        }, 100);
     });
 
-    // Hàm thực hiện search
-    function performSearch() {
-        const resultsContainer = $('.mb-search-results');
-        const loadingDiv = $('.mb-search-loading');
-
-        loadingDiv.show();
-        resultsContainer.html('');
-
-        $.ajax({
-            url: endpoint,
-            method: 'GET',
-            data: {
-                keyword: currentKeyword,
-                post_type: 'doctor',
-                limit: 10,
-                page: currentPage
-            },
-            success: function(response) {
-                loadingDiv.hide();
-                console.log('Response:', response); // Debug
-
-                if (response.success && response.results.length > 0) {
-                    let html = '<div class=\"mb-search-info\">';
-                    html += '<strong>Tìm thấy ' + response.total + ' kết quả</strong>';
-                    html += ' (Trang ' + response.current_page + '/' + response.pages + ')';
-                    html += '</div>';
-
-                    response.results.forEach(function(item) {
-                        html += '<div class=\"mb-search-item\">';
-
-                        if (item.thumbnail) {
-                            html += '<img src=\"' + item.thumbnail + '\" alt=\"' + item.title + '\" />';
-                        }
-
-                        html += '<div class=\"mb-search-item-content\">';
-                        html += '<h3><a href=\"' + item.link + '\">' + item.title + '</a></h3>';
-                        html += '<p>' + item.excerpt + '</p>';
-                        html += '<div class=\"mb-search-item-date\">' + item.date + '</div>';
-                        html += '</div>';
-                        html += '</div>';
-                    });
-
-                    // Thêm pagination
-                    if (response.pages > 1) {
-                        html += '<div class=\"mb-pagination\">';
-                        html += '<button data-action=\"prev\" ' + (currentPage <= 1 ? 'disabled' : '') + '>« Trước</button>';
-                        html += '<span class=\"current-page\">Trang ' + currentPage + '/' + response.pages + '</span>';
-                        html += '<button data-action=\"next\" ' + (currentPage >= response.pages ? 'disabled' : '') + '>Sau »</button>';
-                        html += '</div>';
-                    }
-
-                    resultsContainer.html(html);
-                } else {
-                    resultsContainer.html('<div class=\"mb-no-results\"><p>Không tìm thấy kết quả nào.</p></div>');
-                }
-            },
-            error: function(xhr, status, error) {
-                loadingDiv.hide();
-                console.error('Error:', xhr.responseText); // Debug chi tiết
-                resultsContainer.html('<div class=\"mb-no-results\"><p>Có lỗi xảy ra: ' + error + '</p></div>');
-            }
-        });
-    }
+    // Ẩn khi click ra ngoài
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.mb-search-form').length) {
+            $('.mb-autocomplete-results').hide();
+        }
+    });
 });
