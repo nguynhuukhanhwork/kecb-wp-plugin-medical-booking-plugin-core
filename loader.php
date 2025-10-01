@@ -23,4 +23,3 @@ new AdminPage();
 DbBooking::getInstance();
 new \MedicalBooking\Application\Service\PostSearchService();
 MB_Search_Form_Shortcode::get_instance();
-MB_Search_Form_Shortcode::get_instance();

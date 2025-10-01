@@ -2,7 +2,6 @@
 
 namespace MedicalBooking\Infrastructure\Repository;
 
-use MedicalBooking\Base\MedicalBookingBase;
 use function MedicalBooking\Helpers\kecb_register_acf_field_json;
 use function MedicalBooking\Helpers\kecb_register_post_type_json;
 

@@ -5,7 +5,7 @@ namespace MedicalBooking\Infrastructure\DB;
 use wpdb;
 use function MedicalBooking\Helpers\kecb_write_error_log;
 
-class DbInstaller
+final class DbInstaller
 {
     private DbConfig $config;
 
@@ -56,7 +56,6 @@ class DbInstaller
     {
         if (!defined('MBS_CORE_INFRASTRUCTURE_PATH')) {
             kecb_write_error_log('Constant MBS_CORE_INFRASTRUCTURE_PATH is not defined.');
-
             return;
         }
 
