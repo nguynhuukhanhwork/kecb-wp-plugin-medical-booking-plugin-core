@@ -20,10 +20,14 @@
                 required
         />
 
-        <button type="submit">
+        <button type="submit" style="display:none;">
             <?php echo esc_html($context['button_text']); ?>
         </button>
     </form>
+
+    <!-- Box hiển thị gợi ý -->
+    <div class="mb-autocomplete-results" style="display:none;"></div>
+
 
     <div class="mb-search-loading" style="display:none;">
         <p>Đang tìm kiếm...</p>
