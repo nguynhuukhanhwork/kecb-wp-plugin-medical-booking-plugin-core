@@ -11,6 +11,7 @@
 
 
 namespace MedicalBooking\Infrastructure\Repository\Doctor;
+
 use MedicalBooking\Domain\Entity\Doctor;
 use MedicalBooking\Domain\Repository\DoctorRepositoryInterface;
 use function MedicalBooking\Helpers\kecb_register_acf_field_json;
@@ -46,6 +47,7 @@ class DoctorRepository implements DoctorRepositoryInterface
         $this->cptJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/doctor-cpt.json';
         add_action('init', [$this, 'registerCpt']);
         add_action('init', [$this, 'registerAcfFields']);
+        add_action('init', [$this, 'registerCf7Tags']); // Đăng ký CF7 filter
     }
 
     /**
@@ -331,7 +333,7 @@ class DoctorRepository implements DoctorRepositoryInterface
     }
 
     public function getById(int $doctor_id): Doctor {
-
+        return new Doctor();
     }
 
     public function getAllId(): array {
@@ -350,6 +352,7 @@ class DoctorRepository implements DoctorRepositoryInterface
 
     public function getAll(): array
     {
+        return [];
         // TODO: Implement getAll() method.
     }
 
@@ -371,5 +374,43 @@ class DoctorRepository implements DoctorRepositoryInterface
 
 
         return $query->posts;
+    }
+
+    /**
+     * Đăng ký Filter Hook cho Contact Form 7
+     *
+     * @return void
+     */
+    public function registerCf7Tags(): void
+    {
+        add_filter('wpcf7_form_tag_data_option', [$this, 'dynamic_doctor_list'], 10, 3);
+    }
+
+    function dynamic_doctor_list($n, $options, $args)
+    {
+        // Kiểm tra nếu select field có class 'doctor-list'
+        if (in_array('doctor-list', $options)) {
+            $doctors = array();
+
+            // Query để lấy danh sách bác sĩ từ CPT
+            $doctor_args = array(
+                'post_type' => 'doctor', // Thay 'doctor' bằng tên CPT của bạn
+                'posts_per_page' => -1,
+                'orderby' => 'title',
+                'order' => 'ASC',
+                'post_status' => 'publish'
+            );
+
+            $doctor_query = new \WP_Query($doctor_args);
+
+            while ($doctor_query->have_posts()) {
+                $doctor_query->the_post();
+                $doctors[] = get_the_title();
+            }
+            wp_reset_postdata();
+
+
+            return $doctors;
+        }
     }
 }
