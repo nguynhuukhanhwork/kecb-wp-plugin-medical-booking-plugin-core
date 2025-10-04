@@ -1,15 +1,15 @@
 {
-    "taxonomy": "position",
-    "type": ["doctor"],
+    "taxonomy": "gender",
+    "type": ["doctor", "patient"],
     "args": {
-        "label": "Vị trí công tác",
+        "label": "Giới tính",
         "hierarchical": false,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,
         "show_in_rest": true,
         "rewrite": {
-            "slug": "position"
+            "slug": "gender"
         }
     },
     "terms": [
