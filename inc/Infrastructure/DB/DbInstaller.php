@@ -35,11 +35,13 @@ final class DbInstaller
     public function installIfNeeded(): bool
     {
         $is_installed = $this->isInstalled();
+        // $this->install();
         if (!$is_installed) {
             $this->install();
 
             return true;
         }
+
 
         return false;
     }
