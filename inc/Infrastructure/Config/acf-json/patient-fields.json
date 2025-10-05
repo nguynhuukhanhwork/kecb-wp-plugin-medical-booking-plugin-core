@@ -32,21 +32,6 @@
             }
         },
         {
-            "key": "field_patient_gender",
-            "label": "Giới tính",
-            "name": "patient_gender",
-            "type": "select",
-            "choices": {
-                "male": "Nam",
-                "female": "Nữ",
-                "other": "Khác"
-            },
-            "ui": 1,
-            "wrapper": {
-                "width": 20
-            }
-        },
-        {
             "key": "field_patient_age",
             "label": "Tuổi",
             "name": "patient_age",

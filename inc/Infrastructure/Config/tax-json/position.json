@@ -1,9 +1,11 @@
 {
     "taxonomy": "position",
-    "type": ["doctor"],
+    "type": [
+        "doctor"
+    ],
     "args": {
         "label": "Vị trí công tác",
-        "hierarchical": false,
+        "hierarchical": true,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,
@@ -13,7 +15,10 @@
         }
     },
     "terms": [
-        "Nam",
-        "Nữ"
+        "Trưởng khoa",
+        "Bác sĩ chuyên khoa",
+        "Phó trưởng khoa",
+        "Bác sĩ trưởng",
+        "Bác sĩ phụ trách"
     ]
 }

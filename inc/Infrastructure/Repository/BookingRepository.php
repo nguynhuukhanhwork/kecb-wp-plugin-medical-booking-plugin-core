@@ -31,11 +31,12 @@ class BookingRepository
      *
      * Initializes the repository with WordPress DB and sets table names.
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->table_customer = $wpdb->prefix . 'mb_customers';
-        $this->table_booking  = $wpdb->prefix . 'mb_bookings';
+        $this->table_booking = $wpdb->prefix . 'mb_bookings';
     }
 
     /**
@@ -43,17 +44,18 @@ class BookingRepository
      *
      * @noinspection PhpUnused
      *
-     * @param string $name  Full name of the customer
+     * @param string $name Full name of the customer
      * @param string $email Customer email
      * @param string $phone Customer phone number
      *
      * @return int|WP_Error Inserted customer ID on success, WP_Error on failure
      */
-    public function addCustomer(string $name, string $email, string $phone): int|WP_Error {
+    public function addCustomer(string $name, string $email, string $phone): int|WP_Error
+    {
         $result = $this->wpdb->insert(
             $this->table_customer,
             [
-                'name'  => $name,
+                'name' => $name,
                 'email' => $email,
                 'phone' => $phone,
             ],
@@ -76,29 +78,30 @@ class BookingRepository
      *
      * @noinspection PhpUnused
      *
-     * @param int    $customer_id ID of the customer
-     * @param string $service     Service name or ID
-     * @param string $date        Booking date (YYYY-MM-DD)
-     * @param string $time_slot   Time slot (HH:MM)
-     * @param string $note        Customer note
+     * @param int $customer_id ID of the customer
+     * @param string $service Service name or ID
+     * @param string $date Booking date (YYYY-MM-DD)
+     * @param string $time_slot Time slot (HH:MM)
+     * @param string $note Customer note
      *
      * @return int|WP_Error Inserted booking ID on success, WP_Error on failure
      */
     public function addBooking(
-        int $customer_id,
+        int    $customer_id,
         string $service,
         string $date,
         string $time_slot,
         string $note
-    ): int|WP_Error {
+    ): int|WP_Error
+    {
         $result = $this->wpdb->insert(
             $this->table_booking,
             [
                 'customer_id' => $customer_id,
-                'service'     => $service,
-                'date'        => $date,
-                'time_slot'   => $time_slot,
-                'note'        => $note,
+                'service' => $service,
+                'date' => $date,
+                'time_slot' => $time_slot,
+                'note' => $note,
             ],
             ['%d', '%s', '%s', '%s', '%s']
         );

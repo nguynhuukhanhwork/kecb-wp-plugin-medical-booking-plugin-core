@@ -4,13 +4,14 @@ namespace MedicalBooking\Infrastructure\DB;
 
 use function MedicalBooking\Helpers\kecb_get_term_name;
 use function MedicalBooking\Helpers\kecb_read_json;
+use function MedicalBooking\Helpers\kecb_register_taxonomy_json;
 use function MedicalBooking\Helpers\kecb_write_error_log;
 
 class Taxonomy
 {
-    protected ?string $taxonomyConfigDir = null;
     protected static ?self $instance = null;
-    protected string $taxonomy_prefix = 'mb-';
+    protected ?string $taxonomyConfigDir = null;
+    protected string $taxonomy_prefix = 'mb_';
 
     public function __construct()
     {
@@ -37,29 +38,7 @@ class Taxonomy
         }
 
         foreach ($files as $file) {
-            $config = kecb_read_json($file);
-
-            if (empty($config) || !isset($config['taxonomy'], $config['type'], $config['args'])) {
-                kecb_write_error_log("Invalid or empty taxonomy config in " . esc_html($file));
-                continue;
-            }
-
-            $taxonomy_name = $prefix . $config['taxonomy'];
-
-            if (!taxonomy_exists($taxonomy_name)) {
-                register_taxonomy($taxonomy_name, $config['type'], $config['args']);
-            }
-
-            if (!empty($config['terms'])) {
-                foreach ($config['terms'] as $term) {
-                    $name = is_array($term) ? $term['name'] : $term;
-                    $slug = is_array($term) && isset($term['slug']) ? $term['slug'] : sanitize_title($name);
-
-                    if (!term_exists($slug, $taxonomy_name)) {
-                        wp_insert_term($name, $taxonomy_name, ['slug' => $slug]);
-                    }
-                }
-            }
+           kecb_register_taxonomy_json($file, $prefix, false);
         }
     }
 

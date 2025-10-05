@@ -1,5 +1,6 @@
-    -- Partitioning for high volume
-    PARTITION BY RANGE (YEAR(appointment_date) * 100 + MONTH(appointment_date)) (
+-- Partitioning for high volume
+PARTITION
+BY RANGE (YEAR(appointment_date) * 100 + MONTH(appointment_date)) (
     PARTITION p202408 VALUES LESS THAN (202409),
     PARTITION p202409 VALUES LESS THAN (202410),
     PARTITION p202410 VALUES LESS THAN (202411),

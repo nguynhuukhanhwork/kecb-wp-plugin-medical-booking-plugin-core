@@ -10,10 +10,11 @@
  */
 
 
-namespace MedicalBooking\Infrastructure\Repository\Doctor;
+namespace MedicalBooking\Infrastructure\Repository;
 
 use MedicalBooking\Domain\Entity\Doctor;
 use MedicalBooking\Domain\Repository\DoctorRepositoryInterface;
+use WP_Query;
 use function MedicalBooking\Helpers\kecb_register_acf_field_json;
 use function MedicalBooking\Helpers\kecb_register_post_type_json;
 
@@ -23,14 +24,14 @@ class DoctorRepository implements DoctorRepositoryInterface
     public const post_type = 'doctor';
 
     // Config Const for Doctor Field (key ACF)
-    public const DOCTOR_PHONE                 = 'doctor_phone';
-    public const DOCTOR_EMAIL                 = 'doctor_email';
-    public const DOCTOR_QUALIFICATION         = 'doctor_qualification';
-    public const DOCTOR_YEARS_OF_EXPERIENCE   = 'doctor_years_of_experience';
-    public const DOCTOR_CURRENT_POSITION      = 'doctor_current_position';
-    public const DOCTOR_DEPARTMENT            = 'doctor_department';
-    public const DOCTOR_SCHEDULE              = 'doctor_schedule';
-    public const DOCTOR_BIO                   = 'doctor_bio';
+    public const DOCTOR_PHONE = 'doctor_phone';
+    public const DOCTOR_EMAIL = 'doctor_email';
+    public const DOCTOR_QUALIFICATION = 'doctor_qualification';
+    public const DOCTOR_YEARS_OF_EXPERIENCE = 'doctor_years_of_experience';
+    public const DOCTOR_CURRENT_POSITION = 'doctor_current_position';
+    public const DOCTOR_DEPARTMENT = 'doctor_department';
+    public const DOCTOR_SCHEDULE = 'doctor_schedule';
+    public const DOCTOR_BIO = 'doctor_bio';
 
     /** @var string Cache group */
     private const CACHE_GROUP = 'medical_booking_doctors';
@@ -51,28 +52,6 @@ class DoctorRepository implements DoctorRepositoryInterface
     }
 
     /**
-     * Register Post Type 'doctor' with JSON config
-     *
-     * @return void
-     */
-    public function registerCpt(): void {
-        kecb_register_post_type_json($this->cptJsonFilePath);
-    }
-
-    /**
-     * Đăng ký field group ACF cho CPT Doctor
-     *
-     * @return void
-     */
-    /**
-     * Đăng ký ACF field group từ JSON
-     */
-    public function registerAcfFields(): void
-    {
-        kecb_register_acf_field_json($this->acfJsonFilePath);
-    }
-
-    /**
      * Lấy tất cả Doctor IDs
      *
      * @return array
@@ -87,9 +66,9 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type'      => self::post_type,
-            'post_status'    => 'publish',
-            'fields'         => 'ids',
+            'post_type' => self::post_type,
+            'post_status' => 'publish',
+            'fields' => 'ids',
             'posts_per_page' => -1,
         ];
 
@@ -100,6 +79,12 @@ class DoctorRepository implements DoctorRepositoryInterface
 
         return $ids;
     }
+
+    /**
+     * Đăng ký field group ACF cho CPT Doctor
+     *
+     * @return void
+     */
 
     /**
      * Lấy một Doctor theo ID
@@ -146,11 +131,11 @@ class DoctorRepository implements DoctorRepositoryInterface
 
         // Single optimized query
         $args = [
-            'post_type'      => self::post_type,
-            'post_status'    => 'publish',
+            'post_type' => self::post_type,
+            'post_status' => 'publish',
             'posts_per_page' => -1,
-            'orderby'        => 'title',
-            'order'          => 'ASC'
+            'orderby' => 'title',
+            'order' => 'ASC'
         ];
 
         $posts = get_posts($args);
@@ -197,13 +182,13 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type'      => self::post_type,
-            'post_status'    => 'publish',
+            'post_type' => self::post_type,
+            'post_status' => 'publish',
             'posts_per_page' => -1,
-            'meta_query'     => [
+            'meta_query' => [
                 [
-                    'key'     => self::DOCTOR_DEPARTMENT,
-                    'value'   => $department,
+                    'key' => self::DOCTOR_DEPARTMENT,
+                    'value' => $department,
                     'compare' => '='
                 ]
             ]
@@ -248,13 +233,13 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type'      => self::post_type,
-            'post_status'    => 'publish',
+            'post_type' => self::post_type,
+            'post_status' => 'publish',
             'posts_per_page' => $per_page,
-            'paged'          => $page,
+            'paged' => $page,
         ];
 
-        $query = new \WP_Query($args);
+        $query = new WP_Query($args);
         $posts = $query->posts;
 
         $doctors = [];
@@ -272,8 +257,8 @@ class DoctorRepository implements DoctorRepositoryInterface
 
         $result = [
             'doctors' => $doctors,
-            'total'   => $query->found_posts,
-            'pages'   => $query->max_num_pages
+            'total' => $query->found_posts,
+            'pages' => $query->max_num_pages
         ];
 
         set_transient($cache_key, $result, self::CACHE_EXPIRATION);
@@ -297,15 +282,15 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type'      => self::post_type,
-            'post_status'    => 'publish',
+            'post_type' => self::post_type,
+            'post_status' => 'publish',
             'posts_per_page' => -1,
-            's'              => $search_term, // Search in title and content
-            'meta_query'     => [
+            's' => $search_term, // Search in title and content
+            'meta_query' => [
                 'relation' => 'OR',
                 [
-                    'key'     => self::DOCTOR_EMAIL,
-                    'value'   => $search_term,
+                    'key' => self::DOCTOR_EMAIL,
+                    'value' => $search_term,
                     'compare' => 'LIKE'
                 ]
             ]
@@ -332,14 +317,34 @@ class DoctorRepository implements DoctorRepositoryInterface
         return $doctors;
     }
 
-    public function getById(int $doctor_id): Doctor {
+    /**
+     * Register Post Type 'doctor' with JSON config
+     *
+     * @return void
+     */
+    public function registerCpt(): void
+    {
+        kecb_register_post_type_json($this->cptJsonFilePath);
+    }
+
+    /**
+     * Đăng ký ACF field group từ JSON
+     */
+    public function registerAcfFields(): void
+    {
+        kecb_register_acf_field_json($this->acfJsonFilePath);
+    }
+
+    public function getById(int $doctor_id): Doctor
+    {
         return new Doctor();
     }
 
-    public function getAllId(): array {
+    public function getAllId(): array
+    {
         $args = [
             'post_type' => self::post_type,
-            'fields'   => 'ids',
+            'fields' => 'ids',
             'post_status' => 'publish',
             'posts_per_page' => -1,
 
@@ -362,15 +367,16 @@ class DoctorRepository implements DoctorRepositoryInterface
      * @param string $doctor_name
      * @return Doctor[]
      */
-    public function searchByName(string $doctor_name): array {
+    public function searchByName(string $doctor_name): array
+    {
         $args = [
-            'post_type'      => self::post_type,
-            'post_status'    => 'publish',
-            's'              => $doctor_name, // tìm trong title + content
+            'post_type' => self::post_type,
+            'post_status' => 'publish',
+            's' => $doctor_name, // tìm trong title + content
             'posts_per_page' => 10,
         ];
 
-        $query = new \WP_Query($args);
+        $query = new WP_Query($args);
 
 
         return $query->posts;
@@ -401,7 +407,7 @@ class DoctorRepository implements DoctorRepositoryInterface
                 'post_status' => 'publish'
             );
 
-            $doctor_query = new \WP_Query($doctor_args);
+            $doctor_query = new WP_Query($doctor_args);
 
             while ($doctor_query->have_posts()) {
                 $doctor_query->the_post();

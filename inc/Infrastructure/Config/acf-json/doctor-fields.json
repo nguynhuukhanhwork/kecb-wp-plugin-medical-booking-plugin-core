@@ -32,55 +32,11 @@
             }
         },
         {
-            "key": "field_doctor_qualification",
-            "label": "Học vị",
-            "name": "doctor_qualification",
-            "type": "select",
-            "choices": {
-                "thac_si": "Thạc sĩ",
-                "tien_si": "Tiến sĩ",
-                "ck1": "Chuyên khoa 1"
-            },
-            "ui": 1,
-            "wrapper": {
-                "width": 20
-            }
-        },
-        {
             "key": "field_doctor_years_of_experience",
             "label": "Kinh nghiệm",
             "name": "doctor_years_of_experience",
             "type": "number",
             "maxlength": 2,
-            "wrapper": {
-                "width": 20
-            }
-        },
-        {
-            "key": "field_doctor_current_position",
-            "label": "Chức vụ",
-            "name": "doctor_current_position",
-            "type": "select",
-            "choices": {
-                "truong_khoa": "Trưởng khoa",
-                "bs_ck": "Bác sĩ chuyên khoa"
-            },
-            "ui": 1,
-            "wrapper": {
-                "width": 20
-            }
-        },
-        {
-            "key": "field_doctor_department",
-            "label": "Phòng ban",
-            "name": "doctor_department",
-            "type": "select",
-            "choices": {
-                "tim_mach": "Tim mạch",
-                "mat": "Mắt",
-                "rang_ham_mat": "Răng hàm mặt"
-            },
-            "ui": 1,
             "wrapper": {
                 "width": 20
             }

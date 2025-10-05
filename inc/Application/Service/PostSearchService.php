@@ -24,7 +24,7 @@ class PostSearchService
     /**
      * Đăng ký REST API endpoint cho search
      */
-    public function register_search_endpoint()
+    public function register_search_endpoint(): void
     {
         register_rest_route('mb/v1', '/search', [
             'methods' => 'GET',
@@ -58,9 +58,8 @@ class PostSearchService
     /**
      * Xử lý search request từ REST API
      * @param $request
-     * @return mixed
      */
-    public function handle_search($request): mixed
+    public function handle_search($request)
     {
         $keyword = $request->get_param('keyword');
         $post_type = $request->get_param('post_type');

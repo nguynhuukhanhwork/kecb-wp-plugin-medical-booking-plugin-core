@@ -1,9 +1,12 @@
 {
     "taxonomy": "gender",
-    "type": ["doctor", "patient"],
+    "type": [
+        "doctor",
+        "patient"
+    ],
     "args": {
         "label": "Giới tính",
-        "hierarchical": false,
+        "hierarchical": true,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,

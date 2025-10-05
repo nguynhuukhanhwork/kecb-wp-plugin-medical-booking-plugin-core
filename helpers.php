@@ -144,10 +144,6 @@ function kecb_register_acf_field_json(string $config_file_path): void {
     acf_add_local_field_group($config);
 }
 
-function kecb_register_tax(): void {
-    echo "Chưa viết gì";
-}
-
 /**
  *
  * @param $taxonomy string tên Taxonomy
@@ -171,4 +167,70 @@ function kecb_get_term_name(string $taxonomy, bool $hide_empty = false): array {
     }
 
     return $terms_name;
+}
+
+
+/**
+ * Register Taxonomy WP and Insert date to database
+ * @param string $file_path file JSON Config
+ * @param string $prefix is prefix of Taxonomy
+ * @param bool $insert_default_term flag for insert data
+ * @return bool
+ */
+function kecb_register_taxonomy_json(string $file_path, string $prefix = '', bool $insert_default_term = false): bool {
+
+    // Check file Path
+    if (!file_exists($file_path)) {
+        kecb_write_error_log("File $file_path does not exist");
+        return false;
+    }
+
+    // Check is JSON file
+    $config = kecb_read_json($file_path);
+
+    if (empty($config)) {
+        kecb_write_error_log("File $file_path is empty");
+        return false;
+    }
+
+    $taxonomy = $prefix .  $config['taxonomy'];
+    $types = $config['types'];
+    $args = $config['args'];
+
+    // Check Empty
+    if (empty($taxonomy) || empty($args) || empty($types)) {
+        kecb_write_error_log("Taxonomy Config is Empty (taxonomy, args or types) - File: $file_path");
+        return false;
+    }
+
+    if (!taxonomy_exists($taxonomy)) {
+        register_taxonomy($taxonomy, $types, $args);
+    }
+
+    $term = $config['terms'];
+
+    // Không Insert Term
+    if (! $insert_default_term) {
+        return true;
+    }
+
+    // get Terms config
+    $term_defaults = $config['terms'];
+
+    // Check Config Terms is empty
+    if (empty($term)) {
+        return true;
+    }
+
+    // Insert Terms
+    foreach ($term_defaults as $term) {
+        $name = is_array($term) ? $term['name'] : $term;
+        $slug = is_array($term) && isset($term['slug']) ? $term['slug'] : sanitize_title($name);
+
+        if (!term_exists($slug, $taxonomy)) {
+            wp_insert_term($name, $taxonomy, ['slug' => $slug]);
+        }
+    }
+
+    return true;
 }

@@ -3,6 +3,7 @@
 namespace MedicalBooking\Infrastructure\DB;
 
 use wpdb;
+use MedicalBooking\Infrastructure\DB\DbConfig;
 use function MedicalBooking\Helpers\kecb_write_error_log;
 
 final class DbInstaller
@@ -25,7 +26,6 @@ final class DbInstaller
         }
         $this->wpdb = $wpdb;
         $this->config = DbConfig::getInstance();
-        // $this->table_name = $this->config->getAllTables();
         $this->installIfNeeded();
     }
 
@@ -108,10 +108,5 @@ final class DbInstaller
         ];
 
         return str_replace(array_keys($replacements), array_values($replacements), $sql);
-    }
-
-    private function createTableBookingForm()
-    {
-        echo DbConfig::getTablePrefix();
     }
 }

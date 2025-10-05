@@ -2,15 +2,17 @@
 
 namespace MedicalBooking\Infrastructure\DB;
 
+use wpdb;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
 final class DbBooking
 {
-    private \wpdb $wpdb;
-    private string $table_name;
     private static ?self $instance = null;
+    private wpdb $wpdb;
+    private string $table_name;
 
     public function __construct()
     {
@@ -20,18 +22,9 @@ final class DbBooking
         $this->createTable();
     }
 
-    public static function getInstance(): self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
     public function createTable()
     {
-        require_once ABSPATH.'wp-admin/includes/upgrade.php';
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
         $prefix = $this->wpdb->prefix;
         $charset_collate = $this->wpdb->get_charset_collate();
@@ -47,5 +40,14 @@ final class DbBooking
         ) $charset_collate;";
 
         dbDelta($sql);
+    }
+
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 }
