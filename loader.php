@@ -7,8 +7,8 @@ require_once __DIR__.'/helpers.php';
 /** Load Const */
 require_once __DIR__.'/constant.php';
 
-use MedicalBooking\Infrastructure\DB\DbBooking;
-use MedicalBooking\Infrastructure\DB\DbInstaller;
+use MedicalBooking\Infrastructure\DB\BookingDb;
+use MedicalBooking\Infrastructure\DB\InstallDb;
 use MedicalBooking\Infrastructure\DB\Taxonomy;
 use MedicalBooking\Infrastructure\Repository\DoctorRepository;
 use MedicalBooking\Infrastructure\Repository\ServiceRepository;
@@ -17,11 +17,11 @@ use MedicalBooking\Presentation\shortcodes\MB_Search_Form_Shortcode;
 
 new ServiceRepository();
 new Taxonomy();
-new DbInstaller();
+new InstallDb();
 new \MedicalBooking\Infrastructure\Repository\DoctorRepository();
 new \MedicalBooking\Infrastructure\Repository\PatientRepository();
 new AdminPage();
-DbBooking::getInstance();
+BookingDb::getInstance();
 new \MedicalBooking\Application\Service\PostSearchService();
+new \MedicalBooking\Application\Service\DoctorService();
 MB_Search_Form_Shortcode::get_instance();
-new DoctorRepository();

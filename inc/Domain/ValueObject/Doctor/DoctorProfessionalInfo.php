@@ -16,10 +16,23 @@ final class DoctorProfessionalInfo
     }
 
     /**
+     * Static factory method to create DoctorProfessionalInfo from WordPress data
+     */
+    public static function fromWordPressData(int $post_id): self
+    {
+        $qualification = get_field('doctor_qualification', $post_id) ?: '';
+        $years_of_experience = (int) get_field('doctor_years_of_experience', $post_id) ?: 0;
+        $current_position = get_field('doctor_current_position', $post_id) ?: '';
+        $department = get_field('doctor_department', $post_id) ?: '';
+
+        return new self($qualification, $years_of_experience, $current_position, $department);
+    }
+
+    /**
      * Getter
      */
     public function getQualification(): string {return $this->qualification;}
     public function getYearsOfExperience(): int {return $this->yearsOfExperience;}
     public function getCurrentPosition(): string {return $this->currentPosition;}
-    public function getDepartment(): int {return $this->department;}
+    public function getDepartment(): string {return $this->department;}
 }

@@ -3,15 +3,15 @@
 namespace MedicalBooking\Infrastructure\DB;
 
 use wpdb;
-use MedicalBooking\Infrastructure\DB\DbConfig;
+use MedicalBooking\Infrastructure\DB\ConfigDb;
 use function MedicalBooking\Helpers\kecb_write_error_log;
 
-final class DbInstaller
+final class InstallDb
 {
-    private DbConfig $config;
+    private ConfigDb $config;
 
     /** @var array Table names mapping */
-    private array $table_name;
+    private array $table_names;
 
     /** @var wpdb WordPress database instance */
     private wpdb $wpdb;
@@ -25,7 +25,8 @@ final class DbInstaller
             return;
         }
         $this->wpdb = $wpdb;
-        $this->config = DbConfig::getInstance();
+        $this->config = ConfigDb::getInstance();
+        $this->table_names = $this->config->getMainTableNames();
         $this->installIfNeeded();
     }
 
@@ -68,9 +69,7 @@ final class DbInstaller
         }
 
         $schema_files = [
-            MB_INFRASTRUCTURE_PATH . 'DB/schema/appointments.sql',
-            MB_INFRASTRUCTURE_PATH . 'DB/schema/customer.sql',
-            MB_INFRASTRUCTURE_PATH . 'DB/schema/queue.sql',
+            MB_INFRASTRUCTURE_PATH . 'DB/schema/bookings.sql',
         ];
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -101,9 +100,7 @@ final class DbInstaller
     public function replacePlaceholders(string $sql): string
     {
         $replacements = [
-            '{{customer_table}}' => $this->table_name['customers'],
-            '{{appointment_table}}' => $this->table_name['appointments'],
-            '{{queue_table}}' => $this->table_name['queue'],
+            '{{booking_table}}' => $this->table_names['bookings'],
             '{{charset_collate}}' => $this->wpdb->get_charset_collate(),
         ];
 

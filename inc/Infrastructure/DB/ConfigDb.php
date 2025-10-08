@@ -8,7 +8,7 @@ use function ElementorDeps\DI\string;
 use function MedicalBooking\Helpers\kecb_read_json;
 use function MedicalBooking\Helpers\kecb_write_error_log;
 
-final class DbConfig
+final class ConfigDb
 {
     private static ?self $instance = null;
     private wpdb $wpdb;
@@ -27,7 +27,7 @@ final class DbConfig
     /**
      * Tên file chứa trạng thái install flag
      */
-    private const INSTALL_FLAG_FILE = 'install_flags.json';
+    private const INSTALL_FLAG_FILE = 'constants.json';
 
     private function __construct()
     {
@@ -53,7 +53,7 @@ final class DbConfig
      * Đường dẫn file flag
      * @return string
      */
-    private function getFlagFilePath(): string
+    private function getConstantFile(): string
     {
         return $this->configDir . self::INSTALL_FLAG_FILE;
     }
@@ -68,12 +68,33 @@ final class DbConfig
     }
 
     /**
+     * Lấy tên table đầy đủ với prefix
+     * @param string $tableName
+     * @return string
+     */
+    public function getTableName(string $tableName): string
+    {
+        return $this->getTablePrefix() . $tableName;
+    }
+
+    /**
+     * Lấy danh sách tên các table chính
+     * @return array
+     */
+    public function getMainTableNames(): array
+    {
+        return [
+            'bookings' => $this->getTableName('bookings'),
+        ];
+    }
+
+    /**
      * Lấy toàn bộ trạng thái cài đặt (Install Flag)
      * @return array
      */
-    public function getInstallFlags(): array
+    public function getConstants(): array
     {
-        $filePath = $this->getFlagFilePath();
+        $filePath = $this->getConstantFile();
 
         if (!file_exists($filePath)) {
             kecb_write_error_log('Install flag file not found: ' . $filePath);
@@ -95,14 +116,14 @@ final class DbConfig
      */
     public function isInstalled(string $flagKey): bool
     {
-        $flags = $this->getInstallFlags();
+        $flags = $this->getConstants();
         return !empty($flags[$flagKey]) && $flags[$flagKey] === true;
     }
 
     public function setFlags(string $keyFlags, bool $valueFlags): bool
     {
-        $filePath = $this->getFlagFilePath();
-        $config = $this->getInstallFlags();
+        $filePath = $this->getConstantFile();
+        $config = $this->getConstants();
 
         // Nếu file chưa tồn tại, tạo mảng trống
         if (!is_array($config)) {
@@ -134,4 +155,14 @@ final class DbConfig
 
         return true;
     }
+
+    /**
+     * Get ID form Contact Form 7
+     * @return int
+     */
+    public function getIdFormBooking(): int {
+        $const =  $this->getConstants('form_booking_id_cf7');
+        return (int) $const['form_booking_id_cf7'];
+    }
+
 }

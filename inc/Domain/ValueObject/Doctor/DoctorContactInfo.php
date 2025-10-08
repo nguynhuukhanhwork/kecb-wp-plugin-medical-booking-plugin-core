@@ -25,6 +25,18 @@ final class DoctorContactInfo
         }
     }
 
+    /**
+     * Static factory method to create DoctorContactInfo from WordPress data
+     */
+    public static function fromWordPressData(int $post_id): self
+    {
+        $name = get_the_title($post_id) ?: '';
+        $email = get_field('doctor_email', $post_id) ?: '';
+        $phone = get_field('doctor_phone', $post_id) ?: '';
+
+        return new self($name, $email, $phone);
+    }
+
     public function getName(): string { return $this->name; }
     public function getPhone(): string { return $this->phone; }
     public function getEmail(): string { return $this->email; }

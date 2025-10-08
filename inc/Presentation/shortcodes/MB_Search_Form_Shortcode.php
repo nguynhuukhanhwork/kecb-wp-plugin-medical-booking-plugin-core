@@ -16,7 +16,7 @@ final class MB_Search_Form_Shortcode
     }
 
     private function __clone() {}
-    private function __wakeup() {}
+    public function __wakeup() {}
 
     public static function get_instance(): self
     {

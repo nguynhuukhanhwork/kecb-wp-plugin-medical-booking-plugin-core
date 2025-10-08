@@ -337,7 +337,7 @@ class DoctorRepository implements DoctorRepositoryInterface
 
     public function getById(int $doctor_id): Doctor
     {
-        return new Doctor();
+        return self::findDoctorById($doctor_id);
     }
 
     public function getAllId(): array
@@ -418,5 +418,80 @@ class DoctorRepository implements DoctorRepositoryInterface
 
             return $doctors;
         }
+    }
+
+    /**
+     * Tạo Doctor Entity từ WordPress post data
+     * 
+     * @param \WP_Post $post
+     * @param array $meta_data
+     * @return Doctor|null
+     */
+    private static function createDoctorFromPostData(\WP_Post $post, array $meta_data = []): ?Doctor
+    {
+        try {
+            $contact_info = \MedicalBooking\Domain\ValueObject\Doctor\DoctorContactInfo::fromWordPressData($post->ID);
+            $professional_info = \MedicalBooking\Domain\ValueObject\Doctor\DoctorProfessionalInfo::fromWordPressData($post->ID);
+            $profile = \MedicalBooking\Domain\ValueObject\Doctor\DoctorProfile::fromWordPressData($post->ID);
+
+            return new \MedicalBooking\Domain\Entity\Doctor(
+                $post->ID,
+                $contact_info,
+                $professional_info,
+                $profile
+            );
+        } catch (\Exception $e) {
+            error_log("Error creating Doctor from post data for ID {$post->ID}: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Tạo Doctor Entity từ post ID
+     * 
+     * @param int $post_id
+     * @return Doctor|null
+     */
+    private static function createDoctorFromPost(int $post_id): ?Doctor
+    {
+        $post = get_post($post_id);
+        if (!$post || $post->post_type !== self::post_type) {
+            return null;
+        }
+
+        return self::createDoctorFromPostData($post);
+    }
+
+    /**
+     * Lấy tất cả meta data cho nhiều posts cùng lúc (tối ưu N+1 queries)
+     * 
+     * @param array $post_ids
+     * @return array
+     */
+    private static function getBatchPostMeta(array $post_ids): array
+    {
+        global $wpdb;
+        
+        if (empty($post_ids)) {
+            return [];
+        }
+
+        $post_ids_placeholders = implode(',', array_fill(0, count($post_ids), '%d'));
+        
+        $query = $wpdb->prepare("
+            SELECT post_id, meta_key, meta_value 
+            FROM {$wpdb->postmeta} 
+            WHERE post_id IN ({$post_ids_placeholders})
+            AND meta_key LIKE 'doctor_%'
+        ", $post_ids);
+
+        $results = $wpdb->get_results($query, ARRAY_A);
+        
+        $meta_data = [];
+        foreach ($results as $row) {
+            $meta_data[$row['post_id']][$row['meta_key']] = maybe_unserialize($row['meta_value']);
+        }
+
+        return $meta_data;
     }
 }

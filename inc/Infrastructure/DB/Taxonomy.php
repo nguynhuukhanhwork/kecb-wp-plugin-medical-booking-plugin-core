@@ -3,7 +3,6 @@
 namespace MedicalBooking\Infrastructure\DB;
 
 use function MedicalBooking\Helpers\kecb_get_term_name;
-use function MedicalBooking\Helpers\kecb_read_json;
 use function MedicalBooking\Helpers\kecb_register_taxonomy_json;
 use function MedicalBooking\Helpers\kecb_write_error_log;
 

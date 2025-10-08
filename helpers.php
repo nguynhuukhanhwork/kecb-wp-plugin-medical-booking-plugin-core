@@ -5,6 +5,7 @@
  * Features: Write Log, Read Json, Register ACF with JSON, Register CPT with JSON
  * Version: 1.0.0
  */
+
 namespace MedicalBooking\Helpers;
 
 /**
@@ -34,11 +35,11 @@ function kecb_write_log(string $filename, string $prefix, string $message): bool
 
     return file_put_contents($file_path, $logline, FILE_APPEND | LOCK_EX) !== false;
 }
+
 /**
  * Ghi log lỗi
  * @param $message string is content of error log
  */
-/** @noinspection PhpUnused */
 function kecb_write_error_log(string $message): bool
 {
     $date = date('Y-m-d H:i:s');
@@ -50,7 +51,6 @@ function kecb_write_error_log(string $message): bool
  * Ghi log hoạt động
  * @param $message string is content of activate log
  */
-/** @noinspection PhpUnused */
 function kecb_write_activity_log(string $message): bool
 {
     $date = date('Y-m-d H:i:s');
@@ -88,7 +88,8 @@ function kecb_read_json(string $path): array
  * @param string $config_file_path
  * @return bool
  */
-function kecb_register_post_type_json(string $config_file_path): bool {
+function kecb_register_post_type_json(string $config_file_path): bool
+{
     // Check file exists
     if (!file_exists($config_file_path)) {
         kecb_write_error_log("File $config_file_path does not exist");
@@ -104,7 +105,7 @@ function kecb_register_post_type_json(string $config_file_path): bool {
     }
 
     // Check data
-    if ( !isset($config['post_type']) || !isset($config['args'])) {
+    if (!isset($config['post_type']) || !isset($config['args'])) {
         kecb_write_error_log("CPT config error: Invalid post type or args");
     }
 
@@ -119,7 +120,8 @@ function kecb_register_post_type_json(string $config_file_path): bool {
  * @param string $config_file_path
  * @return void
  */
-function kecb_register_acf_field_json(string $config_file_path): void {
+function kecb_register_acf_field_json(string $config_file_path): void
+{
     // Check file exists
     if (!file_exists($config_file_path)) {
         kecb_write_error_log("File $config_file_path does not exist");
@@ -150,17 +152,18 @@ function kecb_register_acf_field_json(string $config_file_path): void {
  * @param $hide_empty bool lấy các Taxonomy không có gắn với post nào
  * @return array
  */
-function kecb_get_term_name(string $taxonomy, bool $hide_empty = false): array {
+function kecb_get_term_name(string $taxonomy, bool $hide_empty = false): array
+{
 
     // Config
     $terms = get_terms([
-        'taxonomy'   => $taxonomy,
-        'hide_empty' => $hide_empty,
+            'taxonomy' => $taxonomy,
+            'hide_empty' => $hide_empty,
     ]);
 
     $terms_name = [];
 
-    if (! is_wp_error($terms)) {
+    if (!is_wp_error($terms)) {
         foreach ($terms as $term) {
             $terms_name[] = $term->name;
         }
@@ -169,7 +172,6 @@ function kecb_get_term_name(string $taxonomy, bool $hide_empty = false): array {
     return $terms_name;
 }
 
-
 /**
  * Register Taxonomy WP and Insert date to database
  * @param string $file_path file JSON Config
@@ -177,12 +179,14 @@ function kecb_get_term_name(string $taxonomy, bool $hide_empty = false): array {
  * @param bool $insert_default_term flag for insert data
  * @return bool
  */
-function kecb_register_taxonomy_json(string $file_path, string $prefix = '', bool $insert_default_term = false): bool {
+function kecb_register_taxonomy_json(string $file_path, string $prefix = '', bool $insert_default_term = false): bool
+{
 
     // Check file Path
     if (!file_exists($file_path)) {
         kecb_write_error_log("File $file_path does not exist");
         return false;
+
     }
 
     // Check is JSON file
@@ -193,8 +197,8 @@ function kecb_register_taxonomy_json(string $file_path, string $prefix = '', boo
         return false;
     }
 
-    $taxonomy = $prefix .  $config['taxonomy'];
-    $types = $config['types'];
+    $taxonomy = $prefix . $config['taxonomy'];
+    $types = $config['type'];
     $args = $config['args'];
 
     // Check Empty
@@ -210,12 +214,12 @@ function kecb_register_taxonomy_json(string $file_path, string $prefix = '', boo
     $term = $config['terms'];
 
     // Không Insert Term
-    if (! $insert_default_term) {
+    if (!$insert_default_term) {
         return true;
     }
 
     // get Terms config
-    $term_defaults = $config['terms'];
+    $term_defaults = $config['terms'] ?? [];
 
     // Check Config Terms is empty
     if (empty($term)) {
@@ -234,3 +238,102 @@ function kecb_register_taxonomy_json(string $file_path, string $prefix = '', boo
 
     return true;
 }
+
+/**
+ * Hiển thị bảng dữ liệu trong trang Admin WordPress (header là mảng thường).
+ *
+ * @param array $header Danh sách tiêu đề cột, ví dụ: ['Tên', 'Email', 'Điện thoại']
+ * @param array $data   Mảng dữ liệu, mỗi phần tử là 1 hàng dạng array tuần tự.
+ */
+function kecb_admin_show_data(array $header, array $data): void
+{
+    if (empty($header)) {
+        echo '<p><strong>Lỗi:</strong> Không có tiêu đề cột để hiển thị.</p>';
+        return;
+    }
+    ?>
+    <div class="wrap">
+        <table class="wp-list-table widefat fixed striped">
+            <thead>
+            <tr>
+                <?php foreach ($header as $label): ?>
+                    <th scope="col"><?php echo esc_html($label); ?></th>
+                <?php endforeach; ?>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if (!empty($data)): ?>
+                <?php foreach ($data as $row): ?>
+                    <tr>
+                        <?php foreach ($row as $value): ?>
+                            <td>
+                                <?php
+                                if (is_array($value) || is_object($value)) {
+                                    echo '<pre>' . esc_html(json_encode($value, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)) . '</pre>';
+                                } else {
+                                    echo esc_html($value);
+                                }
+                                ?>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="<?php echo count($header); ?>">
+                        <?php esc_html_e('Không có dữ liệu để hiển thị.', 'medical-booking'); ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
+
+/**
+ * Get data from database of Contact Form 7
+ * @param int $form_id post type id of form
+ * @param int $limit row of data
+ * @return array
+ */
+function kecb_get_form_submission_cf7(int $form_id, int $limit = 30): array
+{
+    global $wpdb;
+
+    $table = $wpdb->prefix . 'db7_forms';
+
+    // Thực thi truy vấn với prepare để tránh SQL injection
+    $rows = $wpdb->get_results(
+            $wpdb->prepare(
+                    "SELECT form_value, form_date 
+             FROM {$table} 
+             WHERE form_post_id = %d
+             ORDER BY form_date DESC 
+             LIMIT %d",
+                    $form_id,
+                    $limit
+            ),
+            ARRAY_A
+    );
+
+    if ($wpdb->last_error) {
+        error_log("DB7 query error: {$wpdb->last_error}");
+        return [];
+    }
+
+    // Dùng array_map thay vì foreach để gọn và tránh lặp
+    return array_values(array_filter(array_map(function ($row) {
+        $data = @unserialize($row['form_value']);
+        if (!is_array($data)) {
+            return null;
+        }
+        $data['form_date'] = $row['form_date'];
+        return $data;
+    }, $rows)));
+}
+
+
+
+
+
