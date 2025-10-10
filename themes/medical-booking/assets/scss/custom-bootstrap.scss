@@ -1,0 +1,17 @@
+// 1. Override trước
+$primary: #1e40af;
+$font-family-sans-serif: ("Inter", sans-serif);
+$border-radius: 0.5rem;
+
+// 2. Core bootstrap (theo đúng cấu trúc của node_modules/bootstrap/scss/bootstrap.scss)
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables"; // cần functions
+@import "bootstrap/scss/maps";      // cần variables
+@import "bootstrap/scss/mixins";    // cần maps
+@import "bootstrap/scss/root";
+
+// 3. Các module bạn cần
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/forms";

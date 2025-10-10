@@ -1,0 +1,345 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "color": {
+      "background": true,
+      "custom": true,
+      "customGradient": true,
+      "defaultGradients": false,
+      "defaultPalette": false,
+      "gradients": [
+        {
+          "slug": "primary-gradient",
+          "gradient": "linear-gradient(135deg, #730000 0%, #a50000 100%)",
+          "name": "Medical Primary Gradient"
+        },
+        {
+          "slug": "success-gradient",
+          "gradient": "linear-gradient(135deg, #46b450 0%, #96c93d 100%)",
+          "name": "Success Gradient"
+        },
+        {
+          "slug": "healing-gradient",
+          "gradient": "linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)",
+          "name": "Healing Blue Gradient"
+        },
+        {
+          "slug": "care-gradient",
+          "gradient": "linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%)",
+          "name": "Care Purple Gradient"
+        }
+      ],
+      "link": true,
+      "palette": [
+        {
+          "slug": "primary",
+          "color": "#730000",
+          "name": "Medical Red"
+        },
+        {
+          "slug": "secondary",
+          "color": "#00a0d2",
+          "name": "Trust Blue"
+        },
+        {
+          "slug": "success",
+          "color": "#46b450",
+          "name": "Health Green"
+        },
+        {
+          "slug": "warning",
+          "color": "#ff6900",
+          "name": "Warning Orange"
+        },
+        {
+          "slug": "error",
+          "color": "#dc3232",
+          "name": "Emergency Red"
+        },
+        {
+          "slug": "neutral",
+          "color": "#f8f9fa",
+          "name": "Neutral Gray"
+        },
+        {
+          "slug": "dark",
+          "color": "#212529",
+          "name": "Dark Text"
+        },
+        {
+          "slug": "light",
+          "color": "#ffffff",
+          "name": "Pure White"
+        }
+      ],
+      "text": true,
+      "duotone": [
+        {
+          "colors": ["#730000", "#ffffff"],
+          "slug": "medical-duotone",
+          "name": "Medical Duotone"
+        }
+      ]
+    },
+    "typography": {
+      "customFontSize": true,
+      "fluid": true,
+      "fontSizes": [
+        { "slug": "x-small", "size": "12px", "name": "Extra Small", "fluid": false },
+        { "slug": "small", "size": "14px", "name": "Small", "fluid": false },
+        { "slug": "medium", "size": "16px", "name": "Medium", "fluid": false },
+        { "slug": "large", "size": "20px", "name": "Large", "fluid": { "min": "18px", "max": "22px" } },
+        { "slug": "x-large", "size": "24px", "name": "Extra Large", "fluid": { "min": "22px", "max": "28px" } },
+        { "slug": "xx-large", "size": "32px", "name": "Heading", "fluid": { "min": "28px", "max": "36px" } },
+        { "slug": "hero", "size": "48px", "name": "Hero", "fluid": { "min": "36px", "max": "52px" } }
+      ],
+      "fontFamilies": [
+        {
+          "fontFamily": "'Inter', system-ui, -apple-system, sans-serif",
+          "slug": "primary",
+          "name": "Primary (Inter)"
+        },
+        {
+          "fontFamily": "'Roboto', sans-serif",
+          "slug": "secondary",
+          "name": "Secondary (Roboto)"
+        },
+        {
+          "fontFamily": "Georgia, 'Times New Roman', serif",
+          "slug": "serif",
+          "name": "Serif"
+        }
+      ],
+      "fontWeight": true,
+      "lineHeight": true,
+      "textDecoration": true,
+      "textTransform": true
+    },
+    "spacing": {
+      "customSpacingSize": true,
+      "spacingSizes": [
+        { "slug": "xs", "size": "0.5rem", "name": "Extra Small" },
+        { "slug": "sm", "size": "1rem", "name": "Small" },
+        { "slug": "md", "size": "1.5rem", "name": "Medium" },
+        { "slug": "lg", "size": "2rem", "name": "Large" },
+        { "slug": "xl", "size": "3rem", "name": "Extra Large" },
+        { "slug": "xxl", "size": "4rem", "name": "2X Large" }
+      ],
+      "units": ["px", "em", "rem", "vh", "vw", "%"],
+      "padding": true,
+      "margin": true,
+      "blockGap": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": {
+      "defaultPresets": false,
+      "presets": [
+        {
+          "slug": "card-shadow",
+          "shadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          "name": "Card Shadow"
+        },
+        {
+          "slug": "elevated-shadow",
+          "shadow": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          "name": "Elevated Shadow"
+        },
+        {
+          "slug": "medical-glow",
+          "shadow": "0 0 20px rgba(115, 0, 0, 0.2)",
+          "name": "Medical Glow"
+        }
+      ]
+    },
+    "layout": {
+      "contentSize": "1200px",
+      "wideSize": "1600px"
+    },
+    "blocks": {
+      "medical-booking/appointment-block": {
+        "color": { "palette": true, "gradients": true, "background": true, "text": true },
+        "typography": { "fontSizes": true, "fontFamilies": true },
+        "border": { "color": true, "radius": true, "style": true, "width": true },
+        "spacing": { "margin": true, "padding": true },
+        "shadow": { "presets": true }
+      },
+      "medical-booking/doctor-card": {
+        "color": { "palette": true, "background": true },
+        "spacing": { "padding": true, "margin": true },
+        "border": { "radius": true },
+        "shadow": { "presets": true }
+      },
+      "medical-booking/booking-form": {
+        "color": { "palette": true, "background": true },
+        "typography": { "fontSizes": true },
+        "spacing": { "padding": true, "blockGap": true }
+      },
+      "core/button": {
+        "border": { "radius": true },
+        "color": { "background": true, "text": true },
+        "shadow": { "presets": true }
+      }
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#ffffff",
+      "text": "#212529"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--primary)",
+      "fontSize": "var(--wp--preset--font-size--medium)",
+      "lineHeight": "1.6"
+    },
+    "spacing": {
+      "blockGap": "var(--wp--preset--spacing--md)"
+    },
+    "elements": {
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--primary)",
+          "text": "var(--wp--preset--color--light)"
+        },
+        "border": {
+          "radius": "8px",
+          "width": "2px",
+          "style": "solid",
+          "color": "var(--wp--preset--color--primary)"
+        },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--primary)",
+          "fontSize": "var(--wp--preset--font-size--medium)",
+          "fontWeight": "600"
+        },
+        "spacing": {
+          "padding": "12px 24px"
+        },
+        "shadow": "var(--wp--preset--shadow--card-shadow)",
+        ":hover": {
+          "color": {
+            "background": "var(--wp--preset--color--secondary)"
+          },
+          "shadow": "var(--wp--preset--shadow--elevated-shadow)"
+        }
+      },
+      "heading": {
+        "color": { "text": "var(--wp--preset--color--primary)" },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--primary)",
+          "fontWeight": "700",
+          "lineHeight": "1.2"
+        },
+        "spacing": {
+          "margin": "0 0 var(--wp--preset--spacing--md) 0"
+        }
+      },
+      "link": {
+        "color": { "text": "var(--wp--preset--color--primary)" },
+        "typography": { "textDecoration": "none" },
+        ":hover": {
+          "color": { "text": "var(--wp--preset--color--secondary)" },
+          "typography": { "textDecoration": "underline" }
+        }
+      },
+      "h1": {
+        "typography": { "fontSize": "var(--wp--preset--font-size--hero)" }
+      },
+      "h2": {
+        "typography": { "fontSize": "var(--wp--preset--font-size--xx-large)" }
+      },
+      "h3": {
+        "typography": { "fontSize": "var(--wp--preset--font-size--x-large)" }
+      }
+    },
+    "blocks": {
+      "core/paragraph": {
+        "spacing": {
+          "margin": "0 0 var(--wp--preset--spacing--sm) 0"
+        }
+      },
+      "core/group": {
+        "spacing": {
+          "padding": "var(--wp--preset--spacing--md)"
+        }
+      },
+      "medical-booking/appointment-block": {
+        "color": {
+          "background": "var(--wp--preset--color--light)",
+          "text": "var(--wp--preset--color--dark)"
+        },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--primary)",
+          "fontSize": "var(--wp--preset--font-size--medium)"
+        },
+        "border": {
+          "radius": "12px",
+          "width": "1px",
+          "style": "solid",
+          "color": "var(--wp--preset--color--neutral)"
+        },
+        "spacing": {
+          "padding": "var(--wp--preset--spacing--lg)"
+        },
+        "shadow": "var(--wp--preset--shadow--card-shadow)"
+      },
+      "medical-booking/doctor-card": {
+        "color": {
+          "background": "var(--wp--preset--color--light)"
+        },
+        "border": {
+          "radius": "16px"
+        },
+        "spacing": {
+          "padding": "var(--wp--preset--spacing--lg)"
+        },
+        "shadow": "var(--wp--preset--shadow--card-shadow)"
+      }
+    }
+  },
+  "customTemplates": [
+    {
+      "name": "booking-page",
+      "title": "Booking Page",
+      "postTypes": ["page"]
+    },
+    {
+      "name": "doctor-profile",
+      "title": "Doctor Profile",
+      "postTypes": ["doctor"]
+    },
+    {
+      "name": "patient-dashboard",
+      "title": "Patient Dashboard",
+      "postTypes": ["page"]
+    }
+  ],
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Header",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Footer",
+      "area": "footer"
+    },
+    {
+      "name": "sidebar-booking",
+      "title": "Booking Sidebar",
+      "area": "uncategorized"
+    }
+  ],
+  "patterns": [
+    "medical-booking/appointment-form",
+    "medical-booking/doctor-grid",
+    "medical-booking/service-list",
+    "medical-booking/patient-testimonials"
+  ]
+}

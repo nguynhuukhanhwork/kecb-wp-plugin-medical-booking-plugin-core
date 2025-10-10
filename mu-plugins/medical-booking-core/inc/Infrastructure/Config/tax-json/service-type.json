@@ -1,0 +1,24 @@
+{
+    "taxonomy": "service_type",
+    "type": [
+        "service"
+    ],
+    "args": {
+        "label": "Chuyên khoa",
+        "hierarchical": true,
+        "public": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "show_in_rest": true,
+        "rewrite": {
+            "slug": "service_type"
+        }
+    },
+    "terms": [
+        "Khám tổng quát",
+        "Khám chuyên khoa",
+        "Xét nghiệm",
+        "Chẩn đoán hình ảnh",
+        "Tư vấn trực tuyến"
+    ]
+}

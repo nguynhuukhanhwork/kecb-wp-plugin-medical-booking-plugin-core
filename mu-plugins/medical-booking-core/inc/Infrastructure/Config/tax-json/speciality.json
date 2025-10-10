@@ -1,0 +1,25 @@
+{
+    "taxonomy": "speciality",
+    "type": [
+        "service",
+        "doctor"
+    ],
+    "args": {
+        "label": "Chuyên khoa",
+        "hierarchical": true,
+        "public": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "show_in_rest": true,
+        "rewrite": {
+            "slug": "speciality"
+        }
+    },
+    "terms": [
+        "Răng hàm mặt",
+        "Tim",
+        "Thận",
+        "Mắt",
+        "Tai - Mũi - Họng"
+    ]
+}

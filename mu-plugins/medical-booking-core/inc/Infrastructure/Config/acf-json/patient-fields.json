@@ -1,0 +1,77 @@
+{
+    "key": "group_patient_fields",
+    "title": "Patient Fields",
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "patient"
+            }
+        ]
+    ],
+    "fields": [
+        {
+            "key": "field_patient_phone",
+            "label": "Số điện thoại",
+            "name": "patient_phone",
+            "type": "number",
+            "maxlength": 20,
+            "wrapper": {
+                "width": 20
+            }
+        },
+        {
+            "key": "field_patient_email",
+            "label": "Email",
+            "name": "patient_email",
+            "type": "email",
+            "maxlength": 50,
+            "wrapper": {
+                "width": 20
+            }
+        },
+        {
+            "key": "field_patient_age",
+            "label": "Tuổi",
+            "name": "patient_age",
+            "type": "number",
+            "maxlength": 3,
+            "wrapper": {
+                "width": 20
+            }
+        },
+        {
+            "key": "field_patient_address",
+            "label": "Địa chỉ",
+            "name": "patient_address",
+            "type": "text",
+            "maxlength": 255,
+            "wrapper": {
+                "width": 40
+            }
+        },
+        {
+            "key": "field_patient_medical_history",
+            "label": "Tiền sử bệnh",
+            "name": "patient_medical_history",
+            "type": "textarea"
+        },
+        {
+            "key": "field_patient_insurance",
+            "label": "Bảo hiểm y tế",
+            "name": "patient_insurance",
+            "type": "text",
+            "maxlength": 50,
+            "wrapper": {
+                "width": 30
+            }
+        },
+        {
+            "key": "field_patient_notes",
+            "label": "Ghi chú thêm",
+            "name": "patient_notes",
+            "type": "textarea"
+        }
+    ]
+}
