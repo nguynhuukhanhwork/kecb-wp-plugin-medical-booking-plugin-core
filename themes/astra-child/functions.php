@@ -26,12 +26,6 @@ function astra_child_parent_theme_enqueue_styles() {
 require_once get_stylesheet_directory() . '/doctor-helpers.php';
 
 function astra_child_enqueue_bootstrap(): void {
-	// Enqueue Bootstrap CSS (sử dụng CDN cho tốc độ, hoặc local để offline)
-	// wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', array(), '5.3.3', 'all');
-
-	// Enqueue Bootstrap JS (bundle bao gồm Popper)
-	// wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.3.3', true);
-
 	wp_enqueue_style('bootstrap-css', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), '5.3.3', 'all');
 	wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js', array('jquery'), '5.3.3', true);
 }

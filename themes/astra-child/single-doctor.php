@@ -1,7 +1,7 @@
 <?php
 /**
  * Template for displaying single doctor posts
- * 
+ *
  * Tuân theo kiến trúc Layer:
  * - Presentation Layer: Theme template
  * - Application Layer: DoctorService
@@ -33,7 +33,7 @@ get_header();
         // Render breadcrumb
         render_doctor_breadcrumb($doctor_data);
         ?>
-        
+
         <article class="doctor-profile">
             <header class="doctor-header">
                 <div class="doctor-main-info">
@@ -41,15 +41,15 @@ get_header();
                     // Render hình ảnh bác sĩ
                     render_doctor_image($doctor_data, 'large');
                     ?>
-                    
+
                     <div class="doctor-basic-info">
                         <h1 class="doctor-name"><?php echo esc_html($doctor_data['name']); ?></h1>
-                        
+
                         <?php
                         // Render thông tin chuyên môn
                         render_doctor_professional_info($doctor_data);
                         ?>
-                        
+
                         <?php
                         // Render thông tin liên hệ
                         render_doctor_contact_info($doctor_data);
@@ -57,33 +57,28 @@ get_header();
                     </div>
                 </div>
             </header>
-            
+
             <div class="doctor-content">
                 <?php
                 // Render tiểu sử bác sĩ
                 render_doctor_bio($doctor_data);
                 ?>
-                
-                <?php
-                // Render lịch làm việc
-                render_doctor_schedule($doctor_data);
-                ?>
-                
+
                 <!-- Các thông tin bổ sung có thể thêm vào đây -->
                 <div class="doctor-actions">
-                    <a href="<?php echo esc_url(home_url('/booking/?doctor=' . $doctor_data['id'])); ?>" 
+                    <a href="<?php echo esc_url(home_url('/booking/?doctor=' . $doctor_data['id'])); ?>"
                        class="btn btn-primary">
                         Đặt lịch hẹn
                     </a>
-                    
-                    <a href="<?php echo esc_url(home_url('/doctors/')); ?>" 
+
+                    <a href="<?php echo esc_url(home_url('/doctors/')); ?>"
                        class="btn btn-secondary">
                         Xem danh sách bác sĩ
                     </a>
                 </div>
             </div>
         </article>
-        
+
         <!-- Related doctors hoặc thông tin liên quan -->
         <aside class="doctor-sidebar">
             <div class="related-doctors">
@@ -91,12 +86,12 @@ get_header();
                 <?php
                 $doctor_service = new \MedicalBooking\Application\Service\DoctorService();
                 $related_doctors = $doctor_service->getDoctorsByDepartment($doctor_data['department']);
-                
+
                 // Loại bỏ bác sĩ hiện tại khỏi danh sách
                 $related_doctors = array_filter($related_doctors, function($doctor) use ($doctor_data) {
                     return $doctor->getId() !== $doctor_data['id'];
                 });
-                
+
                 if (!empty($related_doctors)) {
                     echo '<ul class="related-doctors-list">';
                     foreach (array_slice($related_doctors, 0, 3) as $doctor) {
@@ -295,12 +290,12 @@ get_header();
         flex-direction: column;
         text-align: center;
     }
-    
+
     .doctor-image img {
         width: 150px;
         height: 150px;
     }
-    
+
     .doctor-name {
         font-size: 2em;
     }

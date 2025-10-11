@@ -14,14 +14,15 @@ namespace MedicalBooking\Infrastructure\Repository;
 
 use MedicalBooking\Domain\Entity\Doctor;
 use MedicalBooking\Domain\Repository\DoctorRepositoryInterface;
+use MedicalBooking\Infrastructure\Config\ConfigReader;
 use WP_Query;
 use function MedicalBooking\Helpers\kecb_register_acf_field_json;
 use function MedicalBooking\Helpers\kecb_register_post_type_json;
 
 class DoctorRepository implements DoctorRepositoryInterface
 {
-    /** @var string post_type Custom Post Type cho bác sĩ */
-    public const post_type = 'doctor';
+    /** @var string post_type Custom Post Type cho bác sĩ - Dynamic từ ConfigReader */
+    public const CPT_CONFIG_FILE = 'doctor-cpt.json';
 
     // Config Const for Doctor Field (key ACF)
     public const DOCTOR_PHONE = 'doctor_phone';
@@ -35,6 +36,7 @@ class DoctorRepository implements DoctorRepositoryInterface
 
     /** @var string Cache group */
     private const CACHE_GROUP = 'medical_booking_doctors';
+    private const CACHE_ALL_DOCTOR = 'all_doctors';
 
     /** @var int Cache expiration time */
     private const CACHE_EXPIRATION = 6 * HOUR_IN_SECONDS;
@@ -45,10 +47,22 @@ class DoctorRepository implements DoctorRepositoryInterface
     public function __construct()
     {
         $this->acfJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/acf-json/doctor-fields.json';
-        $this->cptJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/doctor-cpt.json';
+        $this->cptJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/' . self::CPT_CONFIG_FILE;
         add_action('init', [$this, 'registerCpt']);
         add_action('init', [$this, 'registerAcfFields']);
         add_action('init', [$this, 'registerCf7Tags']); // Đăng ký CF7 filter
+    }
+
+    /**
+     * Lấy post type name từ config (dynamic)
+     * 
+     * @return string
+     */
+    private static function getPostType(): string
+    {
+        return ConfigReader::getPostTypeFromJson(
+            MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/' . self::CPT_CONFIG_FILE
+        );
     }
 
     /**
@@ -66,7 +80,7 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type' => self::post_type,
+            'post_type' => self::getPostType(),
             'post_status' => 'publish',
             'fields' => 'ids',
             'posts_per_page' => -1,
@@ -131,7 +145,7 @@ class DoctorRepository implements DoctorRepositoryInterface
 
         // Single optimized query
         $args = [
-            'post_type' => self::post_type,
+            'post_type' => self::getPostType(),
             'post_status' => 'publish',
             'posts_per_page' => -1,
             'orderby' => 'title',
@@ -182,7 +196,7 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type' => self::post_type,
+            'post_type' => self::getPostType(),
             'post_status' => 'publish',
             'posts_per_page' => -1,
             'meta_query' => [
@@ -233,7 +247,7 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type' => self::post_type,
+            'post_type' => self::getPostType(),
             'post_status' => 'publish',
             'posts_per_page' => $per_page,
             'paged' => $page,
@@ -282,7 +296,7 @@ class DoctorRepository implements DoctorRepositoryInterface
         }
 
         $args = [
-            'post_type' => self::post_type,
+            'post_type' => self::getPostType(),
             'post_status' => 'publish',
             'posts_per_page' => -1,
             's' => $search_term, // Search in title and content
@@ -343,7 +357,7 @@ class DoctorRepository implements DoctorRepositoryInterface
     public function getAllId(): array
     {
         $args = [
-            'post_type' => self::post_type,
+            'post_type' => self::getPostType(),
             'fields' => 'ids',
             'post_status' => 'publish',
             'posts_per_page' => -1,
@@ -357,9 +371,49 @@ class DoctorRepository implements DoctorRepositoryInterface
 
     public function getAll(): array
     {
-        return [];
-        // TODO: Implement getAll() method.
+        $cache_key = 'all_doctors';
+        $cached = get_transient($cache_key);
+
+        if ($cached !== false) {
+            return $cached;
+        }
+
+        if (!post_type_exists(self::post_type)) {
+            return [];
+        }
+
+        $args = [
+            'post_type'      => self::post_type,
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+        ];
+
+        $query = new WP_Query($args);
+        $doctors = [];
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                $doctors[] = [
+                    'ID'        => get_the_ID(),
+                    'title'     => get_the_title(),
+                    'slug'      => get_post_field('post_name'),
+                    'excerpt'   => get_the_excerpt(),
+                    'thumbnail' => get_the_post_thumbnail_url(get_the_ID(), 'medium'),
+                    'meta'      => get_post_meta(get_the_ID()), // nếu cần
+                ];
+            }
+        }
+
+        wp_reset_postdata();
+
+        // Cache 12 giờ (có thể điều chỉnh)
+        set_transient($cache_key, $doctors, 12 * HOUR_IN_SECONDS);
+
+        return $doctors;
     }
+
 
     /**
      * Tìm bác sĩ theo tên
@@ -400,7 +454,7 @@ class DoctorRepository implements DoctorRepositoryInterface
 
             // Query để lấy danh sách bác sĩ từ CPT
             $doctor_args = array(
-                'post_type' => 'doctor', // Thay 'doctor' bằng tên CPT của bạn
+                'post_type' => self::getPostType(), // Dynamic từ ConfigReader
                 'posts_per_page' => -1,
                 'orderby' => 'title',
                 'order' => 'ASC',
@@ -455,7 +509,7 @@ class DoctorRepository implements DoctorRepositoryInterface
     private static function createDoctorFromPost(int $post_id): ?Doctor
     {
         $post = get_post($post_id);
-        if (!$post || $post->post_type !== self::post_type) {
+        if (!$post || $post->post_type !== self::getPostType()) {
             return null;
         }
 
