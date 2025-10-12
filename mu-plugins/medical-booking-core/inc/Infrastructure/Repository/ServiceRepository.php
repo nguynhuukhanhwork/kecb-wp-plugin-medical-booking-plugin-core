@@ -41,7 +41,7 @@ class ServiceRepository
         add_action('init', [$this, 'registerCpt']);
         add_action('init', [$this, 'registerAcfFields']);
 
-        $config = ConfigDb::getInstance();
+        $config = ConfigDb::get_instance();
     }
 
     /**

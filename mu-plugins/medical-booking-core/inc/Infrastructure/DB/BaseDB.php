@@ -27,7 +27,7 @@ abstract class BaseDB
         }
 
         $this->wpdb = $wpdb;
-        $this->config = ConfigDb::getInstance();
+        $this->config = ConfigDb::get_instance();
         $this->table_prefix = $this->config->getTablePrefix();
         $this->initializeTableName();
     }

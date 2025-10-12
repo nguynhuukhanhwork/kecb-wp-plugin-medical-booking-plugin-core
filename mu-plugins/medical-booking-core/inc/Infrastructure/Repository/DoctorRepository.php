@@ -48,9 +48,10 @@ class DoctorRepository implements DoctorRepositoryInterface
     {
         $this->acfJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/acf-json/doctor-fields.json';
         $this->cptJsonFilePath = MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/' . self::CPT_CONFIG_FILE;
-        add_action('init', [$this, 'registerCpt']);
+        /*add_action('init', [$this, 'registerCpt']);
         add_action('init', [$this, 'registerAcfFields']);
-        add_action('init', [$this, 'registerCf7Tags']); // Đăng ký CF7 filter
+         // Đăng ký CF7 filter*/
+        add_action('init', [$this, 'registerCf7Tags']);
     }
 
     /**

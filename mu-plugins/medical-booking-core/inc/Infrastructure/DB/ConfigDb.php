@@ -44,7 +44,7 @@ final class ConfigDb
     /**
      * Singleton pattern
      */
-    public static function getInstance(): self
+    public static function get_instance(): self
     {
         return self::$instance ??= new self();
     }
@@ -158,11 +158,13 @@ final class ConfigDb
 
     /**
      * Get ID form Contact Form 7
+     * @param string $constant_form_cf7_id id form (post type id form) of Contact Form 7
      * @return int
      */
-    public function getIdFormBooking(): int {
-        $const =  $this->getConstants('form_booking_id_cf7');
-        return (int) $const['form_booking_id_cf7'];
+    public function getIdFormCf7(string $constant_form_cf7_id): int {
+        $const = $this->getConstants();
+        return isset($const[$constant_form_cf7_id])
+            ? (int) $const[$constant_form_cf7_id]
+            : 0;
     }
-
 }

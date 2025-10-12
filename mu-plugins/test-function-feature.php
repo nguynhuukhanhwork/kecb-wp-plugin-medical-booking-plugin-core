@@ -1,6 +1,5 @@
 <?php
 
-use MedicalBooking\Infrastructure\Repository\FormSubmissionRepository;
 use MedicalBooking\Helpers;
 
 /*if (!defined('ABSPATH')) {
@@ -18,5 +17,3 @@ use MedicalBooking\Helpers;
 //}
 
 $data = Helpers\kecb_get_form_submission_cf7(551);
-
-

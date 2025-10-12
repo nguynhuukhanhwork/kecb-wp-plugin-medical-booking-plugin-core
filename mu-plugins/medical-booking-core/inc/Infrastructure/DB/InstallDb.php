@@ -25,7 +25,7 @@ final class InstallDb
             return;
         }
         $this->wpdb = $wpdb;
-        $this->config = ConfigDb::getInstance();
+        $this->config = ConfigDb::get_instance();
         $this->table_names = $this->config->getMainTableNames();
         $this->installIfNeeded();
     }

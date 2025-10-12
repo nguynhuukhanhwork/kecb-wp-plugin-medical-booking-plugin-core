@@ -41,7 +41,7 @@ class BookingRepository
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->config = ConfigDb::getInstance();
+        $this->config = ConfigDb::get_instance();
         $this->table_booking = $this->config->getTableName('bookings');
         
         // Ensure table exists

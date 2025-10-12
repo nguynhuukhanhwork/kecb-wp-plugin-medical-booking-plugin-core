@@ -21,7 +21,7 @@ final class AdminPage
     public function __construct()
     {
         add_action('admin_menu', [$this, 'registerAdminMenu']);
-        $this->config = ConfigDb::getInstance();
+        $this->config = ConfigDb::get_instance();
     }
 
     /**
@@ -82,7 +82,7 @@ final class AdminPage
      */
     public function renderAdminPage(): void
     {
-        $form_id = $this->config->getIdFormBooking();
+        $form_id = $this->config->getIdFormCf7();
         $data = kecb_get_form_submission_cf7($form_id, 30);
 
         if (empty($data)) {
