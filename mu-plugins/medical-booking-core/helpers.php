@@ -332,3 +332,28 @@ function kecb_get_form_submission_cf7(int $form_id, int $limit = 30): array
         return $data;
     }, $rows)));
 }
+
+/**
+ * Check file basic: file is exist, file can read, file not empty
+ * @param string $file_path
+ * @return bool
+ */
+function kecb_check_file(string $file_path): bool {
+    $path = realpath($file_path);
+    if ($path === false || !file_exists($path)) {
+        error_log("[KECB_CHECK_FILE] File not found: $file_path");
+        return false;
+    }
+
+    if (!is_readable($path)) {
+        error_log("[KECB_CHECK_FILE] File not readable: $file_path");
+        return false;
+    }
+
+    if (filesize($path) === 0) {
+        error_log("[KECB_CHECK_FILE] File is empty: $file_path");
+        return false;
+    }
+
+    return true;
+}
