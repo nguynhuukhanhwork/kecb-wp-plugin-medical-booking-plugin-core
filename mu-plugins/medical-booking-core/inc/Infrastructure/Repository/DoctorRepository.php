@@ -415,7 +415,6 @@ class DoctorRepository implements DoctorRepositoryInterface
         return $doctors;
     }
 
-
     /**
      * Tìm bác sĩ theo tên
      *

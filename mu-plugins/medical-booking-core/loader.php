@@ -17,10 +17,8 @@ use MedicalBooking\Presentation\shortcodes\MB_Search_Form_Shortcode;
 
 
 // ✅ Khởi tạo ở ngoài class
-DoctorCptRegistrar::getInstance(
-    MB_INFRASTRUCTURE_PATH . 'Config/cpt-json/doctor-cpt.json'
-);
 
+\MedicalBooking\Infrastructure\WordPress\Loader\CptLoader::get_instance();
 
 new ServiceRepository();
 new Taxonomy();
@@ -30,5 +28,4 @@ new AdminPage();
 BookingDb::getInstance();
 new \MedicalBooking\Application\Service\PostSearchService();
 new \MedicalBooking\Application\Service\DoctorService();
-MB_Search_Form_Shortcode::get_instance();
 

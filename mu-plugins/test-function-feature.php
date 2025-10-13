@@ -16,4 +16,7 @@ use MedicalBooking\Helpers;
 //    error_log(print_r($form_value, true));
 //}
 
-$data = Helpers\kecb_get_form_submission_cf7(551);
+// $data = Helpers\kecb_get_form_submission_cf7(551);
+$data = \MedicalBooking\Infrastructure\Config\ConfigReader::getAllPostTypes();
+
+error_log(print_r($data, true));
