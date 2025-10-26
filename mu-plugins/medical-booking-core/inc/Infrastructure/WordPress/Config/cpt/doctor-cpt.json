@@ -1,0 +1,42 @@
+{
+    "post_type": "doctor",
+    "args": {
+        "labels": {
+            "name": "Tất cả bác sĩ",
+            "singular_name": "Bác sĩ",
+            "menu_name": "Bác sĩ",
+            "name_admin_bar": "Doctor",
+            "add_new": "Thêm bác sĩ",
+            "add_new_item": "Thêm bác sĩ",
+            "edit_item": "Chỉnh sửa bác sĩ",
+            "featured_image": "Ảnh đại diện bác sĩ",
+            "new_item": "Thêm bác sĩ mới",
+            "view_item": "Xem bác sĩ",
+            "search_items": "Tìm kiếm Bác sĩ",
+            "not_found": "Không tìm thấy Bác sĩ nào",
+            "not_found_in_trash": "Không tìm thấy Bác sĩ nào trong thùng rác",
+            "all_items": "Tất cả bác sĩ",
+            "archives": "Lưu trữ bác sĩ"
+        },
+        "public": true,
+        "publicly_queryable": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "query_var": true,
+        "rewrite": {
+            "slug": "doctor"
+        },
+        "capability_type": "post",
+        "show_in_rest": false,
+        "show_in_nav_menus": true,
+        "has_archive": true,
+        "hierarchical": true,
+        "menu_position": 5,
+        "menu_icon": "dashicons-businessman",
+        "supports": [
+            "title",
+            "editor",
+            "thumbnail"
+        ]
+    }
+}

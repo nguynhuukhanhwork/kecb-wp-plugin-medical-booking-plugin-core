@@ -1,0 +1,18 @@
+{
+    "taxonomy": "speciality",
+    "post_types": ["service", "doctor"],
+    "args": {
+        "labels": {
+            "name": "Chuyên khoa",
+            "singular_name": "Chuyên khoa"
+        },
+        "hierarchical": true,
+        "public": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "show_in_rest": true,
+        "rewrite": {
+            "slug": "speciality"
+        }
+    }
+}

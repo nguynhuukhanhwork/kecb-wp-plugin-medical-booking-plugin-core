@@ -23,7 +23,6 @@ function astra_child_parent_theme_enqueue_styles() {
 }
 
 // Include doctor helper functions
-require_once get_stylesheet_directory() . '/doctor-helpers.php';
 
 function astra_child_enqueue_bootstrap(): void {
 	wp_enqueue_style('bootstrap-css', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), '5.3.3', 'all');
@@ -32,7 +31,4 @@ function astra_child_enqueue_bootstrap(): void {
 
 add_action('wp_enqueue_scripts', 'astra_child_enqueue_bootstrap', 15);
 
-// Include debug helper (only for development)
-if (defined('WP_DEBUG') && WP_DEBUG) {
-    require_once get_stylesheet_directory() . '/debug-doctor-data.php';
-}
+

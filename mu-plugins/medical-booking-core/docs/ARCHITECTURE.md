@@ -293,10 +293,11 @@ final class Booking
 ## 🔧 Repository Pattern
 
 ### Interface Definition
+
 ```php
 interface DoctorRepositoryInterface
 {
-    public function getById(int $doctor_id): Doctor;
+    public function getById(int $doctor_id): DoctorTag;
     public function getAllId(): array;
     public function searchByName(string $doctor_name): array;
 }

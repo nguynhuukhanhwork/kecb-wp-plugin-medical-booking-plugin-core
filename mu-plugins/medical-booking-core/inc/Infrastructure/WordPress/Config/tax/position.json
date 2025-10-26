@@ -1,0 +1,17 @@
+{
+    "taxonomy": "position",
+    "post_types": [
+        "doctor"
+    ],
+    "args": {
+        "label": "Vị trí công tác",
+        "hierarchical": true,
+        "public": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "show_in_rest": true,
+        "rewrite": {
+            "slug": "position"
+        }
+    }
+}

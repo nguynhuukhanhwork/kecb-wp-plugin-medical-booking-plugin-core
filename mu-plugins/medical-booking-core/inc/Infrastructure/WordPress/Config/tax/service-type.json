@@ -1,0 +1,17 @@
+{
+    "taxonomy": "service_type",
+    "post_types": [
+        "service"
+    ],
+    "args": {
+        "label": "Chuyên khoa",
+        "hierarchical": true,
+        "public": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "show_in_rest": true,
+        "rewrite": {
+            "slug": "service_type"
+        }
+    }
+}

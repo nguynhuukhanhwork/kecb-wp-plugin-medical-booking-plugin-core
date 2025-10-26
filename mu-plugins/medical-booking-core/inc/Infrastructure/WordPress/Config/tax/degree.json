@@ -1,0 +1,17 @@
+{
+    "taxonomy": "degree",
+    "post_types": [
+        "doctor"
+    ],
+    "args": {
+        "label": "Học hàm - Học vị",
+        "hierarchical": true,
+        "public": true,
+        "show_ui": true,
+        "show_in_menu": true,
+        "show_in_rest": true,
+        "rewrite": {
+            "slug": "degree"
+        }
+    }
+}

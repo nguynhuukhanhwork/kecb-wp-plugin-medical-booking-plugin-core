@@ -1,5 +1,9 @@
 # Medical Booking System
 
+```sql
+DROP TABLE wp_medicalbooking_patient, wp_medical_booking_patient, wp_medical_bookingpatient, wp_mb_patient
+```
+
 ## 📋 Tổng quan
 
 **Medical Booking System** là một hệ thống đặt lịch khám bệnh được xây dựng trên WordPress, sử dụng kiến trúc Layer Architecture để đảm bảo tính mở rộng, bảo trì và kiểm thử.

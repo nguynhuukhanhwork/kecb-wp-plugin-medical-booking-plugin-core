@@ -112,20 +112,22 @@ medical-booking-core/
 
 #### Migration Steps
 1. Update Doctor entity usage:
+
 ```php
 // Old way
-$doctor = new Doctor($id);
+$doctor = new DoctorTag($id);
 
 // New way  
 $doctor = DoctorRepository::findDoctorById($id);
 ```
 
 2. Update template usage:
+
 ```php
 // Old way
 $doctor_repository = new DoctorRepository();
 $doctor_id = $doctor_repository->getAllId();
-$doctor_1 = new Doctor($doctor_id[0]);
+$doctor_1 = new DoctorTag($doctor_id[0]);
 
 // New way
 $doctor_data = get_current_doctor_data();
