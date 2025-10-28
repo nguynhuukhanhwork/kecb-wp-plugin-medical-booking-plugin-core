@@ -1,5 +1,5 @@
 <?php
-add_action('wp', function () {
+/*add_action('wp', function () {
 
     $cache_key = 'all_doctor_cache_key';
 
@@ -50,11 +50,57 @@ add_action('wp', function () {
         echo "No doctors found.\n";
     }
 
-    echo "\n---- SQL QUERY ----\n";
-    var_dump($query->request);
-
     echo '</pre>';
 
     wp_reset_postdata();
 
+});*/
+
+
+/*add_action('init', function () {
+
+    echo "<pre>";
+    $data = \MedicalBooking\Repository\DoctorRepository::get_instance()->get_doctor_ids();
+    echo "Số phần tử: " . count($data) . "\n\n";
+
+    // Đo kích thước thực tế
+    echo "strlen(serialize(\$data)):  " . strlen(serialize($data)) . " bytes\n";
+    echo "strlen(json_encode(\$data)): " . strlen(json_encode($data)) . " bytes\n";
+
+    // Đo bộ nhớ PHP cấp phát
+    $before = memory_get_usage();
+    $tmp = $data; // giữ array trong RAM
+    $after = memory_get_usage();
+    echo "\n memory_get_usage() difference: " . number_format($after - $before) . " bytes\n";
+
+    // Đo tổng bộ nhớ toàn bộ script
+    echo " Tổng bộ nhớ đang dùng: " . number_format(memory_get_usage(true)) . " bytes\n";
+
+    echo "</pre>";
+});*/
+
+/*add_action('init', function () {
+    $args = [
+        'post_type'      => 'doctor',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'fields'         => 'ids',
+        'no_found_rows'  => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
+    ];
+    $object_query = new \WP_Query($args);
+
+    print_r($object_query->request);
+
+});*/
+
+use MedicalBooking\Infrastructure\Cache\CacheManager;
+
+add_action('init', function () {
+    $data = \MedicalBooking\Repository\DoctorRepository::get_instance()->get_doctor_ids();
+    $test_cache = CacheManager::get('doctor_ids');
+    print_r($test_cache);
 });

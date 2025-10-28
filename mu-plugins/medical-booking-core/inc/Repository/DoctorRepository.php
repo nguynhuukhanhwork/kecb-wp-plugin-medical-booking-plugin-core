@@ -2,69 +2,95 @@
 
 namespace MedicalBooking\Repository;
 
-use WP_Query;
+use MedicalBooking\Infrastructure\Cache\CacheManager;
 
-final class DoctorRepository extends BaseRepository
+final class DoctorRepository extends BasePostTypeRepository
 {
     private static ?self $instance = null;
-    private string $post_type;
+    private string $cache_key_prefix = 'doctor_';
+
     private function __construct() {
-        $this->post_type = 'doctor';
+        parent::__construct('doctor');
     }
+
+    private function __clone() {}
+    public function __wakeup() {}
 
     public static function get_instance(): self {
         return self::$instance ?? (self::$instance = new self());
     }
 
-    public function get_by_id(int $doctor_id): object|false
+    public function get_doctor_ids(): array
     {
-        $doctor = get_post($doctor_id);
+        $cache_key = $this->cache_key_prefix . 'ids';
 
-        // Check Post type name
-        if ($doctor->post_type !== $this->post_type) {
-            kecb_error_log("Post type does not exist");
-            return false;
+        $cached = CacheManager::get($cache_key);
+
+        if ($cached) {
+            return $cached;
         }
 
-        // Check null
-        if (empty($doctor)) {
-            kecb_error_log("Doctor not found");
-            return false;
-        }
-
-        return $doctor;
+        $doctor_ids = $this->get_post_ids();
+        CacheManager::set($cache_key, $doctor_ids, HOUR_IN_SECONDS);
+        return $doctor_ids;
     }
 
-    public function get_ids(): array
+    /**
+     * Get all data form 1 doctor
+     * @param int $doctor_id
+     * @return array
+     */
+    public function get_doctor_by_id(int $doctor_id): array
     {
-        // Query
-        $doctors = get_posts([
-            'post_type' => $this->post_type,
-            'posts_per_page' => -1,
-            'orderby' => 'date',
-            'order' => 'DESC',
-            'fields' => 'ids',
-        ]);
+        $fields = get_fields($doctor_id);
 
-        return $doctors ?: [];
-    }
+        // Lấy terms taxonomy 'speciality'
+        $doctor_special = wp_get_post_terms($doctor_id, 'speciality', ["fields" => "names"]);
+        $doctor_position = wp_get_post_terms($doctor_id, 'position', ["fields" => "names"]);
+        $doctor_gender  =  wp_get_post_terms($doctor_id, 'gender', ["fields" => "names"]);
+        $doctor_degree  =  wp_get_post_terms($doctor_id, 'degree', ["fields" => "names"]);
 
-    public function get_all(): object|false {
-
-        $args = [
-            'post_type'      => $this->post_type,
-            'posts_per_page' => 5,
-            'paged'          => 100,
-            'meta_query'     => [
-                [
-                    'key'     => 'doctor_department',
-                    'value'   => 'Cardiology',
-                    'compare' => '=',
-                ]
-            ],
+        return [
+            'name'          => get_the_title($doctor_id) ?? 'Bác sĩ',
+            'image'         => get_the_post_thumbnail_url($doctor_id, 'thumbnail') ?? '',
+            'link'          => get_permalink($doctor_id) ?? '',
+            'phone'         => $fields['doctor_phone'] ?? '',
+            'email'         => $fields['doctor_email'] ?? '',
+            'yoe'           => $fields['doctor_years_of_experience'] ?? 0,
+            'schedule'      => $fields['doctor_schedule'] ?? '',
+            'bio'           => $fields['doctor_bio'] ?? '',
+            'degree'        => $doctor_degree   ?? '',
+            'speciality'    => $doctor_special  ?? '',
+            'position'      => $doctor_position ?? '',
+            'gender'        => $doctor_gender   ?? ''
         ];
-
-        $doctor = new WP_Query($args);
     }
 
+    public function get_all_doctor_data(): array {
+        // Tạo khóa cache động dựa trên bộ lọc (nếu có)
+        $cache_key = 'all_doctors';
+
+        // Thử lấy dữ liệu từ cache
+        $cached = CacheManager::get($cache_key);
+        if (!empty($cached)) {
+            return $cached;
+        }
+
+        $ids = $this->get_doctor_ids();
+        if (empty($ids)) {
+            return [];
+        }
+
+        $doctors = [];
+        foreach ($ids as $id) {
+            $doctor = $this->get_doctor_by_id($id);
+            if ($doctor) {
+                $doctors[] = $doctor;
+            }
+        }
+
+        CacheManager::set($this->cache_key_prefix . 'all_doctors', $doctors, 3600);
+
+        return $doctors;
+    }
 }
