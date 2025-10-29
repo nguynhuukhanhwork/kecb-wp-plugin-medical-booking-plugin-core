@@ -1,8 +1,7 @@
 {
     "taxonomy": "gender",
     "post_types": [
-        "doctor",
-        "patient"
+        "doctor"
     ],
     "args": {
         "label": "Giới tính",

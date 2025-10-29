@@ -100,7 +100,7 @@
 use MedicalBooking\Infrastructure\Cache\CacheManager;
 
 add_action('init', function () {
-    $data = \MedicalBooking\Repository\DoctorRepository::get_instance()->get_doctor_ids();
-    $test_cache = CacheManager::get('doctor_ids');
-    print_r($test_cache);
+    $post = \MedicalBooking\Repository\DoctorRepository::get_instance()->getById(495);
+    $data = \MedicalBooking\Repository\DoctorRepository::get_instance()->getFieldData($post);
+    print_r($data);
 });
