@@ -101,7 +101,7 @@ use MedicalBooking\Infrastructure\Cache\CacheManager;
 use MedicalBooking\Repository\ServiceRepository;
 
 add_action('init', function () {
-    $patientRepo = \MedicalBooking\Repository\BookingRepository::getInstance();
-    $data = $patientRepo->getAllData();
-    print_r($data);
+    $array_serialize = serialize([1,2,3,4,5]);
+    $hash_string = md5($array_serialize);
+    var_dump($hash_string);
 });
