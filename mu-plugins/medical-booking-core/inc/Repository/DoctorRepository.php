@@ -26,9 +26,9 @@ final class DoctorRepository extends BasePostTypeRepository
         parent::__construct('doctor');
     }
     private function __clone() {}
-    public function __wakeup() {}
+    private function __wakeup() {}
 
-    public static function get_instance(): self {
+    public static function getInstance(): self {
         return self::$instance ?? (self::$instance = new self());
     }
 
@@ -38,32 +38,18 @@ final class DoctorRepository extends BasePostTypeRepository
     }
 
     /**
-     * gGet data format form 1 doctor
-     * Data: name, thumbnail, permalink, phone, email, YOF, schedule, bio, degree, special, position, gender
+     * Convert post to entity array
+     * @param \WP_Post $post
      * @return array
      */
-    public function format(\WP_POST $post): array
+    public function getEntity(\WP_Post $post): array
     {
-        $terms = $this->getPostTermNames($post);
-
-        $fields = get_fields($post->ID);
-
-        return [
-            'name'          => get_the_title($post->ID) ?? 'Bác sĩ',
-            'image'         => get_the_post_thumbnail_url($post->ID, 'thumbnail') ?? '',
-            'link'          => get_permalink($post->ID) ?? '',
-            'phone'         => $fields['doctor_phone'] ?? '',
-            'email'         => $fields['doctor_email'] ?? '',
-            'yoe'           => $fields['doctor_years_of_experience'] ?? 0,
-            'schedule'      => $fields['doctor_schedule'] ?? '',
-            'bio'           => $fields['doctor_bio'] ?? '',
-            'degree'        => $doctor_degree   ?? '',
-            'speciality'    => $doctor_special  ?? '',
-            'position'      => $doctor_position ?? '',
-            'gender'        => $doctor_gender   ?? ''
-        ];
+        return parent::getEntity($post) ?? [];
     }
 
-
+    public function getAllEntity(): array
+    {
+        return parent::getAllEntity();
+    }
 
 }

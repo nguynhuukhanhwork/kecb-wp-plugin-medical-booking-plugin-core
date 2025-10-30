@@ -3,7 +3,7 @@
 namespace MedicalBooking\Repository;
 use MedicalBooking\Infrastructure\Cache\CacheManager;
 use WP_Query;
-abstract class BasePostTypeRepository extends BaseRepository
+abstract class BasePostTypeRepository
 {
     protected string $post_type;
     protected string $cache_key_prefix = '_'; // Overwrite on Child Class
@@ -12,12 +12,8 @@ abstract class BasePostTypeRepository extends BaseRepository
     protected array $advanced_custom_fields;
 
     protected function __construct(string $post_type) {
-        parent::__construct();
         $this->post_type = $post_type;
-        $this->register_cache_hooks();
     }
-
-    abstract protected function format(\WP_Post $post): array;
 
     protected function getPostTypeName(): ?string
     {
@@ -26,11 +22,10 @@ abstract class BasePostTypeRepository extends BaseRepository
 
     protected function getTaxonomies(): array
     {
-
         return $this->taxonomies ?? [];
     }
 
-    protected function getPostTermNames(\WP_Post $post): array
+    protected function getTermsByTaxonomy(\WP_Post $post): array
     {
         if (empty($this->taxonomies)) {
             return [];
@@ -59,7 +54,7 @@ abstract class BasePostTypeRepository extends BaseRepository
         ];
     }
 
-    public function getFieldData(\WP_POST $post): array
+    protected function getFieldData(\WP_POST $post): array
     {
 
         // Check Empty field name
@@ -120,7 +115,7 @@ abstract class BasePostTypeRepository extends BaseRepository
      * @return array
      */
     protected function getAllIds(array $args = []): array {
-        $cache_key = $this->cache_key_prefix . 'ids_' . md5(serialize($args));
+        $cache_key = $this->cache_key_prefix . 'all_ids';
 
         $cached = CacheManager::get($cache_key);
         if ($cached) {
@@ -154,7 +149,7 @@ abstract class BasePostTypeRepository extends BaseRepository
     /**
      * Lấy post theo ID
      */
-    public function getById(int $post_id): ?\WP_Post {
+    protected function getById(int $post_id): ?\WP_Post {
         $post = get_post($post_id);
 
         if ($post && $post->post_type === $this->post_type && $post->post_status === 'publish') {
@@ -162,6 +157,61 @@ abstract class BasePostTypeRepository extends BaseRepository
         }
 
         return null;
+    }
+
+    protected function toEntity(\WP_Post $post): array
+    {
+        // Get 3 Array data
+        $basic_info = $this->getBasicInfo($post);
+        $field_data = $this->getFieldData($post);
+        $term_data = $this->getTermsByTaxonomy($post);
+
+        return array_merge($basic_info, $field_data, $term_data) ?? [];
+    }
+
+    protected function getEntity(\WP_Post $post): array
+    {
+        $cache_key = $this->cache_key_prefix . "entity_$post->ID";
+
+        $cached = CacheManager::get($cache_key);
+
+        if ($cached) {
+            return $cached;
+        }
+
+        $entity = $this->toEntity($post);
+
+        CacheManager::set($cache_key, $entity, $this->cache_lifetime);
+
+        return $entity;
+    }
+    protected function getAllEntity(): array {
+
+        // Try get Cache
+        $cache_key = $this->cache_key_prefix . 'all_entity';
+
+        $cached = CacheManager::get($cache_key);
+        if ($cached) {
+            return $cached;
+        }
+
+        // Get all post ids
+        $post_ids = $this->getAllIds();
+
+        if (empty($post_ids)) {
+            return [];
+        }
+
+        // Convert to Entity
+        $result = [];
+        foreach ($post_ids as $post_id) {
+            $post = $this->getById($post_id);
+            $result[] = $this->getEntity($post);
+        }
+
+        CacheManager::set($cache_key, $result, $this->cache_lifetime);
+
+        return $result;
     }
 
     protected function clear_cache(): void {

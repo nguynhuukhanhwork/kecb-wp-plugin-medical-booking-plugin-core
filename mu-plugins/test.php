@@ -98,9 +98,10 @@
 });*/
 
 use MedicalBooking\Infrastructure\Cache\CacheManager;
+use MedicalBooking\Repository\ServiceRepository;
 
 add_action('init', function () {
-    $post = \MedicalBooking\Repository\DoctorRepository::get_instance()->getById(495);
-    $data = \MedicalBooking\Repository\DoctorRepository::get_instance()->getFieldData($post);
+    $patientRepo = \MedicalBooking\Repository\BookingRepository::getInstance();
+    $data = $patientRepo->getAllData();
     print_r($data);
 });
