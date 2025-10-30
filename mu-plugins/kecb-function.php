@@ -429,3 +429,47 @@ function kecb_check_file(string $file_path, int $limit_size): bool {
 
     return true;
 }
+
+function kecb_validate_vietnam_phone(string $phone): bool
+{
+    $error_log = [];
+
+    // 1. Chuẩn hóa
+    $phone = trim($phone);
+    $phone = preg_replace('/[^0-9\+]/', '', $phone);
+
+    // 2. Empty check
+    if (empty($phone)) {
+        $error_log[] = 'Phone is empty';
+    }
+
+    // 3. Convert +84 -> 0
+    if (str_starts_with($phone, '+84')) {
+        $phone = '0' . substr($phone, 3);
+    }
+
+    // 4. Length check
+    $len = strlen($phone);
+    if ($len !== 10) {
+        $error_log[] = 'Phone must have exactly 10 digits after normalization';
+    }
+
+    // 5. Format check
+    if (!preg_match('/^(0)(3|5|7|8|9)[0-9]{8}$/', $phone)) {
+        $error_log[] = 'Invalid Vietnam phone format';
+    }
+
+    // 6. Anti-repetitive
+    if (preg_match('/^(0)\1{9}$/', $phone)) {
+        $error_log[] = 'Invalid repetitive phone number';
+    }
+
+    // 7. Log error
+    if (function_exists('kecb_error_log')) {
+        kecb_error_log(print_r($error_log, true));
+    } else {
+        error_log(print_r($error_log, true));
+    }
+
+    return empty($error_log);
+}
