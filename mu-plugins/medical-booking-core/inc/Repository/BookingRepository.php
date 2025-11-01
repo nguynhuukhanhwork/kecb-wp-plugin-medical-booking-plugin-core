@@ -17,11 +17,6 @@ final class BookingRepository extends BaseCustomTable
         return self::$instance ?? (self::$instance = new self());
     }
 
-    public function getTableName(): string
-    {
-        return parent::getTableName();
-    }
-
     public function getTablePrefix(): string {
         return parent::getTablePrefix();
     }

@@ -98,10 +98,19 @@
 });*/
 
 use MedicalBooking\Infrastructure\Cache\CacheManager;
+use MedicalBooking\Infrastructure\Database\DatabaseLoader;
+use MedicalBooking\Repository\CustomerRepository;
 use MedicalBooking\Repository\ServiceRepository;
 
 add_action('init', function () {
-    $array_serialize = serialize([1,2,3,4,5]);
-    $hash_string = md5($array_serialize);
-    var_dump($hash_string);
+    $repo = new CustomerRepository();
+    $mock_data = [
+        'customer_name' => 'khanhecb',
+        'customer_email' => 'khanhecb@gmail.com',
+        'customer_phone' => '123456789',
+        'snapshot_customer_name' => 'khanhecb',
+        'snapshot_customer_phone' => '123456789',
+        'snapshot_customer_email' => 'khanhecb@gmail.com'
+    ];
+    $repo->insertRow($mock_data);
 });

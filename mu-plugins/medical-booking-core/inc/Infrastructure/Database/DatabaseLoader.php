@@ -25,7 +25,8 @@ final class DatabaseLoader
 
     public function boot(): void
     {
-        BookingTable::get_instance();
-        PatientTable::get_instance();
+        BookingIndexTable::getInstance();
+        BookingMetaTable::getInstance();
+        CustomerTable::getInstance();
     }
 }

@@ -473,3 +473,22 @@ function kecb_validate_vietnam_phone(string $phone): bool
 
     return empty($error_log);
 }
+
+function kecb_validate_name(string $name): bool {
+    $error_log = '';
+
+    // Chuẩn xóa - xóa bỏ ký tự thừa đầu và cuối
+    $name = trim($name);
+
+    // Replace các ký tự đặc biết
+    $name = preg_replace('/[^a-zA-Z\s]/', '', $name);
+
+    // Kiểm tra độ dài
+    $name_length = strlen($name);
+    if ($name_length > 20 || $name_length < 4) {
+        $error_log .= 'Name is 4-20 characters';
+        return false;
+    }
+
+    return true;
+}

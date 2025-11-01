@@ -21,11 +21,10 @@ abstract class BaseCustomTable
         $this->wpdb = $wpdb;
     }
 
-    protected function getTableName(): string
+    public function getTableName(): string
     {
         return $this->wpdb->prefix . $this->table_prefix . $this->table_name;
     }
-
 
     protected function getTablePrefix(): string
     {

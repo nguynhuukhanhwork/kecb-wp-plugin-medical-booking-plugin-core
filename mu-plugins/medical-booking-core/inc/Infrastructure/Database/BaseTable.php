@@ -6,64 +6,60 @@ use wpdb;
 
 abstract class BaseTable
 {
-    protected wpdb $db;
+    protected wpdb $wpdb;
     protected string $table_prefix;
     protected string $charset_collate;
-    protected string $table_name;
+    abstract protected static function TABLE_NAME(): string;
 
-    public function __construct(string $table_name) {
+    protected function __construct()
+    {
         global $wpdb;
-        $this->db = $wpdb;
-        $this->table_prefix = $wpdb->prefix . 'medical_booking_';
-        $this->charset_collate = $wpdb->get_charset_collate();
-        $this->table_name = $this->table_prefix . $table_name;
+        $this->wpdb = $wpdb;
+        $this->table_prefix = 'travel_booking_';
+        add_action('init', [$this, 'createTable']);
     }
 
-    /**
-     * Require method Create Table
-     * @return void
-     */
-    abstract public function create_table(): void;
-
-    public function insert(array $data): int
+    abstract protected function getSchema(): string;
+    protected function getTablePrefix(): string
     {
-        $this->db->insert($this->table_name, $data);
-        return (int) $this->db->insert_id;
+        return $this->wpdb->prefix . $this->table_prefix;
     }
 
-    /**
-     * Update 1 row data
-     * @param int $id
-     * @param array $data
-     * @return int
-     */
-    public function update(int $id,array $data): int
+    protected function getTableName(): string
     {
-        return (bool) $this->db->update($this->table_name, $data, ['id' => $id]);
+        $prefix = $this->getTablePrefix();
+        return $prefix . static::TABLE_NAME();
     }
 
-    /**
-     * Delete 1 row
-     * @param int $id
-     * @return bool
-     */
-    public function delete(int $id): bool
+    protected function getCharsetCollate(): string
     {
-        return (bool) $this->db->delete($this->table_name, ['id' => $id]);
+        return $this->wpdb->get_charset_collate();
     }
 
-    /**
-     * Get 1 row object data
-     * @param int $id
-     * @return object|array
-     */
-    public function get(int $id): ?object
+    public function createTable(): void
     {
-        $sql = $this->db->prepare(
-            "SELECT * FROM {$this->table_name} WHERE id = %d",
-            $id
-        );
-        return $this->db->get_row($sql);
+        define('tour_db_install', true);
+
+        if (!tour_db_install) {
+            return;
+        }
+
+        require_once ABSPATH.'wp-admin/includes/upgrade.php';
+        $schema = $this->getSchema();
+        dbDelta($schema);
     }
 
+    public function getAll(): array
+    {
+        $table = $this->getTableName();
+        $sql = 'SELECT * FROM ' . $table;
+        $results = $this->wpdb->get_results($sql);
+        return $results ?? [];
+    }
+
+    // Basic method
+    abstract protected function getRow(int $id);
+    abstract protected function deleteRow(int $id);
+    abstract protected function updateRow(int $id, array $data);
+    abstract protected function insertRow(array $data);
 }
