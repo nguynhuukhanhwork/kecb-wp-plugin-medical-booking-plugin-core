@@ -1,17 +1,17 @@
 {
-    "taxonomy": "position",
+    "taxonomy": "booking_status",
     "post_types": [
-        "doctor"
+        "booking"
     ],
     "args": {
-        "label": "Vị trí công tác",
-        "hierarchical": true,
+        "label": "Trang thái Booking",
+        "hierarchical": false,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,
         "show_in_rest": true,
         "rewrite": {
-            "slug": "position"
+            "slug": "booking_status"
         }
     }
 }

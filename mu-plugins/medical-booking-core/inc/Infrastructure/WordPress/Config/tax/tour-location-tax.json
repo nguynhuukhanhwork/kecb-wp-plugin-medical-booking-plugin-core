@@ -1,17 +1,17 @@
 {
-    "taxonomy": "gender",
+    "taxonomy": "tour_location",
     "post_types": [
-        "doctor"
+        "tour"
     ],
     "args": {
-        "label": "Giới tính",
+        "label": "Địa điểm đến của Tour",
         "hierarchical": true,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,
         "show_in_rest": true,
         "rewrite": {
-            "slug": "gender"
+            "slug": "tour_location"
         }
     }
 }

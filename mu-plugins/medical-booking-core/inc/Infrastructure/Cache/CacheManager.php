@@ -13,7 +13,7 @@ final class CacheManager
      *
      * @return array<string, int> Cache levels with descriptive keys
      */
-    public static function cache_level(): array
+    public static function cacheLevel(): array
     {
         return [
             'minute' => MINUTE_IN_SECONDS, // 60 seconds

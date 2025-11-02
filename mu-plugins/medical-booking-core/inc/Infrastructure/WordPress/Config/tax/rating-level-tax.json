@@ -1,17 +1,17 @@
 {
-    "taxonomy": "service_type",
+    "taxonomy": "rating_level",
     "post_types": [
-        "service"
+        "tour"
     ],
     "args": {
-        "label": "Chuyên khoa",
-        "hierarchical": true,
+        "label": "Đánh giá",
+        "hierarchical": false,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,
         "show_in_rest": true,
         "rewrite": {
-            "slug": "service_type"
+            "slug": "rating_level"
         }
     }
 }

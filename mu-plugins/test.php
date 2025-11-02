@@ -112,5 +112,4 @@ add_action('init', function () {
         'snapshot_customer_phone' => '123456789',
         'snapshot_customer_email' => 'khanhecb@gmail.com'
     ];
-    $repo->insertRow($mock_data);
 });

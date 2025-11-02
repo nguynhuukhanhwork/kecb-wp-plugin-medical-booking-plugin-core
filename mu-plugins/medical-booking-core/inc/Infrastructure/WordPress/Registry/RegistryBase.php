@@ -4,61 +4,62 @@ namespace MedicalBooking\Infrastructure\WordPress\Registry;
 
 abstract class RegistryBase
 {
-    protected string $config_dir_path;
-    protected string $cache_key;
-    protected bool $use_cache = true;
-    protected function __construct(string $config_dir_path, string $cache_key) {
-        $this->config_dir_path = $config_dir_path;
-        $this->cache_key = $cache_key;
+    protected string $cache_key_prefix = 'travel_booking_';
+    protected function __construct() {
+    }
+    abstract protected static function defineCacheKey(): string;
+    abstract protected function getConfigPath(): string;
+
+    protected function getCacheKey(): string
+    {
+        return $this->cache_key_prefix . $this->defineCacheKey();
     }
 
-    protected function get_cache_data() : array
+    protected function getCacheData() : array
     {
-        if (!$this->use_cache) {
-            return [];
-        }
-
-        $cached = get_transient($this->cache_key);
+        $cache_key = $this->getCacheKey();
+         $cached = get_transient($cache_key);
         return is_array($cached) ? $cached : [];
     }
 
     /**
      * Set cache
      */
-    protected function set_cache_data(array $data): void {
-        if ($this->use_cache && !empty($data)) {
-            set_transient($this->cache_key, $data, WEEK_IN_SECONDS);
-        }
+    protected function setCacheData(array $data): void {
+        $cache_key = $this->getCacheKey();
+        set_transient($cache_key, $data, WEEK_IN_SECONDS);
     }
 
     /**
      * Delete cache
      */
-    protected function delete_cache() : void {
-        delete_transient($this->cache_key);
+    protected function deleteCacheData() : void {
+        $cache_key = $this->getCacheKey();
+        delete_transient($cache_key);
     }
 
     /**
      * Get all file in folder
      * @return array
      */
-    protected function load_all_json(): array {
-        return kecb_get_all_files_dir($this->config_dir_path);
+    protected function loadAllJsonConfig(): array {
+        $config_dir_path = $this->getConfigPath();
+        return kecb_get_all_files_dir($config_dir_path);
     }
 
     /**
      * Get configs from JSON file config
      * @return array
      */
-    protected function get_configs(): array {
+    protected function getConfigs(): array {
         // Try from cache
-        $cached = $this->get_cache_data();
+        $cached = $this->getCacheData();
         if (!empty($cached)) {
             return $cached;
         }
 
         // Load file config JSON
-        $all_files = $this->load_all_json();
+        $all_files = $this->loadAllJsonConfig();
 
         if (empty($all_files)) {
             error_log('[CPT Registry] No JSON files found.');
@@ -72,7 +73,7 @@ abstract class RegistryBase
         }
 
         // Set cache
-        $this->set_cache_data($configs);
+        $this->setCacheData($configs);
 
         return $configs;
     }

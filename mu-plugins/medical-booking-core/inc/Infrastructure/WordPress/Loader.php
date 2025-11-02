@@ -17,11 +17,7 @@ final class Loader
     private array $config = [];
     private function __construct()
     {
-        $this->config = [
-            'cpt' => MB_INFRASTRUCTURE_PATH . 'WordPress/Config/cpt',
-            'acf' => MB_INFRASTRUCTURE_PATH . 'WordPress/Config/acf',
-            'tax' => MB_INFRASTRUCTURE_PATH . 'WordPress/Config/tax'
-        ];
+
     }
     private function __clone() {}
     public function __wakeup() {}
@@ -38,8 +34,8 @@ final class Loader
 
     public function register_all(): void
     {
-        CPTRegistry::get_instance($this->config['cpt'])->register();
-        ACFRegistry::get_instance($this->config['acf'])->register();
-        TaxonomyRegistry::get_instance($this->config['tax'])->register();
+        CPTRegistry::get_instance()->register();
+        ACFRegistry::get_instance()->register();
+        TaxonomyRegistry::get_instance()->register();
     }
 }

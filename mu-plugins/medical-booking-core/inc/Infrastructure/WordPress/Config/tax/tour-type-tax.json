@@ -1,17 +1,17 @@
 {
-    "taxonomy": "degree",
+    "taxonomy": "tour_type",
     "post_types": [
-        "doctor"
+        "tour"
     ],
     "args": {
-        "label": "Học hàm - Học vị",
+        "label": "Loại hình Tour",
         "hierarchical": true,
         "public": true,
         "show_ui": true,
         "show_in_menu": true,
         "show_in_rest": true,
         "rewrite": {
-            "slug": "degree"
+            "slug": "tour_type"
         }
     }
 }

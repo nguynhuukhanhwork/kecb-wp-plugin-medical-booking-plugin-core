@@ -4,13 +4,21 @@ namespace MedicalBooking\Infrastructure\WordPress\Registry;
 final class CPTRegistry extends RegistryBase {
 
     private static ?self $instance  = null;
-    protected string $cache_key = 'medical_booking_cpt_register';
+
+    protected function getConfigPath(): string
+    {
+        return MB_INFRASTRUCTURE_PATH . 'WordPress/Config/cpt';
+    }
+    protected static function defineCacheKey(): string
+    {
+        return 'cpt_register';
+    }
 
     /**
      * Private constructor for Singleton
      */
-    private function __construct(string $config_dir_path) {
-        parent::__construct($config_dir_path, $this->cache_key);
+    private function __construct() {
+        parent::__construct();
 
         // Auto-register on init
         add_action('init', [$this, 'register'], 0);
@@ -19,9 +27,9 @@ final class CPTRegistry extends RegistryBase {
     /**
      * Get singleton instance
      */
-    public static function get_instance(string $config_dir_path = ''): self {
+    public static function get_instance(): self {
         if (self::$instance === null) {
-            self::$instance = new self($config_dir_path);
+            self::$instance = new self();
         }
         return self::$instance;
     }
@@ -30,7 +38,7 @@ final class CPTRegistry extends RegistryBase {
      * Register all CPTs (from cache or JSON)
      */
     public function register(): bool {
-        $configs = $this->get_configs();
+        $configs = $this->getConfigs();
 
         // Check configs
         if (empty($configs)) {
