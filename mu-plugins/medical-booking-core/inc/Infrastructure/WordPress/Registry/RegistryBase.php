@@ -78,6 +78,8 @@ abstract class RegistryBase
         return $configs;
     }
 
+    abstract public static function getInstance();
+
     /** Register CTP/ACF/Taxonomies */
-    abstract public function register();
+    abstract protected function register();
 }

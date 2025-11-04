@@ -4,7 +4,6 @@ namespace MedicalBooking\Infrastructure\WordPress\Registry;
 final class CPTRegistry extends RegistryBase {
 
     private static ?self $instance  = null;
-
     protected function getConfigPath(): string
     {
         return MB_INFRASTRUCTURE_PATH . 'WordPress/Config/cpt';
@@ -14,6 +13,11 @@ final class CPTRegistry extends RegistryBase {
         return 'cpt_register';
     }
 
+    protected static array $registered = [
+        'tour' => 'tour',
+        'booking' => 'booking',
+    ];
+
     /**
      * Private constructor for Singleton
      */
@@ -21,13 +25,13 @@ final class CPTRegistry extends RegistryBase {
         parent::__construct();
 
         // Auto-register on init
-        add_action('init', [$this, 'register'], 0);
+        add_action('init', [$this, 'register']);
     }
 
     /**
      * Get singleton instance
      */
-    public static function get_instance(): self {
+    public static function getInstance(): self {
         if (self::$instance === null) {
             self::$instance = new self();
         }
@@ -52,5 +56,18 @@ final class CPTRegistry extends RegistryBase {
         }
 
         return true;
+    }
+
+    /**
+     * Safe get post type name
+     * @param string $post_type
+     * @return string|false
+     */
+    public static function getPostTypes(string $post_type): string|false {
+        $post_types = self::$registered;
+        if (!array_key_exists($post_type, $post_types)) {
+            return false;
+        }
+        return $post_types[$post_type];
     }
 }

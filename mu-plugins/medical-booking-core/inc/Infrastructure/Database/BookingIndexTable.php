@@ -11,7 +11,7 @@ class BookingIndexTable extends BaseTable
         parent::__construct();
     }
     private function __clone(){}
-    private function __wakeup(){}
+    public function __wakeup(){}
     public static function getInstance(): self
     {
         return self::$instance ??= (self::$instance = new self());
@@ -26,7 +26,7 @@ class BookingIndexTable extends BaseTable
         return parent::getTableName();
     }
 
-    protected function getSchema(): string
+    public function getSchema(): string
     {
         $table = $this->getTableName();
         $charset_collate = $this->getCharsetCollate();

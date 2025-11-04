@@ -1,5 +1,5 @@
 {
-    "taxonomy": "rating_level",
+    "taxonomy": "tour_rating_level",
     "post_types": [
         "tour"
     ],

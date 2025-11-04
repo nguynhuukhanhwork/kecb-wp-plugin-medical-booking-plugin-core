@@ -9,7 +9,7 @@ class CustomerTable extends BaseTable
         parent::__construct();
     }
     private function __clone(){}
-    private function __wakeup(){}
+    public function __wakeup(){}
     public static function getInstance(): self
     {
         return self::$instance ?? (self::$instance = new CustomerTable());
@@ -18,8 +18,7 @@ class CustomerTable extends BaseTable
     {
         return 'customer';
     }
-
-    protected function getSchema(): string
+    public function getSchema(): string
     {
         $table = $this->getTableName();
         $charset_collate = $this->getCharsetCollate();
@@ -32,15 +31,13 @@ class CustomerTable extends BaseTable
             customer_name VARCHAR(30) NOT NULL DEFAULT '',
             customer_email VARCHAR(50) NOT NULL DEFAULT '',
             customer_phone VARCHAR(25) NOT NULL DEFAULT '',
+            customer_note TEXT NOT NULL DEFAULT '',
+            
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             
             -- Scalability
             metadata JSON,
-            
-            -- Snapshot
-            snapshot_customer_name VARCHAR(30) NOT NULL DEFAULT '',
-            snapshot_customer_email VARCHAR(50) NOT NULL DEFAULT '',
-            snapshot_customer_phone VARCHAR(25) NOT NULL DEFAULT '',
-            
+    
             -- Indexes
             UNIQUE KEY unique_email (customer_email),
             UNIQUE KEY unique_phone (customer_phone)

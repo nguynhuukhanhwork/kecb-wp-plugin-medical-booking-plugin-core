@@ -28,7 +28,7 @@ final class TaxonomyRegistry extends RegistryBase
     /**
      * Get singleton instance
      */
-    public static function get_instance(): self {
+    public static function getInstance(): self {
         if (self::$instance === null) {
             self::$instance = new self();
         }

@@ -1,59 +1,47 @@
 {
-    "key": "group_service_fields",
-    "title": "Service Fields",
+    "key": "group_tour_fields",
+    "title": "Tour Fields",
     "fields": [
         {
-            "key": "field_service_cost",
-            "label": "Chi phí",
-            "name": "service_cost",
-            "type": "number",
+            "key": "field_tour_code",
+            "label": "Tour Code",
+            "name": "tour_code",
+            "type": "text",
             "required": true,
-            "wrapper": {
-                "width": 20
-            }
+            "wrapper": { "width": 20 }
         },
         {
-            "key": "field_service_time",
-            "label": "Thời gian thực hiện (phút)",
-            "name": "service_time",
-            "type": "number",
-            "min": 0,
-            "max": 1440,
-            "required": true,
-            "wrapper": {
-                "width": 20
-            }
+            "key": "field_tour_featured_tour",
+            "label": "Đánh dấu nổi bật",
+            "name": "tour_featured_tour",
+            "type": "true_false",
+            "ui": true,
+            "wrapper": { "width": 20 }
         },
         {
-            "key": "field_service_short_description",
-            "label": "Mô tả ngắn dịch vụ",
-            "placeholder": "Mô tả ngắn về dịch vụ",
-            "name": "service_short_description",
-            "rows": 2,
-            "type": "textarea",
+            "key": "field_tour_duration_days",
+            "label": "Số ngày",
+            "name": "tour_duration_days",
+            "type": "number",
+            "min": 1,
+            "max": 60,
             "required": true
         },
         {
-            "key": "field_service_description",
-            "label": "Mô tả chi tiết dịch vụ",
-            "name": "service_description",
-            "type": "wysiwyg",
-            "tabs": "all",
-            "media_upload": true,
-            "toolbar": "full",
-            "delay": 0
+            "key": "field_tour_duration_nights",
+            "label": "Số đêm của tour",
+            "name": "tour_duration_night",
+            "type": "number",
+            "min": 1,
+            "max": 60,
+            "required": true
         },
         {
-            "key": "field_service_doctor_id",
-            "label": "Doctor",
-            "name": "service_doctor_id",
-            "type": "post_object",
-            "post_type": [
-                "doctor"
-            ],
-            "required": true,
-            "return_format": "id",
-            "multiple": false
+            "key": "field_tour_gallery",
+            "label": "Danh sách hình ảnh",
+            "name": "tour_gallery",
+            "type": "gallery",
+            "required": true
         }
     ],
     "location": [

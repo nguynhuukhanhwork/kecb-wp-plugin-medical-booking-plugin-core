@@ -11,7 +11,7 @@ class BookingMetaTable extends BaseTable
         parent::__construct();
     }
     private function __clone(){}
-    private function __wakeup(){}
+    public function __wakeup(){}
     public static function getInstance(): self
     {
         return self::$instance ??= (self::$instance = new self());
@@ -21,24 +21,25 @@ class BookingMetaTable extends BaseTable
         return 'booking_meta';
     }
 
-    protected function getSchema(): string
+    public function getSchema(): string
     {
         $table = $this->getTableName();
         $charset_collate = $this->getCharsetCollate();
         return "
         CREATE TABLE IF NOT EXISTS $table (
-            booking_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            booking_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
             
-            -- Booking data
-            booking_code varchar(32) NOT NULL,
-            booking_type varchar(127) NOT NULL DEFAULT 'null',
-            booking_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            booking_status ENUM('pending', 'active', 'inactive') DEFAULT 'pending',
+            booking_code INT UNSIGNED NOT NULL,
+            customer_id INT UNSIGNED NOT NULL,
+            tour_id INT UNSIGNED NOT NULL,
+            scheduler_id INT NOT NULL,
             
-            -- Reference data
-            customer_id BIGINT NOT NULL, -- Reference Table Customer
-            service_id BIGINT NOT NULL, -- Reference CPT service
-            doctor_id BIGINT NOT NULL -- Reference CPT doctor          
+            booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            booking_status ENUM('pending','confirmed','cancelled'),
+                                    
+            -- Taxonomy
+            taxonomy_tour_type_id BIGINT UNSIGNED NOT NULL,
+            taxonomy_tour_location_id BIGINT UNSIGNED NOT NULL
         ) $charset_collate";
     }
 

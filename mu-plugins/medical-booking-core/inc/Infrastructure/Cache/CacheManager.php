@@ -4,7 +4,7 @@ namespace MedicalBooking\Infrastructure\Cache;
 
 final class CacheManager
 {
-    private static string $cache_key_prefix = 'medical_booking_';
+    private static string $cache_key_prefix = 'travel_booking_';
 
     private function __construct() {}
 

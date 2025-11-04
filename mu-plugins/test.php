@@ -97,19 +97,13 @@
 
 });*/
 
-use MedicalBooking\Infrastructure\Cache\CacheManager;
-use MedicalBooking\Infrastructure\Database\DatabaseLoader;
-use MedicalBooking\Repository\CustomerRepository;
-use MedicalBooking\Repository\ServiceRepository;
 
 add_action('init', function () {
-    $repo = new CustomerRepository();
-    $mock_data = [
-        'customer_name' => 'khanhecb',
-        'customer_email' => 'khanhecb@gmail.com',
-        'customer_phone' => '123456789',
-        'snapshot_customer_name' => 'khanhecb',
-        'snapshot_customer_phone' => '123456789',
-        'snapshot_customer_email' => 'khanhecb@gmail.com'
-    ];
+    $tour_repo = \MedicalBooking\Repository\TourRepository::getInstance();
+    $tours = $tour_repo->getAllEntities();
+    foreach($tours as $tour) {
+        foreach($tour as $data) {
+            print_r($data);
+        }
+    }
 });

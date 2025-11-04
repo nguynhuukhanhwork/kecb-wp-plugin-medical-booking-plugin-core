@@ -4,12 +4,14 @@ namespace MedicalBooking\Infrastructure\Database;
 
 use wpdb;
 
+
 abstract class BaseTable
 {
     protected wpdb $wpdb;
     protected string $table_prefix;
     protected string $charset_collate;
     abstract protected static function TABLE_NAME(): string;
+    abstract protected static function getInstance();
 
     protected function __construct()
     {
@@ -49,17 +51,17 @@ abstract class BaseTable
         dbDelta($schema);
     }
 
-    public function getAll(): array
+    public function getAll(int $limit = 30): array
     {
         $table = $this->getTableName();
-        $sql = 'SELECT * FROM ' . $table;
+        $sql = "SELECT * FROM $table LIMIT $limit";
         $results = $this->wpdb->get_results($sql);
         return $results ?? [];
     }
 
     // Basic method
-    abstract protected function getRow(int $id);
-    abstract protected function deleteRow(int $id);
-    abstract protected function updateRow(int $id, array $data);
-    abstract protected function insertRow(array $data);
+    abstract public function getRow(int $id);
+    abstract public function deleteRow(int $id);
+    abstract public function updateRow(int $id, array $data);
+    abstract public function insertRow(array $data);
 }
