@@ -4,7 +4,7 @@ namespace MedicalBooking\Infrastructure\Database;
 
 use MedicalBooking\Infrastructure\Database\BaseTable;
 
-class BookingIndexTable extends BaseTable
+final class BookingIndexTable extends BaseTable
 {
     public static ?self $instance = null;
     private function __construct(){

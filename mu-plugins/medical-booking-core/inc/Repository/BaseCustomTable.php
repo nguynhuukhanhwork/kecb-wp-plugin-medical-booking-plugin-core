@@ -9,6 +9,7 @@ abstract class BaseCustomTable {
     public function __construct(BaseTable $table) {
         $this->table = $table;
     }
+    abstract public static function getInstance();
     /**
      * Get All data from table
      * @param int $limit default get 30 rows

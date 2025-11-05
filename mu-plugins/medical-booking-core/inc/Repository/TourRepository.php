@@ -8,11 +8,13 @@ use MedicalBooking\Repository\BasePostTypeRepository;
 final class TourRepository extends BasePostTypeRepository
 {
     private static ?self $instance = null;
+    private function __construct() {
+        parent::__construct();
+    }
     public static function getInstance(): self
     {
         return self::$instance ?? (self::$instance = new self());
     }
-
     static function DEFINE_CACHE_KEY_PREFIX(): string
     {
         return 'tour_';
@@ -20,7 +22,7 @@ final class TourRepository extends BasePostTypeRepository
 
     static function POST_TYPE(): string
     {
-        return CPTRegistry::getPostTypes('tour') ?? 'tour';
+        return 'tour';
     }
     static function FIELDS(): array
     {
@@ -52,5 +54,9 @@ final class TourRepository extends BasePostTypeRepository
     public function getAllEntities(): array
     {
         return parent::getAllEntity();
+    }
+    public function getAllNames(): array
+    {
+        return parent::getAllNames();
     }
 }

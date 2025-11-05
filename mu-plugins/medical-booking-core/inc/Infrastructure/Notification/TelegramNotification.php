@@ -18,6 +18,12 @@ final class TelegramNotification extends BaseNotification
     private function __construct()
     {
         parent::__construct();
+        add_action('init', [$this, 'setup']);
+
+    }
+
+    protected function setup(): void
+    {
         $this->token_api = TELEGRAM_API_TOKEN ?? '';
         $this->chat_id = TELEGRAM_CHAT_ID ?? '';
         $this->url = "https://api.telegram.org/bot$this->token_api/sendMessage";

@@ -6,20 +6,17 @@ use WP_Query;
 abstract class BasePostTypeRepository
 {
     protected int $cache_lifetime = WEEK_IN_SECONDS ?? 86400*7;
-
+    abstract static public function getInstance();
     abstract static function DEFINE_CACHE_KEY_PREFIX(): string;
     abstract static function POST_TYPE(): string;
     abstract static function FIELDS(): array;
     abstract static function TAXONOMY(): array;
 
-    abstract static function getInstance();
-    protected function __construct() {
-    }
+    protected function __construct() {}
     protected function getPostTypeName(): ?string
     {
         return static::POST_TYPE() ?? null;
     }
-
 
     protected function getTaxonomies(): array
     {
@@ -130,8 +127,10 @@ abstract class BasePostTypeRepository
             return $cached;
         }
 
+        $post_type = static::POST_TYPE();
+
         $default_args = [
-            'post_type'      => static::POST_TYPE(),
+            'post_type'      => $post_type,
             'post_status'    => 'publish',
             'posts_per_page' => -1,
             'orderby'        => 'date',
@@ -216,6 +215,31 @@ abstract class BasePostTypeRepository
         foreach ($post_ids as $post_id) {
             $post = $this->getById($post_id);
             $result[] = $this->getEntity($post);
+        }
+
+        CacheManager::set($cache_key, $result, $this->cache_lifetime);
+
+        return $result;
+    }
+
+    protected function getAllNames(): array {
+        $cache_key = static::DEFINE_CACHE_KEY_PREFIX() . 'all_names';
+        $cached = CacheManager::get($cache_key);
+
+        if ($cached) {
+            return $cached;
+        }
+
+        $all_posts = $this->getAll();
+
+        if (empty($all_posts)) {
+            return [];
+        }
+
+        $result = [];
+
+        foreach ($all_posts as $post) {
+            $result[] = $post->post_title;
         }
 
         CacheManager::set($cache_key, $result, $this->cache_lifetime);

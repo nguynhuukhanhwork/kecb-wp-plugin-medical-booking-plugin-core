@@ -2,6 +2,8 @@
 
 namespace MedicalBooking\Infrastructure\Database;
 
+use MedicalBooking\Infrastructure\Notification\BaseNotification;
+
 final class NotificationTable extends BaseTable
 {
     public static ?self $instance = null;

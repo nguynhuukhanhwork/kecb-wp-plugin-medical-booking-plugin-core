@@ -1,88 +1,82 @@
 <?php
 
-add_action('admin_menu', function () {
-    add_menu_page(
-            'My API Routes',
-            'My API',
-            'manage_options',
-            'my-api-routes',
-            function () {
-                $server = rest_get_server(); // Lấy server đúng cách
-                $routes = $server->get_routes();
+add_action('rest_api_init', function () {
 
-                echo '<h1>My API Routes</h1><pre>';
-                foreach ($routes as $route => $details) {
-                    if (strpos($route, '/mb/v1/') === 0) {
-                        echo esc_html($route) . "\n";
-                    }
+    register_rest_route('tb/v1', '/service-search', [
+            'methods' => 'GET',
+            'callback' => function (\WP_REST_Request $request) {
+
+                $keyword = sanitize_text_field($request->get_param('keyword') ?? '');
+                $category = sanitize_text_field($request->get_param('category') ?? '');
+                $limit = min(absint($request->get_param('limit') ?? 10), 50);
+                $page = absint($request->get_param('page') ?? 1);
+
+                $args = [
+                        'post_type' => 'service',
+                        's' => $keyword,
+                        'posts_per_page' => $limit,
+                        'paged' => $page,
+                        'post_status' => 'publish',
+                ];
+
+                // Nếu filter theo taxonomy
+                if ($category) {
+                    $args['tax_query'] = [
+                            [
+                                    'taxonomy' => 'service_category',
+                                    'field' => 'slug',
+                                    'terms' => $category,
+                            ]
+                    ];
                 }
-                echo '</pre>';
-            }
-    );
-});
 
-add_action('admin_menu', function () {
-    add_menu_page(
-            'Shortcodes',           // Tiêu đề trang
-            'Shortcodes',           // Tên menu
-            'manage_options',       // Quyền truy cập
-            'shortcodes-list',      // Slug
-            function () {            // Callback hiển thị nội dung
-                global $shortcode_tags;
-                ?>
-                <div class="wrap">
-                    <h1 class="wp-heading-inline">Danh sách Shortcode đã đăng ký</h1>
-                    <table class="wp-list-table widefat fixed striped">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="manage-column">Shortcode Tag</th>
-                            <th scope="col" class="manage-column">Callback</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        if (!empty($shortcode_tags)) {
-                            foreach ($shortcode_tags as $tag => $callback) {
-                                ?>
-                                <tr>
-                                    <td><?php echo esc_html($tag); ?></td>
-                                    <td><?php echo esc_html(get_callback_display($callback)); ?></td>
-                                </tr>
-                                <?php
-                            }
-                        } else {
-                            ?>
-                            <tr>
-                                <td colspan="2">Không có shortcode nào được đăng ký.</td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php
-            }
-    );
-});
+                $query = new WP_Query($args);
+                $results = [];
 
-/**
- * Hàm hỗ trợ để hiển thị callback dưới dạng chuỗi dễ đọc.
- *
- * @param mixed $callback Callback của shortcode.
- * @return string Chuỗi hiển thị callback.
- */
-function get_callback_display($callback)
-{
-    if (is_string($callback)) {
-        return $callback; // Trường hợp callback là tên hàm
-    } elseif (is_array($callback)) {
-        $class = is_object($callback[0]) ? get_class($callback[0]) : $callback[0];
-        $method = $callback[1];
-        return $class . '::' . $method; // Hiển thị dạng Class::method
-    } elseif ($callback instanceof Closure) {
-        return 'Closure'; // Trường hợp callback là closure
-    } else {
-        return 'Unknown'; // Trường hợp không xác định
-    }
-}
+                if ($query->have_posts()) {
+                    while ($query->have_posts()) {
+                        $query->the_post();
+                        $results[] = [
+                                'id' => get_the_ID(),
+                                'title' => get_the_title(),
+                                'link' => get_permalink(),
+                                'excerpt' => get_the_excerpt(),
+                                'thumbnail' => get_the_post_thumbnail_url(get_the_ID(), 'medium'),
+                        ];
+                    }
+                    wp_reset_postdata();
+                }
+
+                return [
+                        'success' => true,
+                        'total' => (int)$query->found_posts,
+                        'page' => $page,
+                        'limit' => $limit,
+                        'data' => $results,
+                ];
+            },
+            'permission_callback' => '__return_true',
+            'args' => [
+                    'keyword' => [
+                            'required' => false,
+                            'default' => '',
+                            'sanitize_callback' => 'sanitize_text_field'
+                    ],
+                    'category' => [
+                            'required' => false,
+                            'default' => '',
+                            'sanitize_callback' => 'sanitize_text_field'
+                    ],
+                    'limit' => [
+                            'required' => false,
+                            'default' => 10,
+                            'sanitize_callback' => 'absint'
+                    ],
+                    'page' => [
+                            'required' => false,
+                            'default' => 1,
+                            'sanitize_callback' => 'absint'
+                    ]
+            ]
+    ]);
+});

@@ -2,7 +2,7 @@
 
 namespace MedicalBooking\Infrastructure\Database;
 
-class CustomerTable extends BaseTable
+final class CustomerTable extends BaseTable
 {
     private static ?self $instance = null;
     private function __construct(){

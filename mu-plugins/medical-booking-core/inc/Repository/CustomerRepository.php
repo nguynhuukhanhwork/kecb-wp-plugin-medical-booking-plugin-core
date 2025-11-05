@@ -2,11 +2,17 @@
 
 namespace MedicalBooking\Repository;
 
+use MedicalBooking\Infrastructure\Database\BaseTable;
 use MedicalBooking\Infrastructure\Database\CustomerTable;
 
-class CustomerRepository extends BaseCustomTable
+final class CustomerRepository extends BaseCustomTable
 {
-    public function __construct() {
+    private static ?self $instance = null;
+    private function __construct() {
         parent::__construct(CustomerTable::getInstance());
+    }
+    public static function getInstance(): self
+    {
+        return self::$instance ?? self::$instance = new self();
     }
 }

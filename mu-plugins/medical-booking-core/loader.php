@@ -6,12 +6,14 @@ use MedicalBooking\Infrastructure\Database\CustomerTable;
 use MedicalBooking\Infrastructure\Database\NotificationTable;
 use MedicalBooking\Infrastructure\Database\TourSchedulerTable;
 use MedicalBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry;
+use MedicalBooking\Repository\TourRepository;
 
 /** Autoload File */
 require_once __DIR__.'/vendor/autoload.php';
 /** Load Const */
 require_once __DIR__.'/constant.php';
 
+new \MedicalBooking\Presentation\Rest\TourSearchRestController();
 function tour_booking_system_register_wordpress_infrastructure() {
     \MedicalBooking\Infrastructure\WordPress\Registry\CPTRegistry::getInstance();
     \MedicalBooking\Infrastructure\WordPress\Registry\ACFRegistry::getInstance();

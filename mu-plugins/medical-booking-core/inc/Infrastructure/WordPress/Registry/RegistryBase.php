@@ -2,6 +2,8 @@
 
 namespace MedicalBooking\Infrastructure\WordPress\Registry;
 
+use MedicalBooking\Infrastructure\Cache\CacheManager;
+
 abstract class RegistryBase
 {
     protected string $cache_key_prefix = 'travel_booking_';
@@ -26,8 +28,7 @@ abstract class RegistryBase
      * Set cache
      */
     protected function setCacheData(array $data): void {
-        $cache_key = $this->getCacheKey();
-        set_transient($cache_key, $data, WEEK_IN_SECONDS);
+        CacheManager::set(static::defineCacheKey(), $data);
     }
 
     /**

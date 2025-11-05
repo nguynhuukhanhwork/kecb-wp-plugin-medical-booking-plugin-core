@@ -4,7 +4,7 @@ namespace MedicalBooking\Infrastructure\Database;
 
 use MedicalBooking\Infrastructure\Database\BaseTable;
 
-class TourSchedulerTable extends BaseTable
+final class TourSchedulerTable extends BaseTable
 {
     public static ?self $instance = null;
     public static function getInstance(): self
