@@ -7,7 +7,7 @@ final class TaxonomyRegistry extends RegistryBase
     private static ?self $instance  = null;
     protected function getConfigPath(): string
     {
-        return MB_INFRASTRUCTURE_PATH . 'WordPress/Config/tax';
+        return MB_INFRASTRUCTURE_PATH . 'WordPress/tax';
     }
     protected static function defineCacheKey(): string
     {

@@ -7,7 +7,7 @@ final class ACFRegistry extends RegistryBase {
     private static ?self $instance  = null;
     protected function getConfigPath(): string
     {
-        return MB_INFRASTRUCTURE_PATH . 'WordPress/Config/acf';
+        return MB_INFRASTRUCTURE_PATH . 'WordPress/acf';
     }
     protected static function defineCacheKey(): string
     {

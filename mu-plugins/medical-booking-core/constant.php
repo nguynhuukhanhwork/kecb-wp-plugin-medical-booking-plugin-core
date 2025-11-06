@@ -37,5 +37,5 @@ define('MB_DOMAIN_PATH', MB_CORE_PATH . 'inc/Domain/');
 define('MB_DOMAIN_URL', MB_CORE_URL . 'inc/Domain/');
 
 // Infrastructure Layer
-define('MB_INFRASTRUCTURE_PATH', MB_CORE_PATH . 'inc/Infrastructure/');
-define('MB_INFRASTRUCTURE_URL', MB_CORE_URL . 'inc/Infrastructure/');
+define('MB_INFRASTRUCTURE_PATH', MB_CORE_PATH . 'inc/Config/');
+define('MB_INFRASTRUCTURE_URL', MB_CORE_URL . 'inc/Config/');

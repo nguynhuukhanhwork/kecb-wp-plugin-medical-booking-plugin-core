@@ -6,7 +6,7 @@ final class CPTRegistry extends RegistryBase {
     private static ?self $instance  = null;
     protected function getConfigPath(): string
     {
-        return MB_INFRASTRUCTURE_PATH . 'WordPress/Config/cpt';
+        return MB_INFRASTRUCTURE_PATH . 'WordPress/cpt';
     }
     protected static function defineCacheKey(): string
     {
