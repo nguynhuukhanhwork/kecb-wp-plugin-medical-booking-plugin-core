@@ -32,3 +32,6 @@ function tour_booking_system_create_table(): void {
 // Bootstrap 
 tour_booking_system_register_wordpress_infrastructure();
 tour_booking_system_create_table();
+
+// Load Testing
+require_once __DIR__ . "/tests/QueryTest.php";

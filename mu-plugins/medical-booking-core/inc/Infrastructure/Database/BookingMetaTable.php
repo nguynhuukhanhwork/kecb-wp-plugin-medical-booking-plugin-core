@@ -2,20 +2,28 @@
 
 namespace MedicalBooking\Infrastructure\Database;
 
-use MedicalBooking\Infrastructure\Database\BaseTable;
-
 final class BookingMetaTable extends BaseTable
 {
     protected static ?self $instance = null;
-    private function __construct(){
+
+    private function __construct()
+    {
         parent::__construct();
     }
-    private function __clone(){}
-    public function __wakeup(){}
+
+    private function __clone()
+    {
+    }
+
+    public function __wakeup()
+    {
+    }
+
     public static function getInstance(): self
     {
         return self::$instance ??= (self::$instance = new self());
     }
+
     protected static function TABLE_NAME(): string
     {
         return 'booking_meta';
@@ -60,7 +68,7 @@ final class BookingMetaTable extends BaseTable
             ['%d']
         );
 
-        return (bool) $deleted;
+        return (bool)$deleted;
     }
 
     public function updateRow(int $id, array $data): bool
@@ -72,13 +80,13 @@ final class BookingMetaTable extends BaseTable
             ['booking_id' => $id]
         );
 
-        return (bool) $updated;
+        return (bool)$updated;
     }
 
     public function insertRow(array $data): bool
     {
         $table = $this->getTableName();
         $inserted = $this->wpdb->insert($table, $data);
-        return (bool) $inserted;
+        return (bool)$inserted;
     }
 }

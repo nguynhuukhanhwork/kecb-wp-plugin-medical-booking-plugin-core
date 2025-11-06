@@ -30,6 +30,9 @@
   - Chọn phương tiện duy chuyển
   - Chọn số lượng người tối đaC
 
+## Refactor
+- [] Sửa Namespace hệ thống
+- [yes] Đổi folder để Config tập trung trong inc/Config
 
 ## Theme 
 - [] Sử dụng Theme Flatsome để build Page

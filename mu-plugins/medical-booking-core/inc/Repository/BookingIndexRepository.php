@@ -2,14 +2,15 @@
 
 namespace MedicalBooking\Repository;
 
-use MedicalBooking\Infrastructure\Database\NotificationTable;
+use MedicalBooking\Infrastructure\Database\BookingIndexTable;
+use MedicalBooking\Repository\BaseCustomTable;
 
-final class NotificationRepository extends BaseCustomTable
+final class BookingIndexRepository extends BaseCustomTable
 {
     private static ?self $instance = null;
-    protected $table;
+    private $table;
     private function __construct() {
-        $this->table = NotificationTable::getInstance();
+        $this->table = BookingIndexTable::getInstance();
         parent::__construct($this->table);
     }
     private function __clone()
@@ -23,5 +24,4 @@ final class NotificationRepository extends BaseCustomTable
     {
         return self::$instance ?? (self::$instance = new self());
     }
-
 }

@@ -4,12 +4,20 @@ namespace MedicalBooking\Repository;
 
 use MedicalBooking\Infrastructure\WordPress\Registry\CPTRegistry;
 use MedicalBooking\Repository\BasePostTypeRepository;
+use SimplePie\Registry;
 
 final class TourRepository extends BasePostTypeRepository
 {
     private static ?self $instance = null;
     private function __construct() {
         parent::__construct();
+    }
+    private function __clone()
+    {
+    }
+
+    public function __wakeup()
+    {
     }
     public static function getInstance(): self
     {
@@ -22,7 +30,7 @@ final class TourRepository extends BasePostTypeRepository
 
     static function POST_TYPE(): string
     {
-        return 'tour';
+        return CPTRegistry::getPostTypes('tour') ?? 'tour';
     }
     static function FIELDS(): array
     {

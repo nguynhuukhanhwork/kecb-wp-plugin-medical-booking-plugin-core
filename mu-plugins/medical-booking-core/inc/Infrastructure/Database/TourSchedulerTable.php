@@ -28,7 +28,7 @@ final class TourSchedulerTable extends BaseTable
             end_date DATE NOT NULL,
             price DECIMAL NOT NULL,
             seats_totol INT DEFAULT 0,
-            Seats_booked INT DEFAULT 0,
+            seats_booked INT DEFAULT 0,
             status ENUM('open', 'closed', 'full') DEFAULT 'open',
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         ) $charset_collate;
