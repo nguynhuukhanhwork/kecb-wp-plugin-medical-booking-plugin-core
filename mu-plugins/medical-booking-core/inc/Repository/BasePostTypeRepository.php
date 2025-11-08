@@ -1,7 +1,7 @@
 <?php
 
-namespace MedicalBooking\Repository;
-use MedicalBooking\Infrastructure\Cache\CacheManager;
+namespace TravelBooking\Repository;
+use TravelBooking\Infrastructure\Cache\CacheManager;
 use WP_Query;
 abstract class BasePostTypeRepository
 {
@@ -246,4 +246,44 @@ abstract class BasePostTypeRepository
 
         return $result;
     }
+
+    /**
+     * Get all Term Name of Taxonomy
+     * @param string $taxonomy_name
+     * @return array
+     */
+    protected function getTermList(string $taxonomy_name): array {
+
+        // Try get Cache
+        $cache_key = 'term_list_' . $taxonomy_name;
+        $cached = CacheManager::get($cache_key);
+
+        if ($cached) {
+            return $cached;
+        }
+
+        // Get Term
+        $terms = get_terms([
+                'taxonomy' => $taxonomy_name,
+                'hide_empty' => false,
+                'orderby' => 'name',
+                'order' => 'ASC',
+            ]
+        );
+
+        // Check Error
+        if (is_wp_error($terms)) {
+            CacheManager::set($cache_key, $terms, $this->cache_lifetime);
+            return [];
+        }
+
+        // filter and clean data
+        $terms_clean = wp_list_pluck($terms, 'name');
+
+        // Set Caching and return data
+        CacheManager::set($cache_key, $terms_clean, $this->cache_lifetime);
+        return $terms_clean;
+    }
+
+
 }

@@ -2,9 +2,9 @@
 
 // inc/Presentation/Rest/TourSearchRestController.php
 
-namespace MedicalBooking\Presentation\Rest;
+namespace TravelBooking\Presentation\Rest;
 
-use MedicalBooking\Repository\TourRepository;
+use TravelBooking\Repository\TourRepository;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -19,7 +19,7 @@ class TourSearchRestController {
 
     public function register_route(): void {
         register_rest_route(
-            'custom/v1',
+            'travel-booking/v1',
             '/tours/search',
             [
                 'methods'             => 'GET',

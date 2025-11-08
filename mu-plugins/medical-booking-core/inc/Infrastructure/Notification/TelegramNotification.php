@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Notification;
+namespace TravelBooking\Infrastructure\Notification;
 
-use MedicalBooking\Infrastructure\Notification\BaseNotification;
+use TravelBooking\Infrastructure\Notification\BaseNotification;
 
 final class TelegramNotification extends BaseNotification
 {

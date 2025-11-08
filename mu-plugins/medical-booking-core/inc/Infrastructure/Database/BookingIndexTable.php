@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Database;
+namespace TravelBooking\Infrastructure\Database;
 
-use MedicalBooking\Infrastructure\Database\BaseTable;
+use TravelBooking\Infrastructure\Database\BaseTable;
 
 final class BookingIndexTable extends BaseTable
 {

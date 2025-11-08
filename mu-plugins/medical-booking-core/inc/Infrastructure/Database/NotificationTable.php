@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Database;
+namespace TravelBooking\Infrastructure\Database;
 
-use MedicalBooking\Infrastructure\Notification\BaseNotification;
+use TravelBooking\Infrastructure\Notification\BaseNotification;
 
 final class NotificationTable extends BaseTable
 {

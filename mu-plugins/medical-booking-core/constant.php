@@ -9,7 +9,7 @@
  * - Domain
  * - Infrastructure
  *
- * @package   MedicalBooking
+ * @package   TravelBooking
  * @category  Config
  * @author    KhanhECB
  * @version   1.0.0
@@ -21,21 +21,29 @@ if (!defined('ABSPATH')) exit;
 const MB_VERSION = '1.0.0';
 
 // Dynamic constants (runtime)
-define('MB_CORE_PATH', plugin_dir_path(__FILE__));
-define('MB_CORE_URL', plugin_dir_url(__FILE__));
+define('TB_CORE_PATH', plugin_dir_path(__FILE__));
+define('TB_CORE_URL', plugin_dir_url(__FILE__));
 
-// Presentation Layer
-define('MB_PRESENTATION_PATH', MB_CORE_PATH . 'inc/Presentation/');
-define('MB_PRESENTATION_URL', MB_CORE_URL . 'inc/Presentation/');
 
-// Application Layer
-define('MB_APPLICATION_PATH', MB_CORE_PATH . 'inc/Application/');
-define('MB_APPLICATION_URL', MB_CORE_URL . 'inc/Application/');
+// Config folder
+define('TB_CONFIG_PATH', TB_CORE_PATH . 'inc/Config/');
 
-// Domain Layer
-define('MB_DOMAIN_PATH', MB_CORE_PATH . 'inc/Domain/');
-define('MB_DOMAIN_URL', MB_CORE_URL . 'inc/Domain/');
 
-// Infrastructure Layer
-define('MB_INFRASTRUCTURE_PATH', MB_CORE_PATH . 'inc/Config/');
-define('MB_INFRASTRUCTURE_URL', MB_CORE_URL . 'inc/Config/');
+// Layer Path and URL constant
+define('TB_PRESENTATION_LAYER_PATH', TB_CORE_PATH . 'inc/Presentation/');
+define('TB_PRESENTATION_LAYER_URL', TB_CORE_URL . 'inc/Presentation/');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

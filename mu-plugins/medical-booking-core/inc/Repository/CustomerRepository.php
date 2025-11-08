@@ -1,9 +1,9 @@
 <?php
 
-namespace MedicalBooking\Repository;
+namespace TravelBooking\Repository;
 
-use MedicalBooking\Infrastructure\Database\BaseTable;
-use MedicalBooking\Infrastructure\Database\CustomerTable;
+use TravelBooking\Infrastructure\Database\BaseTable;
+use TravelBooking\Infrastructure\Database\CustomerTable;
 
 final class CustomerRepository extends BaseCustomTable
 {

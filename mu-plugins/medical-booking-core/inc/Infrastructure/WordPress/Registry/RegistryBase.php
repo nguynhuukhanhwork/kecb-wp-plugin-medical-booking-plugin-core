@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\WordPress\Registry;
+namespace TravelBooking\Infrastructure\WordPress\Registry;
 
-use MedicalBooking\Infrastructure\Cache\CacheManager;
+use TravelBooking\Infrastructure\Cache\CacheManager;
 
 abstract class RegistryBase
 {

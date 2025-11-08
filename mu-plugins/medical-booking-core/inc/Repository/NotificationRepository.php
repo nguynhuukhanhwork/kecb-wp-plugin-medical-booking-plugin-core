@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Repository;
+namespace TravelBooking\Repository;
 
-use MedicalBooking\Infrastructure\Database\NotificationTable;
+use TravelBooking\Infrastructure\Database\NotificationTable;
 
 final class NotificationRepository extends BaseCustomTable
 {

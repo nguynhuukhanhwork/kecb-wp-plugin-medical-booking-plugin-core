@@ -1,9 +1,9 @@
 <?php
 
-namespace MedicalBooking\Repository;
+namespace TravelBooking\Repository;
 
-use MedicalBooking\Infrastructure\Database\BookingIndexTable;
-use MedicalBooking\Repository\BaseCustomTable;
+use TravelBooking\Infrastructure\Database\BookingIndexTable;
+use TravelBooking\Repository\BaseCustomTable;
 
 final class BookingIndexRepository extends BaseCustomTable
 {

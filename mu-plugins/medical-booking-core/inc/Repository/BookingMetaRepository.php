@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Repository;
+namespace TravelBooking\Repository;
 
-use MedicalBooking\Infrastructure\Database\BookingMetaTable;
+use TravelBooking\Infrastructure\Database\BookingMetaTable;
 
 final class BookingMetaRepository extends BaseCustomTable
 {

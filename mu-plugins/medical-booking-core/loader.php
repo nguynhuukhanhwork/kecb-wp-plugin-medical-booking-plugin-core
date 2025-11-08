@@ -1,37 +1,50 @@
 <?php
 
-use MedicalBooking\Infrastructure\Database\BookingIndexTable;
-use MedicalBooking\Infrastructure\Database\BookingMetaTable;
-use MedicalBooking\Infrastructure\Database\CustomerTable;
-use MedicalBooking\Infrastructure\Database\NotificationTable;
-use MedicalBooking\Infrastructure\Database\TourSchedulerTable;
-use MedicalBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry;
-use MedicalBooking\Repository\TourRepository;
+use TravelBooking\Infrastructure\Database\BookingIndexTable;
+use TravelBooking\Infrastructure\Database\BookingMetaTable;
+use TravelBooking\Infrastructure\Database\CustomerTable;
+use TravelBooking\Infrastructure\Database\NotificationTable;
+use TravelBooking\Infrastructure\Database\TourSchedulerTable;
+use TravelBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry;
+use TravelBooking\Presentation\Rest\TourSearchRestController;
+use TravelBooking\Repository\TourRepository;
 
 /** Autoload File */
 require_once __DIR__.'/vendor/autoload.php';
 /** Load Const */
 require_once __DIR__.'/constant.php';
 
-new \MedicalBooking\Presentation\Rest\TourSearchRestController();
+new \TravelBooking\Presentation\Rest\TourSearchRestController();
 function tour_booking_system_register_wordpress_infrastructure() {
-    \MedicalBooking\Infrastructure\WordPress\Registry\CPTRegistry::getInstance();
-    \MedicalBooking\Infrastructure\WordPress\Registry\ACFRegistry::getInstance();
-    \MedicalBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry::getInstance();
+    \TravelBooking\Infrastructure\WordPress\Registry\CPTRegistry::getInstance();
+    \TravelBooking\Infrastructure\WordPress\Registry\ACFRegistry::getInstance();
+    \TravelBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry::getInstance();
 }
 
 function tour_booking_system_create_table(): void {
-    BookingIndexTable::getInstance();
-    BookingMetaTable::getInstance();
-    CustomerTable::getInstance();
-    NotificationTable::getInstance();
-    TourSchedulerTable::getInstance();
+    $database_installed = get_option('travel_database_installed');
+
+    if (!$database_installed) {
+        BookingIndexTable::getInstance();
+        BookingMetaTable::getInstance();
+        CustomerTable::getInstance();
+        NotificationTable::getInstance();
+        TourSchedulerTable::getInstance();
+    }
+
+    update_option('travel_database_installed', true);
+
 }
 
-
-// Bootstrap 
+// Bootstrap
 tour_booking_system_register_wordpress_infrastructure();
 tour_booking_system_create_table();
-
 // Load Testing
 require_once __DIR__ . "/tests/QueryTest.php";
+
+\TravelBooking\Presentation\Shortcodes\SearchTourShortcode::getInstance();
+add_action('plugins_loaded', function() {
+    \TravelBooking\Presentation\Shortcodes\SearchTourShortcode::getInstance();
+    \TravelBooking\Presentation\Shortcodes\AdvancedSearchTourRestShortcode::getInstance();
+});
+

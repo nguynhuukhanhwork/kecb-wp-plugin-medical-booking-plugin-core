@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Integrations\CF7\DataOption;
+namespace TravelBooking\Infrastructure\Integrations\CF7\DataOption;
 abstract class BaseDataOption
 {
     protected string $className;

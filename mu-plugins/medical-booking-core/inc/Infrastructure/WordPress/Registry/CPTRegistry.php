@@ -1,12 +1,12 @@
 <?php
-namespace MedicalBooking\Infrastructure\WordPress\Registry;
+namespace TravelBooking\Infrastructure\WordPress\Registry;
 
 final class CPTRegistry extends RegistryBase {
 
     private static ?self $instance  = null;
     protected function getConfigPath(): string
     {
-        return MB_INFRASTRUCTURE_PATH . 'WordPress/cpt';
+        return TB_CONFIG_PATH . 'WordPress/cpt';
     }
     protected static function defineCacheKey(): string
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Database;
+namespace TravelBooking\Infrastructure\Database;
 
 use wpdb;
 
@@ -40,12 +40,6 @@ abstract class BaseTable
 
     public function createTable(): void
     {
-        define('tour_db_install', true);
-
-        if (!tour_db_install) {
-            return;
-        }
-
         require_once ABSPATH.'wp-admin/includes/upgrade.php';
         $schema = $this->getSchema();
         dbDelta($schema);

@@ -46,7 +46,7 @@ function kecb_error_log(string $error): bool
 function kecb_write_error_log(string $message): bool
 {
     $date = date('Y-m-d H:i:s');
-    $prefix = 'MedicalBooking System Error ' . $date;
+    $prefix = 'TravelBooking System Error ' . $date;
     return kecb_write_log('errors.log', $prefix, $message);
 }
 
@@ -57,7 +57,7 @@ function kecb_write_error_log(string $message): bool
 function kecb_write_activity_log(string $message): bool
 {
     $date = date('Y-m-d H:i:s');
-    $prefix = 'MedicalBooking System Activity ' . $date;
+    $prefix = 'TravelBooking System Activity ' . $date;
     return kecb_write_log('activity.log', $prefix, $message);
 }
 

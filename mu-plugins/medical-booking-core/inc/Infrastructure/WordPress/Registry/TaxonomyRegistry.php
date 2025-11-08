@@ -1,5 +1,5 @@
 <?php
-namespace MedicalBooking\Infrastructure\WordPress\Registry;
+namespace TravelBooking\Infrastructure\WordPress\Registry;
 
 final class TaxonomyRegistry extends RegistryBase
 {
@@ -7,7 +7,7 @@ final class TaxonomyRegistry extends RegistryBase
     private static ?self $instance  = null;
     protected function getConfigPath(): string
     {
-        return MB_INFRASTRUCTURE_PATH . 'WordPress/tax';
+        return TB_CONFIG_PATH . 'WordPress/tax';
     }
     protected static function defineCacheKey(): string
     {

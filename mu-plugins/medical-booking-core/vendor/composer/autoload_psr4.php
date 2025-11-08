@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'MedicalBooking\\' => array($baseDir . '/inc'),
+    'TravelBooking\\' => array($baseDir . '/inc'),
 );

@@ -1,10 +1,9 @@
 <?php
 
-namespace MedicalBooking\Repository;
+namespace TravelBooking\Repository;
 
-use MedicalBooking\Infrastructure\WordPress\Registry\CPTRegistry;
-use MedicalBooking\Repository\BasePostTypeRepository;
-use SimplePie\Registry;
+use TravelBooking\Infrastructure\WordPress\Registry\CPTRegistry;
+use TravelBooking\Repository\BasePostTypeRepository;
 
 final class TourRepository extends BasePostTypeRepository
 {
@@ -66,5 +65,24 @@ final class TourRepository extends BasePostTypeRepository
     public function getAllNames(): array
     {
         return parent::getAllNames();
+    }
+    public function getTourTypeTermNames(): array
+    {
+        return parent::getTermList('tour_type');
+    }
+    public function geTourLocationTermNames(): array
+    {
+        return parent::getTermList('tour_location');
+    }
+    public function getTourCostTermNames(): array
+    {
+        return parent::getTermList('tour_cost');
+    }
+    public function getTourPersonTermNames(): array {
+        return parent::getTermList('tour_person');
+    }
+    public function getTourLinkedTermNames(): array
+    {
+        return parent::getTermList('tour_linked');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Database;
+namespace TravelBooking\Infrastructure\Database;
 
 final class BookingMetaTable extends BaseTable
 {

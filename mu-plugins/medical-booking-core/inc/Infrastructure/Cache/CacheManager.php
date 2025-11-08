@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalBooking\Infrastructure\Cache;
+namespace TravelBooking\Infrastructure\Cache;
 
 final class CacheManager
 {

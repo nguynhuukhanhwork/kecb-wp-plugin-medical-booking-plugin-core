@@ -1,8 +1,8 @@
 <?php
 
-namespace MedicalBooking\Repository;
+namespace TravelBooking\Repository;
 
-use MedicalBooking\Infrastructure\Database\BaseTable;
+use TravelBooking\Infrastructure\Database\BaseTable;
 
 abstract class BaseCustomTable {
     private readonly BaseTable $table;
