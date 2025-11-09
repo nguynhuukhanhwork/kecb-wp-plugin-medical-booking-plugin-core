@@ -9,25 +9,10 @@ final class CacheManager
 
     private function __construct() {}
 
-    /**
-     * Returns an array of cache expiration levels mapped to WordPress time constants.
-     *
-     * @return array<string, int> Cache levels with descriptive keys
-     */
-    public static function cacheLevel(): array
-    {
-        return [
-            'minute' => MINUTE_IN_SECONDS, // 60 seconds
-            'hour'   => HOUR_IN_SECONDS,   // 3600 seconds
-            'day'    => DAY_IN_SECONDS,    // 86400 seconds
-            'week'   => WEEK_IN_SECONDS,   // 604800 seconds
-            'month'  => MONTH_IN_SECONDS,  // 2592000 seconds
-        ];
-    }
-
     public static function get(string $key, $default = false)
     {
-        return get_transient(self::$cache_key_prefix . $key) ?: $default;
+        $cache_key = self::$cache_key_prefix . $key;
+        return get_transient($cache_key) ?: $default;
     }
 
     public static function set(string $key, $value, int $expiration = HOUR_IN_SECONDS): bool
@@ -44,12 +29,13 @@ final class CacheManager
         }
 
         // Set Cache
-        return set_transient($full_key, $value, 60);
+        return set_transient($full_key, $value, $expiration);
     }
 
     public static function delete(string $key): bool
     {
-        return delete_transient(self::$cache_key_prefix . $key . $key);
+        $cache_key = self::$cache_key_prefix . $key;
+        return delete_transient($cache_key);
     }
 
     public static function deleteAll(): bool

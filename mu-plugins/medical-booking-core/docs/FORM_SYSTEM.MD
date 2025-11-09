@@ -29,3 +29,25 @@ Trong hệ thống này, sử dụng các Form Contact tích hợp với Contact
     - Select, Số trẻ em
   - Thông tin thêm: 
     - Ghi chú
+
+
+## Contact Form 7 data
+
+### Form Contact Basic
+
+```html
+<!-- Form ID: 561 -->
+
+[text*  travel-booking-customer-name minlength:2 maxlength:25 placeholder "Họ và tên"]
+
+[email* travel-booking-customer-email maxlength:40 placeholder "Email"]
+
+[tel* travel-booking-customer-phone maxlength:21 placeholder "Phone"]
+
+[textarea travel-booking-customer-note maxlength:120 placeholder "Ghi chú"]
+
+[submit "Gửi đi"]
+```
+
+
+### Form Register

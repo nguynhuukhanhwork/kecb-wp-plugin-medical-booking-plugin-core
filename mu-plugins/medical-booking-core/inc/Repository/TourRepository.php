@@ -114,6 +114,14 @@ final class TourRepository extends BasePostTypeRepository
         return ['tax_query' => $tax_query];
     }
 
+    /**
+     * Filter Tour Post Type Tour with all Taxonomy of Post Type Tour
+     * @param int|null $type_id
+     * @param int|null $loc_id
+     * @param int|null $linked_id
+     * @param int|null $person_id
+     * @return array
+     */
     public function filterAdvancedTour(
         ?int $type_id = null,
         ?int $loc_id = null,
@@ -121,7 +129,19 @@ final class TourRepository extends BasePostTypeRepository
         ?int $person_id = null
     ): array {
         $args = $this->buildTaxQuery($type_id, $loc_id, $linked_id, $person_id);
-        return parent::getAll($args);
-    }
 
+        $all_entity = parent::getAll($args);
+
+        if (empty($args)) {
+            return [];
+        }
+
+        $tour_entities = [];
+
+        foreach ($all_entity as $entity) {
+            $tour_entities[] = parent::toEntity($entity);
+        }
+
+        return $tour_entities;
+    }
 }
