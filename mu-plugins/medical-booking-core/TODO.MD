@@ -5,7 +5,7 @@
 
 
 ## Bootstrap
-- [] Thêm Option để quản lý DB đã Installed chưa
+- [Yes] Thêm Option để quản lý DB đã Installed chưa
 - [] 
 
 ## Infrastructure
@@ -16,7 +16,8 @@
 
 ## Repository
 - [Yes] Thêm Repository cho BookingIndex, BookingMeta, TourScheduler
-- []
+- [Yes] Add - Method Filter Tour nâng cao, lọc theo ID của các Tax liên quan 
+- [] 
 
 ## Presentation
 - [] Tạo Form Shortcode cho Search CPT Tour, có auto Completed

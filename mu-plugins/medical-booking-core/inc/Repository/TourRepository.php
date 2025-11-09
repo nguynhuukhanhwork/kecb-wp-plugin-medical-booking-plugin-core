@@ -85,4 +85,43 @@ final class TourRepository extends BasePostTypeRepository
     {
         return parent::getTermList('tour_linked');
     }
+    private function buildTaxQuery(
+        ?int $type_id = null,
+        ?int $loc_id = null,
+        ?int $linked_id = null,
+        ?int $person_id = null
+    ): array {
+        $relation = 'AND';
+        $tax_query = ['relation' => $relation];
+
+        $taxonomies = [
+            'tour_type'     => $type_id,
+            'tour_location' => $loc_id,
+            'tour_linked'   => $linked_id,
+            'tour_person'   => $person_id,
+        ];
+
+        foreach ($taxonomies as $taxonomy => $term_id) {
+            if ($term_id > 0) {
+                $tax_query[] = [
+                    'taxonomy' => $taxonomy,
+                    'field'    => 'term_id',
+                    'terms'    => [$term_id],
+                ];
+            }
+        }
+
+        return ['tax_query' => $tax_query];
+    }
+
+    public function filterAdvancedTour(
+        ?int $type_id = null,
+        ?int $loc_id = null,
+        ?int $linked_id = null,
+        ?int $person_id = null
+    ): array {
+        $args = $this->buildTaxQuery($type_id, $loc_id, $linked_id, $person_id);
+        return parent::getAll($args);
+    }
+
 }

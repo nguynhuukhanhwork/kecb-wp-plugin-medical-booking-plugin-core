@@ -248,7 +248,7 @@ abstract class BasePostTypeRepository
     }
 
     /**
-     * Get all Term Name of Taxonomy
+     * Get all Term Name of Taxonomy, data ['term_id' => 'term_name']
      * @param string $taxonomy_name
      * @return array
      */
@@ -268,6 +268,7 @@ abstract class BasePostTypeRepository
                 'hide_empty' => false,
                 'orderby' => 'name',
                 'order' => 'ASC',
+                'fields' => 'id=>name'
             ]
         );
 
@@ -277,13 +278,8 @@ abstract class BasePostTypeRepository
             return [];
         }
 
-        // filter and clean data
-        $terms_clean = wp_list_pluck($terms, 'name');
-
         // Set Caching and return data
-        CacheManager::set($cache_key, $terms_clean, $this->cache_lifetime);
-        return $terms_clean;
+        CacheManager::set($cache_key, $terms, $this->cache_lifetime);
+        return $terms;
     }
-
-
 }
