@@ -6,23 +6,21 @@ use TravelBooking\Infrastructure\Notification\BaseNotification;
 
 final class TelegramNotification extends BaseNotification
 {
-    private string $token_api;
-    private string $chat_id;
-    private string $url;
+    public string $token_api = '';
+    public string $chat_id = '';
+    public string $url = '';
     private static ?self $instance = null;
 
     public static function getInstance(): self
     {
         return self::$instance ?? (self::$instance = new self());
     }
-    private function __construct()
+    public function __construct()
     {
         parent::__construct();
-        add_action('init', [$this, 'setup']);
-
     }
 
-    protected function setup(): void
+    public function setup(): void
     {
         $this->token_api = TELEGRAM_API_TOKEN ?? '';
         $this->chat_id = TELEGRAM_CHAT_ID ?? '';
@@ -36,6 +34,9 @@ final class TelegramNotification extends BaseNotification
 
     public function send(string $message): bool
     {
+        // Set up
+        $this->setup();
+
         // Get URL and Chat ID Telegram
         $url = $this->url;
         $chat_id = $this->chat_id;
