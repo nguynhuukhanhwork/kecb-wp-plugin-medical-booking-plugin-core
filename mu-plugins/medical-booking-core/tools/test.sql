@@ -1,6 +1,0 @@
-CREATE TABLE testTable (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-   booking_type VARCHAR(20),
-    test VARCHAR(30)
-
-)

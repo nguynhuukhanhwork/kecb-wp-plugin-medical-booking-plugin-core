@@ -9,7 +9,7 @@
 - [] 
 
 ## Infrastructure
-- [] Tạo data option là dữ liệu CPT của Tour để người dùng chọn
+- [yes] Tạo data option là dữ liệu CPT của Tour để người dùng chọn
 - [] Tìm cách giải quyết cập nhật tự động Database ở bảng Index.
 - [] Giải quyết vấn đề khóa ngoại và liên kết bảng
 - 
@@ -21,7 +21,13 @@
 
 ## Presentation
 - [] Tạo Form Shortcode cho Search CPT Tour, có auto Completed
-- [] Tạo Form đặt lịch du lịch, bằng CF7, kết hợp với Notification để thông báo đến Admin
+- [] Tạo Form đặt lịch du lịch:
+  - [yes] Sử dụng CF7
+  - [yes] Multi step (contact, booking info, note)
+  - [yes] Sử dụng Data option
+  - [] Sử dụng handle CF7
+  - [] Lưu vào DB
+  - [] Send Email Notification 
 - [] Thêm vào Admin các dữ liệu của Booking Index
 - [] Nếu muốn Search này nọ thì có cần REST API mới chăng ?
 - [] Tạo Form Filter:
@@ -40,8 +46,8 @@
 - 
 
 ## Nghiệp vụ
-- [] Tìm cách Import nhanh hoặc làm thủ công các Post Type quan trọng
-- [] Design Form:
+- [yes] Export Post Type bằng CSV
+- [yes] Design Form:
   - Contact cơ bản
   - Booking Travel
   - Feedback hoặc thắc mắc

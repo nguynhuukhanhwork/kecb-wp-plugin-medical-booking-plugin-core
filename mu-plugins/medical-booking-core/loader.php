@@ -5,7 +5,7 @@ use TravelBooking\Infrastructure\Database\BookingMetaTable;
 use TravelBooking\Infrastructure\Database\CustomerTable;
 use TravelBooking\Infrastructure\Database\NotificationTable;
 use TravelBooking\Infrastructure\Database\TourSchedulerTable;
-use TravelBooking\Infrastructure\Integrations\CF7\TagOptions;
+use TravelBooking\Infrastructure\Integrations\CF7\RegistrarTagOptions;
 use TravelBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry;
 use TravelBooking\Presentation\Rest\TourSearchRestController;
 use TravelBooking\Repository\TourRepository;
@@ -37,14 +37,12 @@ function tour_booking_system_create_table(): void {
 
 }
 
-
-
 // Bootstrap
 tour_booking_system_register_wordpress_infrastructure();
 tour_booking_system_create_table();
 
 // Load Contact form 7 tag
-\TravelBooking\Infrastructure\Integrations\CF7\TagOptions::getInstance();
+\TravelBooking\Infrastructure\Integrations\CF7\RegistrarTagOptions::getInstance();
 
 
 // Load Shortcode

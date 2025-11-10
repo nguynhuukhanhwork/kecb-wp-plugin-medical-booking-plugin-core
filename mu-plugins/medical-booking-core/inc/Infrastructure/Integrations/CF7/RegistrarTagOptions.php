@@ -4,7 +4,7 @@ namespace TravelBooking\Infrastructure\Integrations\CF7;
 
 use TravelBooking\Repository\TourRepository;
 
-final class TagOptions
+final class RegistrarTagOptions
 {
     private static ?self $instance = null;
     private TourRepository $tour_repo;
@@ -41,7 +41,7 @@ final class TagOptions
         }
 
         // Lấy danh sách term names từ repository
-        $term_names = TourRepository::getInstance()->getTourTypeTermNames();
+        $term_names = $this->tour_repo->getTourTypeTermNames();
 
         // Check empty
         if (empty($term_names)) {
@@ -52,26 +52,26 @@ final class TagOptions
         return $term_names;
     }
 
-    public function tagSelectTourCost($data, $options, $args): array {
-        if (!in_array('tour-tour-cost', $options)) {
+    public function tagSelectTourCost($data, $options, $args) {
+        if (!in_array('tour-cost-terms', $options)) {
             return $data;
         }
 
         return $this->tour_repo->getTourCostTermNames();
     }
 
-    public function tagSelectTourLinked($data, $options, $args): array
+    public function tagSelectTourLinked($data, $options, $args)
     {
-        if (!in_array('tour-tour-link', $options)) {
+        if (!in_array('tour-link-terms', $options)) {
             return $data;
         }
 
         return $this->tour_repo->getTourLinkedTermNames();
     }
 
-    public function tagSelectTourPerson($data, $options, $args): array
+    public function tagSelectTourPerson($data, $options, $args)
     {
-        if (!in_array('tour-tour-person', $options)) {
+        if (!in_array('tour-person-terms', $options)) {
             return $data;
         }
 
