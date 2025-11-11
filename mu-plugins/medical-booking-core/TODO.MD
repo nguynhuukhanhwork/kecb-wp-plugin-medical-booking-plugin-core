@@ -34,7 +34,7 @@
   - Xắp xếp theo giá
   - Chọn điểm đến
   - Chọn phương tiện duy chuyển
-  - Chọn số lượng người tối đaC
+  - Chọn số lượng người tối đa
 
 ## Refactor
 - [yes] Sửa Namespace hệ thống
@@ -43,7 +43,7 @@
 ## Theme 
 - [] Sử dụng Theme Flatsome để build Page
 - [] Tạo child theme để code hiển thị Post Type Tour (single-tour) và archive-tour hoặc thử giải pháp FlatSome thử
-- 
+- [] Lấy Shortcode ra hiển thị Post Type Tour
 
 ## Nghiệp vụ
 - [yes] Export Post Type bằng CSV
@@ -53,7 +53,11 @@
   - Feedback hoặc thắc mắc
 
 ## Taxonomy
-- [] Làm sao để điền giá và Taxonomy tự động phân loại phục vụ cho mục đích lọc cho Admin khỏe hơn
+- []
+- []
+- []
+- []
+- []
 
 ## Section Design
 - [] Hero Section (Search)
@@ -62,9 +66,14 @@
 - [] Điểm đến Section
 - [] FAQ Section 
 
-
 ## Đang làm dang dở:
 - Class `AdvancedSearchTourRestShortcode` đang thiếu Enqueue Script
 
 
 
+## Temp todo
+- [] Fix lại shortcode để hiển thị
+- [] Thêm Form hiển thị
+- [] Refactor Import, xóa tất cả Post Cũ và Import Taxonomy theo Name
+- [] Cache lại kết quả Filter
+- [] Có cần Log ra các Function thường xuyên chạy chăng ?

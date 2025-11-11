@@ -51,3 +51,4 @@ tour_booking_system_create_table();
 
 // Load Testing
 require_once __DIR__ . "/tests/QueryTest.php";
+require_once __DIR__ . "/tests/SearchTourRestApi.php";

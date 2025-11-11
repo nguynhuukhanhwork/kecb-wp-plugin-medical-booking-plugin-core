@@ -30,7 +30,7 @@
         {
             "key": "field_tour_duration_nights",
             "label": "Số đêm của tour",
-            "name": "tour_duration_night",
+            "name": "tour_duration_nights",
             "type": "number",
             "min": 1,
             "max": 60,

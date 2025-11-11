@@ -61,25 +61,24 @@ abstract class BasePostTypeRepository
 
     protected function getFieldData(\WP_POST $post): array
     {
-        // Check Empty field name
-        $meta_fields = static::FIELDS();
 
-        if (empty($meta_fields)) {
-            return [];
+        $fields = static::FIELDS();     // Get all field
+        $post_id = $post->ID;           // Get post ID
+
+        $data_format = [];
+
+        foreach ($fields as $field) {
+            // format to ['field_name', 'data']
+            $data_format[$field] = get_post_meta($post_id, $field, true);
         }
 
-        $fields_data = get_fields($post->ID);
-
-        $data_formatted = [];
-        foreach ($meta_fields as $meta_field) {
-            $data_formatted[$meta_field] = $fields_data[$meta_field] ?? null;
-        }
-
-        return $data_formatted;
+        return $data_format;
     }
 
     /**
      * Lấy tất cả posts với args tùy chỉnh
+     * @param array $args
+     * @return array là Post ID
      */
     protected function getAll(array $args = []): array {
 
@@ -166,7 +165,7 @@ abstract class BasePostTypeRepository
         return null;
     }
 
-    protected function toEntity(\WP_Post $post): array
+    protected function mapToEntity(\WP_Post $post): array
     {
         // Get 3 Array data
         $basic_info = $this->getBasicInfo($post);
@@ -186,7 +185,7 @@ abstract class BasePostTypeRepository
             return $cached;
         }
 
-        $entity = $this->toEntity($post);
+        $entity = $this->mapToEntity($post);
 
         CacheManager::set($cache_key, $entity, $this->cache_lifetime);
 

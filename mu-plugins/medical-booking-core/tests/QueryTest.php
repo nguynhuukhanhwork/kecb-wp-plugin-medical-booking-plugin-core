@@ -1,20 +1,24 @@
 <?php
 
+use TravelBooking\Repository\TourRepository;
+
 add_action('init', function () {
-    add_action('wpcf7_before_send_mail', function ($contact_form) {
-        // 1. LẤY ID FORM
-        $form_id = $contact_form->id();
+/*    $post_id = 789;
 
-        // 2. LẤY DỮ LIỆU NGƯỜI DÙNG GỬI (your-name, your-email, ...)
-        $submission = WPCF7_Submission::get_instance();
-        if ($submission) {
-            $posted_data = $submission->get_posted_data();
-        } else {
-            $posted_data = [];
-        }
+    $fields =  [
+        'tour_code',
+        'tour_featured_tour',
+        'tour_duration_days',
+        'tour_duration_nights',
+        'tour_gallery'
+    ];
 
-        // 3. GHI LOG (xem trong wp-content/debug.log)
-        error_log("=== CF7 SUBMIT - Form ID: $form_id ===");
-        error_log(print_r($posted_data, true));
-    });
+    $data_format = [];
+
+    foreach ($fields as $field) {
+        $data_format[$field] = get_post_meta($post_id, $field, true);
+    }
+
+    var_dump($data_format);*/
+
 });

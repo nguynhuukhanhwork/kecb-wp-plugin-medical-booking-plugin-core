@@ -120,7 +120,7 @@ final class TourRepository extends BasePostTypeRepository
      * @param int|null $loc_id
      * @param int|null $linked_id
      * @param int|null $person_id
-     * @return array
+     * @return array all Post Type Object
      */
     public function filterAdvancedTour(
         ?int $type_id = null,
@@ -132,16 +132,19 @@ final class TourRepository extends BasePostTypeRepository
 
         $all_entity = parent::getAll($args);
 
-        if (empty($args)) {
+        if (empty($all_entity)) {
             return [];
         }
 
-        $tour_entities = [];
+        return $all_entity;
+    }
 
-        foreach ($all_entity as $entity) {
-            $tour_entities[] = parent::toEntity($entity);
-        }
-
-        return $tour_entities;
+    /**
+     * Convert Post -> Array Entity
+     * @param \WP_Post $post
+     * @return array Array data chuẩn để Loop
+     */
+    public function mapToEntity(\WP_Post $post): array {
+        return parent::mapToEntity($post);
     }
 }
