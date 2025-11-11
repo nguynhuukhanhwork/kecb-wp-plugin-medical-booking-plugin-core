@@ -8,7 +8,7 @@ use TravelBooking\Repository\TourRepository;
 use WP_REST_Request;
 use WP_REST_Response;
 
-class TourSearchRestController {
+class TourNameSearchRestController {
 
     private TourRepository $repo;
 
@@ -62,4 +62,4 @@ class TourSearchRestController {
     }
 }
 
-new TourSearchRestController();
+new TourNameSearchRestController();

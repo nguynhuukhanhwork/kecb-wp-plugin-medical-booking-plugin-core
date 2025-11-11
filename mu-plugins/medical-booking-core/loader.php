@@ -7,7 +7,7 @@ use TravelBooking\Infrastructure\Database\NotificationTable;
 use TravelBooking\Infrastructure\Database\TourSchedulerTable;
 use TravelBooking\Infrastructure\Integrations\CF7\RegistrarTagOptions;
 use TravelBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry;
-use TravelBooking\Presentation\Rest\TourSearchRestController;
+use TravelBooking\Presentation\Rest\TourNameSearchRestController;
 use TravelBooking\Repository\TourRepository;
 
 /** Autoload File */
@@ -15,7 +15,8 @@ require_once __DIR__.'/vendor/autoload.php';
 /** Load Const */
 require_once __DIR__.'/constant.php';
 
-new \TravelBooking\Presentation\Rest\TourSearchRestController();
+new \TravelBooking\Presentation\Rest\TourNameSearchRestController();
+\TravelBooking\Presentation\Rest\TourEntitySearchController::getInstance();
 function tour_booking_system_register_wordpress_infrastructure() {
     \TravelBooking\Infrastructure\WordPress\Registry\CPTRegistry::getInstance();
     \TravelBooking\Infrastructure\WordPress\Registry\ACFRegistry::getInstance();
@@ -51,4 +52,4 @@ tour_booking_system_create_table();
 
 // Load Testing
 require_once __DIR__ . "/tests/QueryTest.php";
-require_once __DIR__ . "/tests/SearchTourRestApi.php";
+// require_once __DIR__ . "/tests/SearchTourRestApi.php";

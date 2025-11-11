@@ -115,7 +115,7 @@ final class TourRepository extends BasePostTypeRepository
     }
 
     /**
-     * Filter Tour Post Type Tour with all Taxonomy of Post Type Tour
+     * Filter Tour Post Type Tour with all Taxonomy of Post Type Tour, return Post Type Object
      * @param int|null $type_id
      * @param int|null $loc_id
      * @param int|null $linked_id
