@@ -1,6 +1,7 @@
 <?php
 
 // inc/Presentation/Rest/TourSearchRestController.php
+// http://localhost:3000/wp-json/travel-booking/v1/tours/search
 
 namespace TravelBooking\Presentation\Rest;
 
@@ -26,7 +27,7 @@ class TourNameSearchRestController {
                 'callback'            => [ $this, 'handle' ],
                 'permission_callback' => '__return_true',
                 'args'                => [
-                    'keyword' => [
+                    'q' => [
                         'default'           => '',
                         'sanitize_callback' => 'sanitize_text_field',
                     ],
@@ -44,7 +45,7 @@ class TourNameSearchRestController {
         $limit   = min( (int) $request->get_param( 'limit' ), 50 );
 
         // Lấy danh sách tên
-        $all = $this->repo->getAllNames();
+        $all = $this->repo->getPermalinkNameMap();
 
         // Lọc theo keyword
         $filtered = array_filter( $all, fn( $name ) => empty( $keyword ) || stripos( $name, $keyword ) !== false );

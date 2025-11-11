@@ -85,6 +85,16 @@ final class TourRepository extends BasePostTypeRepository
     {
         return parent::getTermList('tour_linked');
     }
+
+    public function getAll(array $args = []): array
+    {
+        return parent::getAll($args);
+    }
+
+    public function getPermalinkNameMap(): array{
+        return parent::getPermalinkNameMap();
+    }
+
     private function buildTaxQuery(
         ?int $type_id = null,
         ?int $loc_id = null,
