@@ -7,8 +7,7 @@
             "label": "Tour Code",
             "name": "tour_code",
             "type": "text",
-            "required": true,
-            "wrapper": { "width": 20 }
+            "required": true
         },
         {
             "key": "field_tour_featured_tour",

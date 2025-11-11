@@ -75,6 +75,34 @@ abstract class BasePostTypeRepository
         return $data_format;
     }
 
+    protected function getPermalinkNameMap(): array
+    {
+        // Get Cached
+        $cache_key = static::DEFINE_CACHE_KEY_PREFIX() . 'all_permalink_name_' . static::POST_TYPE();
+
+        $cached = CacheManager::get($cache_key);
+
+        if ($cached) {
+            return $cached;
+        }
+
+        $posts = $this->getAll();
+
+        // Format Post [ [permalink => title], [permalink => title] ]
+        $data_format = array_map(function ($post) {
+            $tour_id = $post->ID;
+            $permalink = get_permalink($tour_id);
+            $title = get_the_title($tour_id);
+
+            return [$permalink => $title];
+
+        }, $posts);
+
+        // Set Cache
+        CacheManager::set($cache_key, $data_format);
+
+        return $data_format;
+    }
     /**
      * Lấy tất cả posts với args tùy chỉnh
      * @param array $args

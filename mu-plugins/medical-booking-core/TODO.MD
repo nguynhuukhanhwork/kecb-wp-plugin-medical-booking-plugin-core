@@ -1,7 +1,7 @@
 # Todo List
 
 ## Tìm hiểu thắc mắc lý thuyết
-- [] Nghiên cứu cơ chế REST API
+- [yes] Nghiên cứu cơ chế REST API
 
 
 ## Bootstrap
@@ -28,8 +28,7 @@
   - [] Sử dụng handle CF7
   - [] Lưu vào DB
   - [] Send Email Notification 
-- [] Thêm vào Admin các dữ liệu của Booking Index
-- [] Nếu muốn Search này nọ thì có cần REST API mới chăng ?
+- [yes] Tạo REST API lưu toàn bộ Tour Entity
 - [] Tạo Form Filter:
   - Xắp xếp theo giá
   - Chọn điểm đến

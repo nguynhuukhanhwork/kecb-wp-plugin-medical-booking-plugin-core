@@ -42,9 +42,11 @@ function tour_booking_system_create_table(): void {
 tour_booking_system_register_wordpress_infrastructure();
 tour_booking_system_create_table();
 
+
 // Load Contact form 7 tag
 \TravelBooking\Infrastructure\Integrations\CF7\RegistrarTagOptions::getInstance();
 
+\TravelBooking\Infrastructure\Integrations\CF7\HandleFormSubmit::getInstance();
 
 // Load Shortcode
 \TravelBooking\Presentation\Shortcodes\SearchTourShortcode::getInstance();
