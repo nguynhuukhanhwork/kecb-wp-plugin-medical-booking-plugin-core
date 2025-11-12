@@ -50,8 +50,8 @@ final class TourSchedulerTable extends BaseTable
         // TODO: Implement updateRow() method.
     }
 
-    public function insertRow(array $data)
+    public function insertRow(array $data): int|false
     {
-        // TODO: Implement insertRow() method.
+        return parent::insertRow($data);
     }
 }

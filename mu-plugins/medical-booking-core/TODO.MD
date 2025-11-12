@@ -10,6 +10,7 @@
 
 ## Infrastructure
 - [yes] Tạo data option là dữ liệu CPT của Tour để người dùng chọn
+- [yes] Thêm Class tạo Log riêng
 - [] Tìm cách giải quyết cập nhật tự động Database ở bảng Index.
 - [] Giải quyết vấn đề khóa ngoại và liên kết bảng
 - 
@@ -44,6 +45,7 @@
 ## Refactor
 - [yes] Sửa Namespace hệ thống
 - [yes] Đổi folder để Config tập trung trong inc/Config
+- [] Các Method Insert  phải trả về ID
 
 ## Theme 
 - [] Sử dụng Theme Flatsome để build Page

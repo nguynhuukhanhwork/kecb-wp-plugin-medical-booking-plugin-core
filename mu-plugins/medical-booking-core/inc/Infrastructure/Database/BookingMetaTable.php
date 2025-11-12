@@ -2,7 +2,9 @@
 
 namespace TravelBooking\Infrastructure\Database;
 
-final class BookingMetaTable extends BaseTable
+use TravelBooking\Infrastructure\Database\Interfaces\CrudMethodInterface;
+
+final class BookingMetaTable extends BaseTable implements CrudMethodInterface
 {
     protected static ?self $instance = null;
 
@@ -68,7 +70,7 @@ final class BookingMetaTable extends BaseTable
             ['%d']
         );
 
-        return (bool)$deleted;
+        return (bool) $deleted;
     }
 
     public function updateRow(int $id, array $data): bool
@@ -80,13 +82,11 @@ final class BookingMetaTable extends BaseTable
             ['booking_id' => $id]
         );
 
-        return (bool)$updated;
+        return (bool) $updated;
     }
 
-    public function insertRow(array $data): bool
+    public function insertRow(array $data): int|false
     {
-        $table = $this->getTableName();
-        $inserted = $this->wpdb->insert($table, $data);
-        return (bool)$inserted;
+        return parent::insertRow($data);
     }
 }

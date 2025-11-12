@@ -74,10 +74,8 @@ final class CustomerTable extends BaseTable
         return (bool) $updated;
     }
 
-    public function insertRow(array $data): bool
+    public function insertRow(array $data): int|false
     {
-        $table = $this->getTableName();
-        $inserted = $this->wpdb->insert($table, $data);
-        return (bool) $inserted;
+        return parent::insertRow($data);
     }
 }

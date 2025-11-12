@@ -2,6 +2,7 @@
 
 namespace TravelBooking\Infrastructure\Database;
 
+use TravelBooking\Infrastructure\Logger\Logger;
 use wpdb;
 
 
@@ -53,9 +54,21 @@ abstract class BaseTable
         return $results ?? [];
     }
 
+    protected function insertRow(array $data) : false|int
+    {
+        $table = $this->getTableName();
+        $inserted = $this->wpdb->insert($table, $data);
+
+        if ($inserted === false) {
+            Logger::log('Cannot insert data into ' . $table);
+            return false;
+        }
+
+        return (int) $this->wpdb->insert_id;
+    }
+
     // Basic method
     abstract public function getRow(int $id);
     abstract public function deleteRow(int $id);
     abstract public function updateRow(int $id, array $data);
-    abstract public function insertRow(array $data);
 }

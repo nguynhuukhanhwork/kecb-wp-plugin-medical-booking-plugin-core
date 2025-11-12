@@ -7,10 +7,8 @@ use TravelBooking\Infrastructure\Database\NotificationTable;
 final class NotificationRepository extends BaseCustomTable
 {
     private static ?self $instance = null;
-    protected $table;
     private function __construct() {
-        $this->table = NotificationTable::getInstance();
-        parent::__construct($this->table);
+        parent::__construct(NotificationTable::getInstance());
     }
     private function __clone()
     {

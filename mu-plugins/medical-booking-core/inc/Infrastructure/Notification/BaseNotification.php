@@ -14,7 +14,7 @@ abstract class BaseNotification
         $this->table = NotificationTable::getInstance();
     }
 
-    protected function insertRow(array $data): bool
+    protected function insertRow(array $data): bool|int
     {
         return $this->table->insertRow($data);
     }

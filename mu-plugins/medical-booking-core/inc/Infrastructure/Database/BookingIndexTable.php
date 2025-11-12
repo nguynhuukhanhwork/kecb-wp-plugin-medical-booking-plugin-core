@@ -83,10 +83,8 @@ final class BookingIndexTable extends BaseTable
         return (bool) $updated;
     }
 
-    function insertRow(array $data): bool
+    function insertRow(array $data): false|int
     {
-        $table = $this->getTableName();
-        $created = $this->wpdb->insert($table, $data);
-        return (bool) $created;
+        return parent::insertRow($data);
     }
 }

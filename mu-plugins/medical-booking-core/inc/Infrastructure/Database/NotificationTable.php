@@ -57,10 +57,9 @@ final class NotificationTable extends BaseTable
        ]);
     }
 
-    public function insertRow(array $data): bool
+    public function insertRow(array $data): int|false
     {
-        $table = $this->getTableName();
-        return (bool) $this->wpdb->insert($table,$data);
+        return parent::insertRow($data);
     }
 
 }

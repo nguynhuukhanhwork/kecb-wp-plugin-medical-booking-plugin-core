@@ -5,7 +5,7 @@ namespace TravelBooking\Repository;
 use TravelBooking\Infrastructure\Database\BaseTable;
 
 abstract class BaseCustomTable {
-    protected BaseTable $table;
+    private BaseTable $table;
     public function __construct(BaseTable $table) {
         $this->table = $table;
     }
@@ -27,7 +27,7 @@ abstract class BaseCustomTable {
         return $this->table->deleteRow($id) ?? false;
     }
 
-    protected function insertRow(array $data): bool {
+    protected function insertRow(array $data): bool|int {
         return $this->table->insertRow($data) ?? false;
     }
 
