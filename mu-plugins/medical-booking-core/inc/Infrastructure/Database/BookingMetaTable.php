@@ -26,7 +26,7 @@ final class BookingMetaTable extends BaseTable
 
     protected static function TABLE_NAME(): string
     {
-        return 'booking_meta';
+        return 'booking_data';
     }
 
     public function getSchema(): string

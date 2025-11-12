@@ -38,9 +38,6 @@ final class CustomerTable extends BaseTable
             -- Scalability
             metadata JSON,
     
-            -- Indexes
-            UNIQUE KEY unique_email (customer_email),
-            UNIQUE KEY unique_phone (customer_phone)
         ) $charset_collate;";
 
     }

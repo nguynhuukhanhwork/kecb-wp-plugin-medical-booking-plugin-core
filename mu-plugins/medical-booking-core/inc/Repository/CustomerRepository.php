@@ -15,4 +15,14 @@ final class CustomerRepository extends BaseCustomTable
     {
         return self::$instance ?? self::$instance = new self();
     }
+    public function add(string $name, string $email, string $phone, string $message = ''): bool {
+        return parent::insertRow(
+            [
+                'customer_name' => $name,
+                'customer_email' => $email,
+                'customer_phone' => $phone,
+                'customer_note' => $message
+            ]
+        );
+    }
 }

@@ -5,7 +5,7 @@ namespace TravelBooking\Repository;
 use TravelBooking\Infrastructure\Database\BaseTable;
 
 abstract class BaseCustomTable {
-    private readonly BaseTable $table;
+    protected BaseTable $table;
     public function __construct(BaseTable $table) {
         $this->table = $table;
     }

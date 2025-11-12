@@ -31,7 +31,5 @@ class HandleFormSubmit
         }
 
         error_log("[CF7 Handler] Form 551 submitted at " . current_time('mysql'));
-
     }
-
 }

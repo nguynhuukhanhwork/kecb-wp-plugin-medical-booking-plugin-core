@@ -88,15 +88,13 @@ abstract class BasePostTypeRepository
 
         $posts = $this->getAll();
 
-        // Format Post [ [permalink => title], [permalink => title] ]
-        $data_format = array_map(function ($post) {
-            $tour_id = $post->ID;
+        $data_format = [];
+        foreach ($posts as $post) {
+            $tour_id   = $post->ID;
             $permalink = get_permalink($tour_id);
-            $title = get_the_title($tour_id);
-
-            return [$permalink => $title];
-
-        }, $posts);
+            $title     = get_the_title($tour_id);
+            $data_format[$permalink] = $title;
+        }
 
         // Set Cache
         CacheManager::set($cache_key, $data_format);

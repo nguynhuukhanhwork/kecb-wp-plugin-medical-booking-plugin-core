@@ -19,6 +19,12 @@
 - [Yes] Add - Method Filter Tour nâng cao, lọc theo ID của các Tax liên quan 
 - [] 
 
+## Config
+- [yes] Add Enum Status
+- []
+- []
+
+
 ## Presentation
 - [] Tạo Form Shortcode cho Search CPT Tour, có auto Completed
 - [] Tạo Form đặt lịch du lịch:
