@@ -17,37 +17,41 @@ final class NotificationTable extends BaseTable
     {
         return 'notifications';
     }
+    protected static function ID_COLUMN_NAME(): string
+    {
+        return 'notification_id';
+    }
+    protected function validFormatData(): array
+    {
+        return [
+            'notification_type',
+            'notification_message',
+            'notification_status',
+            'notification_error_log'
+        ];
+    }
 
     public function getSchema(): string
     {
         $table = $this->getTableName();
+        $id_name = self::ID_COLUMN_NAME();
         $charset_collate = $this->getCharsetCollate();
         return "
         CREATE TABLE IF NOT EXISTS $table (
-            notification_id INT AUTO_INCREMENT PRIMARY KEY,
+            -- id
+            $id_name INT AUTO_INCREMENT PRIMARY KEY,
+            
+            -- main data
             notification_type VARCHAR(127) NOT NULL,
             notification_message TEXT NOT NULL,
-            notification_status ENUM('error', 'success') NOT NULL DEFAULT 'error',
+            notification_status VARCHAR(20) NOT NULL DEFAULT 'error',
             notification_error_log TEXT DEFAULT NULL,
+            
+            -- date
             notification_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) $charset_collate;";
     }
 
-    public function getRow(int $id): array|false
-    {
-        $table = $this->getTableName();
-        $query = "SELECT * FROM `$table` WHERE `notification_id` = $id";
-        $result = $this->wpdb->get_row($query, ARRAY_A);
-        return is_array($result) ? $result : false;
-    }
-
-    public function deleteRow(int $id): bool
-    {
-        $table = $this->getTableName();
-        return (bool) $this->wpdb->delete($table,[
-            'notification_id' => $id
-        ]);
-    }
 
     public function updateRow(int $id, array $data): bool
     {
@@ -56,10 +60,4 @@ final class NotificationTable extends BaseTable
            'notification_id' => $id
        ]);
     }
-
-    public function insertRow(array $data): int|false
-    {
-        return parent::insertRow($data);
-    }
-
 }

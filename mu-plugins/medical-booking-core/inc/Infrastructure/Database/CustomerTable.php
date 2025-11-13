@@ -18,14 +18,30 @@ final class CustomerTable extends BaseTable
     {
         return 'customer';
     }
+    protected static function ID_COLUMN_NAME(): string
+    {
+        return 'id';
+    }
+    protected function validFormatData(): array
+    {
+        return [
+            'customer_name',
+            'customer_email',
+            'customer_phone',
+            'customer_note',
+            'metadata'
+        ];
+    }
+
     public function getSchema(): string
     {
         $table = $this->getTableName();
+        $id_name = self::ID_COLUMN_NAME();
         $charset_collate = $this->getCharsetCollate();
 
         return "
         CREATE TABLE IF NOT EXISTS $table (
-            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            $id_name BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
             
             -- Customer Information
             customer_name VARCHAR(30) NOT NULL DEFAULT '',
@@ -36,31 +52,12 @@ final class CustomerTable extends BaseTable
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             
             -- Scalability
-            metadata JSON,
+            metadata JSON
     
         ) $charset_collate;";
 
     }
 
-    public function getRow(int $id): array|bool
-    {
-        $table = $this->getTableName();
-        $query = "SELECT * FROM $table WHERE id = $id";
-        $data = $this->wpdb->get_row($query, ARRAY_A);
-        return $data ?? false;
-    }
-
-    public function deleteRow(int $id): bool
-    {
-        $table = $this->getTableName();
-        $deleted = $this->wpdb->delete(
-            $table,
-            ['id' => $id],
-            ['%d']
-        );
-
-        return (bool) $deleted;
-    }
 
     public function updateRow(int $id, array $data): bool
     {
@@ -74,8 +71,8 @@ final class CustomerTable extends BaseTable
         return (bool) $updated;
     }
 
-    public function insertRow(array $data): int|false
+    public function insertBaseRow(array $data): int|false
     {
-        return parent::insertRow($data);
+        return parent::insertBaseRow($data);
     }
 }

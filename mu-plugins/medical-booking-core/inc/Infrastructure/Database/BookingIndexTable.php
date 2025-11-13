@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace TravelBooking\Infrastructure\Database;
 
 use TravelBooking\Infrastructure\Database\BaseTable;
@@ -16,6 +16,7 @@ final class BookingIndexTable extends BaseTable
     {
         return self::$instance ??= (self::$instance = new self());
     }
+    protected function valid
     public static function TABLE_NAME(): string
     {
         return 'booking_index';
@@ -83,8 +84,8 @@ final class BookingIndexTable extends BaseTable
         return (bool) $updated;
     }
 
-    function insertRow(array $data): false|int
+    function insertBaseRow(array $data): false|int
     {
-        return parent::insertRow($data);
+        return parent::insertBaseRow($data);
     }
-}
+}*/

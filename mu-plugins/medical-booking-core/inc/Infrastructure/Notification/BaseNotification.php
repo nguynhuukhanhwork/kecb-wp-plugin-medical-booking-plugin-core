@@ -16,7 +16,7 @@ abstract class BaseNotification
 
     protected function insertRow(array $data): bool|int
     {
-        return $this->table->insertRow($data);
+        return $this->table->insertBaseRow($data);
     }
     protected function updateRow(int $id,array $data): bool
     {
@@ -30,7 +30,7 @@ abstract class BaseNotification
     protected function insertSuccessNotification(string $message): bool {
         $status = 'success';
         $type = $this->getType();
-        return $this->table->insertRow([
+        return $this->table->insertBaseRow([
             'notification_type' => $type,
             'notification_message' => $message,
             'notification_status' => $status,
@@ -40,7 +40,7 @@ abstract class BaseNotification
     protected function insertErrorNotification(string $message, string $error): bool {
         $status = 'error';
         $type = $this->getType();
-        return $this->table->insertRow([
+        return $this->table->insertBaseRow([
             'notification_type' => $type,
             'notification_message' => $message,
             'notification_status' => $status,

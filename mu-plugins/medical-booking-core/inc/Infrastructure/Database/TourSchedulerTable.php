@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace TravelBooking\Infrastructure\Database;
 
 use TravelBooking\Infrastructure\Database\BaseTable;
@@ -14,6 +14,18 @@ final class TourSchedulerTable extends BaseTable
     protected static function TABLE_NAME(): string
     {
         return 'tour_scheduler';
+    }
+    protected static function ID_COLUMN_NAME(): string
+    {
+        return 'scheduler_id';
+    }
+    protected function validFormatData(): array
+    {
+        return [
+            'tour_id',
+            'start_date',
+            'price'
+        ];
     }
 
     public function getSchema(): string
@@ -35,23 +47,9 @@ final class TourSchedulerTable extends BaseTable
         ";
     }
 
-    public function getRow(int $id)
-    {
-        // TODO: Implement getRow() method.
-    }
-
-    public function deleteRow(int $id)
-    {
-        // TODO: Implement deleteRow() method.
-    }
-
     public function updateRow(int $id, array $data)
     {
         // TODO: Implement updateRow() method.
     }
 
-    public function insertRow(array $data): int|false
-    {
-        return parent::insertRow($data);
-    }
-}
+}*/

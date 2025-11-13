@@ -4,7 +4,7 @@ namespace TravelBooking\Infrastructure\Database;
 
 use TravelBooking\Infrastructure\Logger\Logger;
 use wpdb;
-
+use InvalidArgumentException;
 
 abstract class BaseTable
 {
@@ -54,7 +54,7 @@ abstract class BaseTable
         return $results ?? [];
     }
 
-    protected function insertRow(array $data) : false|int
+    protected function insertBaseRow(array $data) : false|int
     {
         $table = $this->getTableName();
         $inserted = $this->wpdb->insert($table, $data);
@@ -64,11 +64,59 @@ abstract class BaseTable
             return false;
         }
 
-        return (int) $this->wpdb->insert_id;
+        return $this->wpdb->insert_id;
     }
 
+    public function insertRow(array $data): int|false {
+        $col_require = $this->validFormatData();
+
+        // Check Key missing
+        foreach ($col_require as $key) {
+            if (!isset($data[$key])) {
+                throw new InvalidArgumentException("Missing $key");
+            }
+        }
+
+        // Filter key
+        $insertData = array_intersect_key($data, array_flip($col_require));
+
+        // Insert
+        return $this->insertBaseRow($insertData);
+    }
+
+    abstract protected function validFormatData(): array;
+    abstract protected static function ID_COLUMN_NAME(): string;
     // Basic method
-    abstract public function getRow(int $id);
-    abstract public function deleteRow(int $id);
+
+    public function getRow(int $id): array|int {
+        $id_name = static::ID_COLUMN_NAME();
+        $table = $this->getTableName(); // Table name
+
+        // SQL query
+        $query = "SELECT * FROM $table WHERE $id_name = $id";
+        $data = $this->wpdb->get_row($query, ARRAY_A);
+
+        return $data ?? false;
+    }
+
+    public function deleteRow(int $id): int|false
+    {
+        $table = $this->getTableName();
+        $id_name = static::ID_COLUMN_NAME();
+
+        $deleted = $this->wpdb->delete(
+            $table,
+            [$id_name => $id],
+            ['%d']
+        );
+
+        if ($deleted === false) {
+            Logger::log('Cannot delete data from ' . $table);
+            return false;
+        }
+
+        return $this->wpdb->insert_id;
+    }
     abstract public function updateRow(int $id, array $data);
+
 }

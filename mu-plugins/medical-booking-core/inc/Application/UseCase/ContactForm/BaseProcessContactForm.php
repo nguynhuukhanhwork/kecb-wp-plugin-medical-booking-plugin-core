@@ -3,8 +3,9 @@
 namespace TravelBooking\Application\UseCase\ContactForm;
 
 use TravelBooking\Infrastructure\Notification\TelegramNotification;
-use TravelBooking\Repository\BookingMetaRepository;
+use TravelBooking\Repository\BookingDataRepository;
 use TravelBooking\Repository\CustomerRepository;
+use TravelBooking\Infrastructure\Logger\Logger;
 
 abstract class BaseProcessContactForm
 {
@@ -14,14 +15,14 @@ abstract class BaseProcessContactForm
     protected function __construct() {
         $this->telegram_notification = TelegramNotification::getInstance();
         $this->customer_repository = CustomerRepository::getInstance();
-        $this->booking_meta_repository = BookingMetaRepository::getInstance();
+        $this->booking_meta_repository = BookingDataRepository::getInstance();
     }
     
     protected function sendNotification($message): bool {
         $result = $this->telegram_notification->send($message);
 
         if (!$result) {
-            error_log("Telegram notification failed to send: " . $message);
+            Logger::log("Telegram notification failed to send: " . $message);
             return false;
         }
 
@@ -45,13 +46,11 @@ abstract class BaseProcessContactForm
         $result =  $this->customer_repository->add($name, $email, $phone, $message);
         if (!$result) {
             $user_info = "name: " . $name . ", email: " . $email . ", phone: " . $phone . ", message: " . $message;
-            error_log("Cannot insert Customer " . $user_info);
+            Logger::log("Cannot insert Customer " . $user_info);
             return false;
         }
 
         return true;
     }
-
-    protected function addBookingMeta() {}
-    abstract function process();
+    abstract function process(): bool;
 }

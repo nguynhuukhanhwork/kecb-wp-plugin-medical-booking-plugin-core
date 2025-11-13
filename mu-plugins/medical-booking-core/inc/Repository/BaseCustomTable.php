@@ -28,7 +28,7 @@ abstract class BaseCustomTable {
     }
 
     protected function insertRow(array $data): bool|int {
-        return $this->table->insertRow($data) ?? false;
+        return $this->table->insertBaseRow($data) ?? false;
     }
 
     public function updateRow(int $id, array $data): bool {
