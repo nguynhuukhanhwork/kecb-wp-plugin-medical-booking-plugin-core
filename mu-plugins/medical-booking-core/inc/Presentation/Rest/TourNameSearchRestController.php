@@ -11,13 +11,17 @@ use WP_REST_Response;
 
 class TourNameSearchRestController {
 
+    private static ?self $instance = null;
     private TourRepository $repo;
-
     public function __construct() {
         $this->repo = TourRepository::getInstance();
         add_action( 'rest_api_init', [ $this, 'register_route' ] );
     }
 
+    public static function getInstance(): self
+    {
+        return self::$instance ?? (self::$instance = new self());
+    }
     public function register_route(): void {
         register_rest_route(
             'travel-booking/v1',
@@ -62,5 +66,3 @@ class TourNameSearchRestController {
         );
     }
 }
-
-new TourNameSearchRestController();

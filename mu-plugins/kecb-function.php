@@ -465,13 +465,16 @@ function kecb_validate_vietnam_phone(string $phone): bool
     }
 
     // 7. Log error
-    if (function_exists('kecb_error_log')) {
-        kecb_error_log(print_r($error_log, true));
-    } else {
-        error_log(print_r($error_log, true));
+    if (!empty($error_log)) {
+        if (function_exists('kecb_error_log')) {
+            kecb_error_log(print_r($error_log, true));
+        } else {
+            error_log(print_r($error_log, true));
+        }
+        return false;
     }
 
-    return empty($error_log);
+    return true;
 }
 
 function kecb_validate_name(string $name): bool {

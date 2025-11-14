@@ -5,7 +5,6 @@ use TravelBooking\Infrastructure\Database\CustomerTable;
 use TravelBooking\Infrastructure\Database\NotificationTable;
 use TravelBooking\Infrastructure\Integrations\CF7\RegistrarTagOptions;
 use TravelBooking\Infrastructure\WordPress\Registry\TaxonomyRegistry;
-use TravelBooking\Presentation\Rest\TourNameSearchRestController;
 use TravelBooking\Repository\TourRepository;
 
 /** Autoload File */
@@ -13,8 +12,11 @@ require_once __DIR__.'/vendor/autoload.php';
 /** Load Const */
 require_once __DIR__.'/constant.php';
 
-new \TravelBooking\Presentation\Rest\TourNameSearchRestController();
+
+// REST API Controller
+\TravelBooking\Presentation\Rest\TourNameSearchRestController::getInstance();
 \TravelBooking\Presentation\Rest\TourEntitySearchController::getInstance();
+
 function tour_booking_system_register_wordpress_infrastructure(): void {
     \TravelBooking\Infrastructure\WordPress\Registry\CPTRegistry::getInstance();
     \TravelBooking\Infrastructure\WordPress\Registry\ACFRegistry::getInstance();
@@ -30,7 +32,7 @@ function tour_booking_system_create_table(): void {
         BookingDataTable::getInstance();
         CustomerTable::getInstance();
         NotificationTable::getInstance();
-        \TravelBooking\Infrastructure\Database\ContactDataTable::getInstance();
+        //\TravelBooking\Infrastructure\Database\ContactDataTable::getInstance();
         // TourSchedulerTable::getInstance();
 
         update_option($option_name, true);

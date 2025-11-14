@@ -54,7 +54,7 @@ abstract class BaseTable
         return $results ?? [];
     }
 
-    protected function insertBaseRow(array $data) : false|int
+    public function insertBaseRow(array $data) : false|int
     {
         $table = $this->getTableName();
         $inserted = $this->wpdb->insert($table, $data);

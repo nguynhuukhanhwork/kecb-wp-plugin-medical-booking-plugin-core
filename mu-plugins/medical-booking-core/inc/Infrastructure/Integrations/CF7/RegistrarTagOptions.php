@@ -41,15 +41,15 @@ final class RegistrarTagOptions
         }
 
         // Lấy danh sách term names từ repository
-        $term_names = $this->tour_repo->getTourTypeTermNames();
+        $term_name_ids = $this->tour_repo->getTourTypeTermNames();
 
         // Check empty
-        if (empty($term_names)) {
+        if (empty($term_name_ids)) {
             return [];
         }
 
         // CF7 yêu cầu mảng giá trị đơn giản (không key => value nếu không cần)
-        return $term_names;
+        return $term_name_ids;
     }
 
     public function tagSelectTourCost($data, $options, $args) {

@@ -45,7 +45,9 @@
 ## Refactor
 - [yes] Sửa Namespace hệ thống
 - [yes] Đổi folder để Config tập trung trong inc/Config
-- [] Các Method Insert  phải trả về ID
+- [yes] Các Method Insert  phải trả về ID
+- [yes] Enum các giá trí choose
+- [yes] BaseTable sẽ lo luôn CRUD, các Class con chỉ cần khai báo tên Table, tên ID của Table là chạy được
 
 ## Theme 
 - [] Sử dụng Theme Flatsome để build Page
@@ -76,11 +78,13 @@
 ## Đang làm dang dở:
 - Class `AdvancedSearchTourRestShortcode` đang thiếu Enqueue Script
 
-
-
 ## Temp todo
 - [] Fix lại shortcode để hiển thị
 - [] Thêm Form hiển thị
 - [] Refactor Import, xóa tất cả Post Cũ và Import Taxonomy theo Name
 - [] Cache lại kết quả Filter
-- [] Có cần Log ra các Function thường xuyên chạy chăng ?
+
+## Nhiệm vụ tiếp theo
+- Xử lý Submit Form
+- Chưa hiểu rõ nghiệp vụ lúc submit form, nên viết riêng hay chung Log
+- 

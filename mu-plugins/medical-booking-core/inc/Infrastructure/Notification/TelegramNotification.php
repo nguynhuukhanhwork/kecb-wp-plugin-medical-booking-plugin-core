@@ -47,16 +47,13 @@ final class TelegramNotification extends BaseNotification
             return false;
         }
 
-        // Sanitize data
-        $message = sanitize_text_field($message);
-
         // Send data
         $response = wp_remote_post($url, [
             'body' => [
                 'chat_id' => $chat_id,
                 'text' => $message,
                 'parse_mode' => 'HTML'
-            ]
+            ],
         ]);
 
         // Check error response and write to database

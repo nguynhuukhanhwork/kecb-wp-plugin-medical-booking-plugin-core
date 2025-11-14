@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @since 1.0.0
+ */
 namespace TravelBooking\Application\UseCase\ContactForm;
 
 use TravelBooking\Infrastructure\Notification\TelegramNotification;
@@ -11,13 +13,12 @@ abstract class BaseProcessContactForm
 {
     protected $telegram_notification;
     protected $customer_repository;
-    protected $booking_meta_repository;
+    protected $booking_repository;
     protected function __construct() {
         $this->telegram_notification = TelegramNotification::getInstance();
         $this->customer_repository = CustomerRepository::getInstance();
-        $this->booking_meta_repository = BookingDataRepository::getInstance();
+        $this->booking_repository = BookingDataRepository::getInstance();
     }
-    
     protected function sendNotification($message): bool {
         $result = $this->telegram_notification->send($message);
 
@@ -35,22 +36,24 @@ abstract class BaseProcessContactForm
      * @param string $email
      * @param string $phone
      * @param string $message
-     * @return bool
+     * @return int|false
      */
     protected function saveCustomer(
         string $name,
         string $email,
         string $phone,
-        string $message,
-    ): bool {
+        string $message = '',
+    ): int|false {
+
         $result =  $this->customer_repository->add($name, $email, $phone, $message);
-        if (!$result) {
+
+        if ($result === false) {
             $user_info = "name: " . $name . ", email: " . $email . ", phone: " . $phone . ", message: " . $message;
             Logger::log("Cannot insert Customer " . $user_info);
             return false;
         }
 
-        return true;
+        return $result;
     }
-    abstract function process(): bool;
+    abstract function process(array $data): bool;
 }
